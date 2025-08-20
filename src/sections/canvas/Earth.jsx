@@ -1,11 +1,9 @@
-import React, { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
-import { OrbitControls, Preload, useGLTF } from "@react-three/drei";
-
+import { OrbitControls, Preload, useGLTF, Stars } from "@react-three/drei";
+import React, { Suspense } from "react";
 
 const Earth = () => {
-  const earth = useGLTF("./planet/scene.gltf");
-
+  const earth = useGLTF("/planet/scene.gltf");
   return (
     <primitive object={earth.scene} scale={2.5} position-y={0} rotation-y={0} />
   );
@@ -25,15 +23,26 @@ const EarthCanvas = () => {
         position: [-4, 3, 6],
       }}
     >
-      <Suspense>
+      <Suspense fallback={null}>
+        {/* ⭐ Osmon yulduzlari */}
+        <Stars
+          radius={100}     // Yulduzlar radiusi
+          depth={50}       // Qancha chuqurlikda
+          count={5000}     // Nechta yulduz
+          factor={4}       // O‘lchami
+          fade={true}      // Fade effekti
+          speed={1}        // Harakat tezligi
+        />
+
         <OrbitControls
           autoRotate
+          autoRotateSpeed={1.2}
           enableZoom={false}
           maxPolarAngle={Math.PI / 2}
           minPolarAngle={Math.PI / 2}
         />
-        <Earth />
 
+        <Earth />
         <Preload all />
       </Suspense>
     </Canvas>
