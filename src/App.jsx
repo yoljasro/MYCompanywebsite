@@ -8,6 +8,8 @@ import Clients from './sections/Clients.jsx';
 import Projects from './sections/Projects.jsx';
 import WorkExperience from './sections/Experience.jsx';
 import Services from './pages/Services.jsx'; // ✅ Page sifatida
+import ITServices from "./pages/ITServices"; // ⬅️ Yangi sahifa
+
 
 const App = () => {
   return (
@@ -31,8 +33,9 @@ const App = () => {
 
         {/* Services sahifasi */}
         <Route path="/services" element={<Services />} />
+        <Route path="/services/it" element={<ITServices />} />  {/* ⬅️ shu */}
       </Routes>
-              <Footer />
+      <Footer />
     </Router>
   );
 };
