@@ -6,6 +6,7 @@ import {
   FaWhatsapp, FaStar, FaHandshake, FaBolt, FaGlobe, FaChevronLeft, FaChevronRight, FaQuoteLeft
 } from "react-icons/fa";
 import "./Services.css";
+import { Link } from "react-router-dom";
 
 const Services = () => {
   /* --------- Starfield background --------- */
@@ -109,16 +110,22 @@ const Services = () => {
 
         <div className="cards">
           {/* IT */}
-          <div className="card gradient-blue slide-up">
-            <div className="card-icon large"><FaCode /></div>
-            <h2>IT-услуги</h2>
-            <div className="buttons">
-              <button><FaCode /> Создание сайтов</button>
-              <button><FaRobot /> Telegram-боты</button>
-              <button><FaMobileAlt /> Мобильные приложения</button>
-              <button><FaBrain /> AI-решения</button>
+          <Link to={'/services/it'}>
+            <div className="card gradient-blue slide-up">
+              <div className="card-icon large"><FaCode /></div>
+
+              <h2>IT-услуги</h2>
+              <div className="buttons">
+
+                <button><FaCode />  <Link to={'/services/it'}> Создание сайтов   </Link></button>
+
+
+                <button><FaRobot /> Telegram-боты</button>
+                <button><FaMobileAlt /> Мобильные приложения</button>
+                <button><FaBrain /> AI-решения</button>
+              </div>
             </div>
-          </div>
+          </Link>
 
           {/* Marketing */}
           <div className="card gradient-pink slide-up">

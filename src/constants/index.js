@@ -2,7 +2,7 @@ export const navLinks = [
   {
     id: 1,
     name: 'Услуги',
-    href: '#home',
+    href: '/services',
   },
   {
     id: 2,

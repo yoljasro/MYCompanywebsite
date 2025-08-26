@@ -9,6 +9,8 @@ import Projects from './sections/Projects.jsx';
 import WorkExperience from './sections/Experience.jsx';
 import Services from './pages/Services.jsx'; // ✅ Page sifatida
 import ITServices from "./pages/ITServices"; // ⬅️ Yangi sahifa
+import MarketingServices from "./pages/MarketingServices";
+import Investments from "./pages/Investments";  
 
 
 const App = () => {
@@ -34,6 +36,8 @@ const App = () => {
         {/* Services sahifasi */}
         <Route path="/services" element={<Services />} />
         <Route path="/services/it" element={<ITServices />} />  {/* ⬅️ shu */}
+        <Route path="/services/marketing" element={<MarketingServices />} />
+        <Route path="/services/investments" element={<Investments />} />
       </Routes>
       <Footer />
     </Router>
