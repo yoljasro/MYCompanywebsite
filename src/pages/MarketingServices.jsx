@@ -1,356 +1,452 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
-  FaHome, FaChevronRight, FaBullhorn, FaInstagram, FaTiktok, FaYoutube,
-  FaHashtag, FaCamera, FaVideo, FaUsers, FaAd, FaChartLine, FaRocket,
-  FaCheckCircle, FaChevronLeft, FaChevronDown, FaChevronUp, FaMagic, FaClipboardCheck
+  FaBullhorn, FaChartLine, FaShareAlt, FaCamera, FaVideo, FaBullseye, FaUsers,
+  FaCalendarCheck, FaFunnelDollar, FaProjectDiagram, FaRobot, FaComments,
+  FaChartPie, FaPaintBrush, FaTiktok, FaFacebook, FaInstagram, FaGoogle,
+  FaGlobe, FaQuoteLeft, FaCheckCircle, FaChevronLeft, FaChevronRight, FaTelegramPlane, FaWhatsapp
 } from "react-icons/fa";
-import "./MarketingServices.css";
 
-const nfmt = (n) => new Intl.NumberFormat("ru-RU").format(Math.round(n));
+const iconCss = { verticalAlign: "-2px", marginRight: 8 };
 
-export default function MarketingServices(){
-  /* ---------- Starfield BG ---------- */
-  useEffect(()=>{
-    const c = document.getElementById("mktBg"); if(!c) return;
-    const ctx = c.getContext("2d");
-    const fit = ()=>{ c.width=innerWidth; c.height=innerHeight; };
-    fit();
-    class Star{ constructor(){ this.x=Math.random()*c.width; this.y=Math.random()*c.height; this.r=Math.random()*1.6+.5; this.vx=(Math.random()-.5)*.36; this.vy=(Math.random()-.5)*.36;}
-      step(){ this.x+=this.vx; this.y+=this.vy; if(this.x<0||this.x>c.width) this.vx*=-1; if(this.y<0||this.y>c.height) this.vy*=-1;}
-      draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle="rgba(255,255,255,.9)"; ctx.fill();}}
-    let stars = Array.from({length:170},()=>new Star());
-    const loop=()=>{ ctx.clearRect(0,0,c.width,c.height); stars.forEach(s=>{s.step(); s.draw();}); requestAnimationFrame(loop);};
-    loop(); const onResize=()=>{fit(); stars=Array.from({length:170},()=>new Star());};
-    addEventListener("resize", onResize); return ()=>removeEventListener("resize", onResize);
-  },[]);
+// —— Reusable Tilt Card ——
+function TiltCard({ className = "", children }) {
+  const ref = useRef(null);
 
-  /* ---------- reveal on scroll ---------- */
-  useEffect(()=>{
-    const els = document.querySelectorAll(".mk-fade,.mk-rise,.mk-scale");
-    const obs = new IntersectionObserver((en)=>en.forEach(x=>x.isIntersecting&&x.target.classList.add("show")), {threshold:.2});
-    els.forEach(el=>obs.observe(el)); return ()=>obs.disconnect();
-  },[]);
-
-  /* ---------- Tabs: channels ---------- */
-  const [tab, setTab] = useState("ig");
-
-  /* ---------- Media-mix calculator ---------- */
-  const [ig, setIg] = useState(600);     // $
-  const [tt, setTt] = useState(400);     // $
-  const [yt, setYt] = useState(300);     // $
-  const [cpmIg, setCpmIg] = useState(2.2);
-  const [cpmTt, setCpmTt] = useState(1.4);
-  const [cpmYt, setCpmYt] = useState(3.6);
-  const [cr, setCr]       = useState(1.8); // % konversiya landing -> lead
-  const total = useMemo(()=> ig+tt+yt, [ig,tt,yt]);
-  const shows = useMemo(()=> (ig/cpmIg+tt/cpmTt+yt/cpmYt)*1000, [ig,tt,yt,cpmIg,cpmTt,cpmYt]);
-  const clicks = useMemo(()=> shows*0.014, [shows]);        // taxmin CTR 1.4%
-  const leads  = useMemo(()=> clicks*(cr/100), [clicks,cr]);
-
-  /* ---------- Content plan generator ---------- */
-  const ideas = {
-    ig: [
-      "UGC-интервью: “Почему выбрали наш продукт?” (Reels, 20–30 сек)",
-      "Before/After + чек-лист в описании",
-      "Обзор топ-3 функций/плюсов (стоп-кадры + субтитры)"
-    ],
-    tt: [
-      "Трендовый звук + быстрый монтаж продукта (7–12 сек)",
-      "POV: боль ЦА → решение → CTA",
-      "Дуэт с лидером мнений / Stitch-реакция"
-    ],
-    yt: [
-      "Shorts: ‘5 ошибок при выборе …’",
-      "Гайд ‘как начать за 3 шага’ (Shorts)",
-      "Тест/сравнение: наш продукт vs альтернатива"
-    ]
-  };
-  const [seed,setSeed] = useState(0);
-  const pick = (arr)=>arr[(seed+arr.length*10)%arr.length];
-
-  /* ---------- UGC brief generator ---------- */
-  const [brief, setBrief] = useState("");
-  const genBrief = ()=>{
-    const tone = ["дружелюбный","экспертный","ироничный"][seed%3];
-    const hook = ["боль/выгода","до/после","кейс клиента"][seed%3];
-    setBrief(`Тональность: ${tone}.
-Цель: показать ${hook} и дать простой CTA.
-Сюжет: 1) Хук 2 сек • 2) Демонстрация 8–12 сек • 3) Соц-доказательство 3 сек • 4) CTA и оффер.
-Формат: Reels/TikTok вертикаль, 1080×1920, субтитры, крупные планы рук/лица.`);
-    setSeed(s=>s+1);
-  };
-
-  /* ---------- Cases ---------- */
-  const cases = [
-    {t:"Ресторан • Reels + таргет", k:"ER 8,7% • CPL $0,39", d:"Контент-план + ретаргет, лайв-контент — стабильно заполненные брони."},
-    {t:"EdTech • TikTok Spark Ads", k:"DAU +42% • CPI $0,27", d:"UGC + Spark Ads: рост установок ×3, виральные клипы."},
-    {t:"Ритейл • Инфлюенсеры", k:"ROMI 312% • 2100 продаж", d:"Нативные интеграции, купоны и партнёрки, трекинг по UTM."},
-  ];
-  const [ci,setCi]=useState(0);
-
-  /* ---------- FAQ ---------- */
-  const [open,setOpen]=useState<number|null>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const handleMove = (e) => {
+      const r = el.getBoundingClientRect();
+      const x = e.clientX - r.left;
+      const y = e.clientY - r.top;
+      const px = (x / r.width) * 2 - 1; // -1..1
+      const py = (y / r.height) * 2 - 1;
+      el.style.transform = `perspective(900px) rotateX(${(-py * 8).toFixed(2)}deg) rotateY(${(px * 10).toFixed(2)}deg) translateZ(0)`;
+      const glowX = 50 + px * 50;
+      const glowY = 50 + py * 50;
+      el.style.setProperty("--glow-x", `${glowX}%`);
+      el.style.setProperty("--glow-y", `${glowY}%`);
+    };
+    const reset = () => {
+      el.style.transform = "perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0)";
+      el.style.setProperty("--glow-x", `50%`);
+      el.style.setProperty("--glow-y", `50%`);
+    };
+    el.addEventListener("mousemove", handleMove);
+    el.addEventListener("mouseleave", reset);
+    return () => {
+      el.removeEventListener("mousemove", handleMove);
+      el.removeEventListener("mouseleave", reset);
+    };
+  }, []);
 
   return (
-    <div className="mkt-page">
-      <canvas id="mktBg" className="mkt-bg"/>
-      <div className="mkt-parallax" aria-hidden="true">
-        <span className="b b1"></span><span className="b b2"></span><span className="b b3"></span>
-        <span className="rays"></span>
-      </div>
+    <div ref={ref} className={`tilt ${className}`}>{children}</div>
+  );
+}
 
-      {/* crumbs */}
-      <div className="mk-breadcrumb mk-fade">
-        <Link to="/services" className="br-link"><FaHome/> Услуги</Link>
-        <FaChevronRight className="sep"/><span className="br-link active">Маркетинг</span>
-      </div>
+// —— Floating Orbs Canvas background ——
+function useOrbsBackground(canvasId = "mk-orbs") {
+  useEffect(() => {
+    const canvas = document.getElementById(canvasId);
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
 
-      {/* hero */}
-      <header className="mk-hero mk-fade">
-        <h1 className="mk-title"><FaBullhorn/> Маркетинговые решения</h1>
-        <p>Таргет, контент-продакшн и масштабирование. Создаём Reels/Shorts, запускаем точный перформанс и приносим **измеримый результат**.</p>
-        <div className="mk-tags">
-          <span><FaInstagram/> Instagram</span>
-          <span><FaTiktok/> TikTok</span>
-          <span><FaYoutube/> YouTube</span>
-          <span><FaHashtag/> Стратегия</span>
-        </div>
-      </header>
+    const DPR = window.devicePixelRatio || 1;
+    const resize = () => {
+      canvas.width = canvas.clientWidth * DPR;
+      canvas.height = canvas.clientHeight * DPR;
+      ctx.scale(DPR, DPR);
+    };
+    resize();
 
-      {/* channels tabs */}
-      <section className="mk-tabs mk-rise">
-        <div className="tabs">
-          <button className={tab==="ig"?"on":""} onClick={()=>setTab("ig")}><FaInstagram/> Instagram</button>
-          <button className={tab==="tt"?"on":""} onClick={()=>setTab("tt")}><FaTiktok/> TikTok</button>
-          <button className={tab==="yt"?"on":""} onClick={()=>setTab("yt")}><FaYoutube/> YouTube</button>
-        </div>
-        <div className="tab-panels">
-          {tab==="ig" && (
-            <div className="panel glass">
-              <h3>Контент + перформанс (Instagram)</h3>
-              <ul className="bullets">
-                <li><FaCheckCircle/> Reels-серии: “боль → решение”, UGC, лид-магниты</li>
-                <li><FaCheckCircle/> Таргет: ретаргет, Lookalike, лид-формы</li>
-                <li><FaCheckCircle/> KPI: ER, охват, CPL/CPA, ROMI</li>
-              </ul>
-            </div>
-          )}
-          {tab==="tt" && (
-            <div className="panel glass">
-              <h3>Виральный рост (TikTok)</h3>
-              <ul className="bullets">
-                <li><FaCheckCircle/> Быстрый монтаж, тренд-аудио, spark-объявления</li>
-                <li><FaCheckCircle/> UGC-пакеты от микроблогеров</li>
-                <li><FaCheckCircle/> KPI: просмотры, досмотры, CPI/CPL</li>
-              </ul>
-            </div>
-          )}
-          {tab==="yt" && (
-            <div className="panel glass">
-              <h3>Shorts и намеренный поиск (YouTube)</h3>
-              <ul className="bullets">
-                <li><FaCheckCircle/> Shorts-гайды/тесты, натив в роликах</li>
-                <li><FaCheckCircle/> TrueView/Discovery + ремаркетинг</li>
-                <li><FaCheckCircle/> KPI: CTR, watch-time, CAC/LTV</li>
-              </ul>
-            </div>
-          )}
+    const colors = [
+      { from: "rgba(120, 119, 255, 0.35)", to: "rgba(255, 119, 221, 0.35)" },
+      { from: "rgba(0, 209, 178, 0.30)", to: "rgba(0, 122, 255, 0.30)" },
+      { from: "rgba(255, 183, 77, 0.30)", to: "rgba(255, 99, 132, 0.30)" },
+    ];
+
+    const orbs = Array.from({ length: 14 }).map((_, i) => ({
+      x: Math.random() * canvas.clientWidth,
+      y: Math.random() * canvas.clientHeight,
+      r: 80 + Math.random() * 140,
+      dx: (Math.random() - 0.5) * 0.4,
+      dy: (Math.random() - 0.5) * 0.4,
+      c: colors[i % colors.length],
+    }));
+
+    let raf;
+    const draw = () => {
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      ctx.clearRect(0, 0, w, h);
+      // subtle backdrop
+      const grd = ctx.createLinearGradient(0, 0, w, h);
+      grd.addColorStop(0, "rgba(9, 9, 15, 1)");
+      grd.addColorStop(1, "rgba(15, 10, 25, 1)");
+      ctx.fillStyle = grd;
+      ctx.fillRect(0, 0, w, h);
+
+      orbs.forEach((o) => {
+        o.x += o.dx; o.y += o.dy;
+        if (o.x < -o.r) o.x = w + o.r;
+        if (o.x > w + o.r) o.x = -o.r;
+        if (o.y < -o.r) o.y = h + o.r;
+        if (o.y > h + o.r) o.y = -o.r;
+
+        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
+        g.addColorStop(0, o.c.to);
+        g.addColorStop(1, "transparent");
+        ctx.fillStyle = g;
+        ctx.beginPath();
+        ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      raf = requestAnimationFrame(draw);
+    };
+    draw();
+
+    const onResize = () => { resize(); };
+    window.addEventListener("resize", onResize);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
+  }, [canvasId]);
+}
+
+const services = [
+  { icon: <FaShareAlt style={iconCss} />, title: "SMM‑продвижение", desc: "Контент‑стратегия, контент‑план, Reels/Shorts, комьюнити‑менеджмент, геймификация.", tags: ["Instagram", "TikTok", "YouTube Shorts"] },
+  { icon: <FaBullseye style={iconCss} />, title: "Performance‑реклама", desc: "Точечные кампании в Meta, TikTok, Google/YouTube, Yandex. A/B тесты, ретаргетинг.", tags: ["Lead Gen", "Conversions", "ROAS"] },
+  { icon: <FaCamera style={iconCss} />, title: "Мобилография/Фото", desc: "Съёмка для меню, каталога, UGC; лайфстайл‑контент для соцсетей.", tags: ["UGC", "Product", "Lifestyle"] },
+  { icon: <FaVideo style={iconCss} />, title: "Видеопродакшн", desc: "Рилсы, клипы, промо‑ролики, интервью. Скрипт → съёмка → монтаж → цвет.", tags: ["Reels", "Promo", "Docu"] },
+  { icon: <FaPaintBrush style={iconCss} />, title: "Айдентика и дизайн", desc: "Лого, гид по стилю, соцмедиа‑пак, лендинги и продающие креативы.", tags: ["Brand", "Guidelines", "Creatives"] },
+  { icon: <FaRobot style={iconCss} />, title: "Автоматизация/боты", desc: "Telegram‑боты для лидов/продаж, авто‑ответы, квизы, интеграции CRM.", tags: ["TG Bot", "CRM", "Auto‑reply"] },
+  { icon: <FaComments style={iconCss} />, title: "Influencer/PR", desc: "Подбор блогеров, бартер/CPA‑схемы, спецпроекты, пресс‑релизы.", tags: ["CPM/CPA", "PR" ] },
+  { icon: <FaChartPie style={iconCss} />, title: "Аналитика и BI", desc: "Единая дашборд‑панель: рекламные каналы, воронка, LTV, CAC/ROMI.", tags: ["GA4", "Data Studio", "BI"] },
+  { icon: <FaFunnelDollar style={iconCss} />, title: "Воронки и лендинги", desc: "Лиды → квизы → прогрев → продажи. UX‑лендинги под оффер.", tags: ["CRO", "LP", "Quiz"] },
+  { icon: <FaGlobe style={iconCss} />, title: "SEO / ASO", desc: "Страницы, блоги, карточки приложений. Семантика, тексты, on‑page.", tags: ["Organic", "ASO", "Technical"] },
+];
+
+const cases = [
+  {
+    name: "HoReCa (бронь столов)",
+    text: "Target + Reels prod.: рост бронирований ×2.3 за 6 недель, стоимость лида −41%.",
+    kpis: ["CTR 2.8%", "CPL −41%", "2.3× броней"],
+  },
+  {
+    name: "Retail (e‑com)",
+    text: "SMM + UGC + ремаркетинг: рост выручки +32% за 3 месяца.",
+    kpis: ["ROAS 3.7", "AOV +18%", "CAC −25%"],
+  },
+  {
+    name: "EdTech (MVP)",
+    text: "Лендинг + квиз‑воронка + TikTok Ads: 480 заявок по $1.92, 9.7% конверсия в оплату.",
+    kpis: ["CPL $1.92", "CRtoPay 9.7%", "ROMI 4.2"],
+  },
+];
+
+const faqs = [
+  { q: "Сколько длится запуск?", a: "Обычно 10–14 дней: стратегия, креативы, технастройки, аналитика. Для полного продакшна — 2–4 недели." },
+  { q: "Нужен ли бюджет на рекламу?", a: "Да. Мы планируем медиасплит и тестовые бюджеты. Минимум рекомендуем $500–$1,500 в месяц в зависимости от ниши." },
+  { q: "Как отчитываетесь?", a: "Еженедельные отчёты + живой дашборд (GA4/Data Studio). Показатели: лиды/продажи, CAC/ROAS, динамика, гипотезы." },
+  { q: "Работаете по KPI?", a: "Делаем KPI‑рамку: цели, вехи, SLA по срокам и качеству. Прозрачная смета и спринт‑подход." },
+];
+
+export default function Marketing() {
+  useOrbsBackground("mk-orbs");
+  const [caseIndex, setCaseIndex] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setCaseIndex((i) => (i + 1) % cases.length), 6000);
+    return () => clearInterval(id);
+  }, []);
+
+  const prev = () => setCaseIndex((i) => (i - 1 + cases.length) % cases.length);
+  const next = () => setCaseIndex((i) => (i + 1) % cases.length);
+
+  return (
+    <div className="mk-page">
+      {/* Inline styles to keep this file self‑contained */}
+      <style>{styles}</style>
+
+      {/* Animated background */}
+      <canvas id="mk-orbs" className="mk-bg" />
+      <div className="mk-noise" aria-hidden="true" />
+
+      {/* Hero */}
+      <section className="mk-hero">
+        <div className="mk-hero-inner">
+          <div className="mk-badge">
+            <FaBullhorn /> Полный цикл маркетинга
+          </div>
+          <h1>
+            Масштабируйте бренд: <span>Стратегия → Контент → Реклама → Продажи</span>
+          </h1>
+          <p className="mk-sub">
+            IT + Marketing + Invest — bir joyda. Мы закрываем весь цикл: от позиционирования и креативов до
+            performance‑кампаний, аналитики и автоматизации.
+          </p>
+          <div className="mk-cta">
+            <a className="btn btn-primary" href="https://t.me/" target="_blank" rel="noreferrer">
+              <FaTelegramPlane /> Telegram
+            </a>
+            <a className="btn btn-ghost" href="https://wa.me/" target="_blank" rel="noreferrer">
+              <FaWhatsapp /> WhatsApp
+            </a>
+            <Link className="btn btn-link" to="/services/it">Нужен сайт/бот?</Link>
+          </div>
+          <div className="mk-logos">
+            <span className="mk-chip"><FaInstagram /> Instagram</span>
+            <span className="mk-chip"><FaTiktok /> TikTok</span>
+            <span className="mk-chip"><FaFacebook /> Meta</span>
+            <span className="mk-chip"><FaGoogle /> Google/YouTube</span>
+          </div>
         </div>
       </section>
 
-      {/* services grid with 3D tilt + flip */}
-      <section className="mk-services mk-rise">
-        {[
-          {icon:<FaCamera/>, t:"Мобилография", d:"Съёмка на смартфон с кино-светом, монтаж, субтитры."},
-          {icon:<FaVideo/>, t:"Видеопродакшн", d:"Reels/Shorts, сценарии, voice-over, саунд-дизайн."},
-          {icon:<FaAd/>, t:"Таргет", d:"Фunnels, ретаргет, Lookalike, Spark Ads, A/B креативы."},
-          {icon:<FaUsers/>, t:"Инфлюенсеры", d:"Поиск, согласование, CPA/CPM, UTM-отчёты и ROMI."},
-          {icon:<FaChartLine/>, t:"Аналитика", d:"GA4/Pixel, сквозная аналитика, LTV/CR/CPA."},
-          {icon:<FaRocket/>, t:"Стратегия", d:"Позиционирование, Tone of Voice, визуальный гайд."}
-        ].map((s,i)=>(
-          <div key={i} className="svc flip3d">
-            <div className="front">
-              <div className="ic">{s.icon}</div><h3>{s.t}</h3><p>{s.d}</p>
-            </div>
-            <div className="back">
-              <h4>Что получите?</h4>
-              <ul>
-                <li>План работ на месяц</li>
-                <li>Промежуточные отчёты</li>
-                <li>KPI-панель в реальном времени</li>
-              </ul>
-            </div>
-          </div>
-        ))}
-      </section>
-
-      {/* media-mix calculator + generators */}
-      <section className="mk-lab mk-rise">
-        <div className="panel calc">
-          <h3>Медиамикс — охват и лиды</h3>
-          <div className="mix">
-            <label>Instagram бюджет: <b>${nfmt(ig)}</b></label>
-            <input type="range" min="0" max="5000" step="50" value={ig} onChange={e=>setIg(+e.target.value)}/>
-            <label>TikTok бюджет: <b>${nfmt(tt)}</b></label>
-            <input type="range" min="0" max="5000" step="50" value={tt} onChange={e=>setTt(+e.target.value)}/>
-            <label>YouTube бюджет: <b>${nfmt(yt)}</b></label>
-            <input type="range" min="0" max="5000" step="50" value={yt} onChange={e=>setYt(+e.target.value)}/>
-          </div>
-
-          <div className="mix two-cols">
-            <label>CPM IG: <b>${cpmIg.toFixed(2)}</b></label>
-            <input type="range" min="0.8" max="6" step="0.1" value={cpmIg} onChange={e=>setCpmIg(+e.target.value)}/>
-            <label>CPM TT: <b>${cpmTt.toFixed(2)}</b></label>
-            <input type="range" min="0.6" max="5" step="0.1" value={cpmTt} onChange={e=>setCpmTt(+e.target.value)}/>
-            <label>CPM YT: <b>${cpmYt.toFixed(2)}</b></label>
-            <input type="range" min="1" max="8" step="0.1" value={cpmYt} onChange={e=>setCpmYt(+e.target.value)}/>
-            <label>Конверсия в лид: <b>{cr.toFixed(1)}%</b></label>
-            <input type="range" min="0.5" max="8" step="0.1" value={cr} onChange={e=>setCr(+e.target.value)}/>
-          </div>
-
-          <div className="cards">
-            <div className="card stat"><span className="cap">Итого бюджет</span><span className="val">${nfmt(total)}</span></div>
-            <div className="card stat"><span className="cap">Показы</span><span className="val">{nfmt(shows)}</span></div>
-            <div className="card stat"><span className="cap">Клики (оценка)</span><span className="val">{nfmt(clicks)}</span></div>
-            <div className="card stat"><span className="cap">Лиды (оценка)</span><span className="val">{nfmt(leads)}</span></div>
-          </div>
-          <p className="note">* Модель ориентировочная. Факт зависит от креативов, аудиторий и ниши.</p>
-        </div>
-
-        <div className="panel tools">
-          <h3><FaMagic/> Генераторы</h3>
-          <div className="gen">
-            <div className="gen-box">
-              <h4>Идеи контента</h4>
-              <div className="chips">
-                <button className={tab==="ig"?"on":""} onClick={()=>setTab("ig")}><FaInstagram/> IG</button>
-                <button className={tab==="tt"?"on":""} onClick={()=>setTab("tt")}><FaTiktok/> TT</button>
-                <button className={tab==="yt"?"on":""} onClick={()=>setTab("yt")}><FaYoutube/> YT</button>
+      {/* Services grid */}
+      <section className="mk-section">
+        <h2>Что делаем</h2>
+        <p className="mk-section-sub">Полный стек услуг — от SMM и продакшна до performance и BI‑аналитики.</p>
+        <div className="mk-grid">
+          {services.map((s, i) => (
+            <TiltCard key={i} className="mk-card">
+              <div className="mk-card-head">
+                <div className="mk-ico">{s.icon}</div>
+                <h3>{s.title}</h3>
               </div>
-              <ul className="ideas">
-                {ideas[tab].map((x,i)=><li key={i}>• {x}</li>)}
-              </ul>
-              <button className="btn-ghost" onClick={()=>setSeed(s=>s+1)}>Ещё варианты</button>
-            </div>
-
-            <div className="gen-box">
-              <h4>UGC-бриф</h4>
-              <textarea className="brief" value={brief} placeholder="Нажмите «Сгенерировать» — получаете готовый тезисный бриф." readOnly />
-              <button className="btn-primary" onClick={genBrief}><FaClipboardCheck/> Сгенерировать</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* cases */}
-      <section className="mk-cases mk-scale">
-        <div className="cases-head">
-          <h2>Кейсы</h2>
-          <div className="nav">
-            <button onClick={()=>setCi((ci-1+cases.length)%cases.length)}><FaChevronLeft/></button>
-            <button onClick={()=>setCi((ci+1)%cases.length)}><FaChevronRight/></button>
-          </div>
-        </div>
-        <article className="case glass">
-          <h3>{cases[ci].t}</h3>
-          <p className="kpi">{cases[ci].k}</p>
-          <p>{cases[ci].d}</p>
-        </article>
-      </section>
-
-      {/* process timeline + audit checklist */}
-      <section className="mk-process mk-rise">
-        <div className="timeline">
-          {[
-            {n:1,t:"Аналитика",d:"Бриф, аудит, стратегия, цели и KPI."},
-            {n:2,t:"Продакшн",d:"Контент-план, съёмка UGC/студия, монтаж."},
-            {n:3,t:"Запуск",d:"Кампании, ретаргет, креатив-тесты, пиксели."},
-            {n:4,t:"Рост",d:"Оптимизация, A/B, масштабирование, ROMI."}
-          ].map((s,i)=>(
-            <div className="step" key={i}><span className="n">{s.n}</span><h4>{s.t}</h4><p>{s.d}</p></div>
+              <p className="mk-desc">{s.desc}</p>
+              <div className="mk-tags">
+                {s.tags.map((t) => (
+                  <span key={t} className="mk-tag">{t}</span>
+                ))}
+              </div>
+            </TiltCard>
           ))}
         </div>
+      </section>
 
-        <div className="audit glass">
-          <h3>Аудит перед стартом</h3>
-          <ul className="check">
-            <li><FaCheckCircle/> Установлены пиксели (Meta/GA4/TikTok)</li>
-            <li><FaCheckCircle/> Цели/конверсии настроены</li>
-            <li><FaCheckCircle/> UTM-метки/сквозная аналитика</li>
-            <li><FaCheckCircle/> Лэндинг с понятным CTA</li>
-          </ul>
+      {/* Process timeline */}
+      <section className="mk-section">
+        <h2>Как работаем</h2>
+        <p className="mk-section-sub">Спринтовая модель: быстрые гипотезы, измеримый результат.</p>
+        <div className="mk-steps">
+          <TiltCard className="mk-step">
+            <div className="mk-step-num">01</div>
+            <h4><FaProjectDiagram style={iconCss}/> Стратегия</h4>
+            <p>Аудит, ЦА, позиционирование, tone of voice, медиаплан/контент‑план.</p>
+          </TiltCard>
+          <TiltCard className="mk-step">
+            <div className="mk-step-num">02</div>
+            <h4><FaCalendarCheck style={iconCss}/> Продакшн</h4>
+            <p>Скрипты, съёмки, дизайн‑пак, landing/квиз, подготовка UTM/пикселей.</p>
+          </TiltCard>
+          <TiltCard className="mk-step">
+            <div className="mk-step-num">03</div>
+            <h4><FaBullseye style={iconCss}/> Запуск</h4>
+            <p>Meta/TikTok/Google. A/B креативов и офферов, ретаргетинг, look‑a‑like.</p>
+          </TiltCard>
+          <TiltCard className="mk-step">
+            <div className="mk-step-num">04</div>
+            <h4><FaChartLine style={iconCss}/> Аналитика</h4>
+            <p>GA4 + Data Studio дашборд, срезы по воронке, LTV, CAC/ROAS, гипотезы.</p>
+          </TiltCard>
         </div>
       </section>
 
-      {/* pricing */}
-      <section className="mk-pricing mk-rise">
-        <h2>Пакеты</h2>
-        <div className="grid">
-          <div className="p-card">
-            <h3>Start</h3>
-            <p className="desc">Контент + запуск рекламы</p>
-            <div className="price">от $790</div>
+      {/* Cases slider */}
+      <section className="mk-section mk-cases">
+        <h2>Кейсы и результаты</h2>
+        <div className="mk-case-wrap">
+          <button className="nav-btn left" onClick={prev} aria-label="previous"><FaChevronLeft/></button>
+          {cases.map((c, i) => (
+            <div key={i} className={`mk-case ${i === caseIndex ? 'active' : ''}`}>
+              <FaQuoteLeft className="mk-quote"/>
+              <h4>{c.name}</h4>
+              <p>{c.text}</p>
+              <div className="mk-kpis">
+                {c.kpis.map((k) => <span key={k} className="mk-kpi">{k}</span>)}
+              </div>
+            </div>
+          ))}
+          <button className="nav-btn right" onClick={next} aria-label="next"><FaChevronRight/></button>
+        </div>
+        <div className="t-dots">
+          {cases.map((_, i) => (
+            <button key={i} className={`dot ${i === caseIndex ? 'active' : ''}`} onClick={() => setCaseIndex(i)} aria-label={`case ${i+1}`}/>
+          ))}
+        </div>
+      </section>
+
+      {/* Packages */}
+      <section className="mk-section">
+        <h2>Пакеты и формат работы</h2>
+        <p className="mk-section-sub">Подбираем под нишу и цели. Можно кастомизировать.</p>
+        <div className="mk-pack-grid">
+          <TiltCard className="mk-pack">
+            <h3>Starter</h3>
             <ul>
-              <li><FaCheckCircle/> 12 Reels/мес</li>
-              <li><FaCheckCircle/> 2 кампании ADS</li>
-              <li><FaCheckCircle/> Отчёт раз в 2 недели</li>
+              <li><FaCheckCircle/> Контент‑план + дизайн</li>
+              <li><FaCheckCircle/> 8–12 постов/мес + 4–6 Reels</li>
+              <li><FaCheckCircle/> Настройка рекламного кабинета</li>
+              <li><FaCheckCircle/> Еженедельный отчёт</li>
             </ul>
-            <a className="btn-primary" href="https://t.me/" target="_blank" rel="noreferrer">Заказать</a>
-          </div>
-          <div className="p-card best">
-            <div className="badge">Хит</div>
+          </TiltCard>
+          <TiltCard className="mk-pack highlight">
             <h3>Growth</h3>
-            <p className="desc">Производство + перформанс</p>
-            <div className="price">от $1990</div>
             <ul>
-              <li><FaCheckCircle/> 24 Reels/Stories</li>
-              <li><FaCheckCircle/> Ретаргет + Lookalike</li>
-              <li><FaCheckCircle/> Сквозная аналитика</li>
+              <li><FaCheckCircle/> SMM + видеопродакшн (до 8–10 Reels)</li>
+              <li><FaCheckCircle/> Performance‑реклама (Meta/TikTok/Google)</li>
+              <li><FaCheckCircle/> Дашборд (GA4/Data Studio)</li>
+              <li><FaCheckCircle/> A/B тесты + ретаргетинг</li>
             </ul>
-            <a className="btn-primary" href="https://t.me/" target="_blank" rel="noreferrer">Заказать</a>
-          </div>
-          <div className="p-card">
-            <h3>Enterprise</h3>
-            <p className="desc">Стратегия, UGC, инфлюенсеры</p>
-            <div className="price">по запросу</div>
+          </TiltCard>
+          <TiltCard className="mk-pack">
+            <h3>Pro</h3>
             <ul>
-              <li><FaCheckCircle/> Media-mix и roadmap</li>
-              <li><FaCheckCircle/> Инфлюенсер-кампании</li>
-              <li><FaCheckCircle/> KPI: CPA/CAC/LTV</li>
+              <li><FaCheckCircle/> Полный цикл: стратегия → продакшн → реклама</li>
+              <li><FaCheckCircle/> Фулл‑фаннел (UGC, инфлюенсеры, PR)</li>
+              <li><FaCheckCircle/> Воронки/квизы/лендинги + TG‑бот</li>
+              <li><FaCheckCircle/> KPI‑рамка + спринты + SLA</li>
             </ul>
-            <a className="btn-ghost" href="https://t.me/" target="_blank" rel="noreferrer">Связаться</a>
-          </div>
+          </TiltCard>
         </div>
       </section>
 
       {/* FAQ */}
-      <section className="mk-faq mk-rise">
+      <section className="mk-section mk-faq">
         <h2>FAQ</h2>
-        {[
-          {q:"Срок запуска?", a:"Обычно 5–10 дней: бриф, концепции, сетап пикселей, первые креативы и тест."},
-          {q:"Как считается стоимость?", a:"Согласуем медиаплан и бюджет. Оплата — фикс + % от кабинета или KPI-модель."},
-          {q:"Делаете продакшн?", a:"Да: мобилография/студия, сценарии, монтаж, субтитры, цветокор, озвучка."}
-        ].map((f,i)=>(
-          <div className={"qa "+(open===i?"open":"")} key={i}>
-            <button className="q" onClick={()=>setOpen(open===i?null:i)}>
-              {f.q} {open===i? <FaChevronUp/> : <FaChevronDown/>}
-            </button>
-            <div className="a"><p>{f.a}</p></div>
-          </div>
-        ))}
+        <div className="mk-accordion">
+          {faqs.map((f, i) => <FaqItem key={i} f={f} />)}
+        </div>
       </section>
 
       {/* CTA */}
-      <section className="mk-cta mk-fade">
-        <div className="glow"></div>
-        <h2>Хотите обсудить рост?</h2>
-        <p>Оставьте контакт — пришлём пример медиамикса, контент-плана и прогноз по лидам.</p>
-        <div className="cta-actions">
-          <a className="btn-primary" href="https://t.me/" target="_blank" rel="noreferrer">Получить консультацию</a>
-          <Link className="btn-ghost" to="/services">Вернуться к услугам</Link>
+      <section className="mk-cta">
+        <div className="mk-cta-inner">
+          <h3>Готовы обсудить ваш маркетинг?</h3>
+          <p>Напишите нам — в течение 24 часов подготовим бесплатную консультацию и дорожную карту на 1–2 месяца.</p>
+          <div className="mk-cta-actions">
+            <a className="btn btn-primary" href="https://t.me/" target="_blank" rel="noreferrer"><FaTelegramPlane/> Telegram</a>
+            <a className="btn btn-ghost" href="https://wa.me/" target="_blank" rel="noreferrer"><FaWhatsapp/> WhatsApp</a>
+            <Link className="btn btn-link" to="/services">Вернуться к услугам</Link>
+          </div>
         </div>
       </section>
     </div>
   );
 }
+
+function FaqItem({ f }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className={`faq ${open ? 'open' : ''}`}>
+      <button className="faq-q" onClick={() => setOpen(v => !v)}>
+        <span>{f.q}</span>
+        <span className="faq-ico">{open ? '−' : '+'}</span>
+      </button>
+      <div className="faq-a"><p>{f.a}</p></div>
+    </div>
+  );
+}
+
+// —— Styles (scoped via class prefixes) ——
+const styles = `
+:root {
+  --mk-bg: #0a0b10;
+  --mk-card: #0f1220;
+  --mk-card-2: #12162a;
+  --mk-text: #e6e7ee;
+  --mk-sub: #a9acc7;
+  --mk-accent: #8b5cf6; /* violet */
+  --mk-accent-2: #22d3ee; /* cyan */
+  --mk-success: #22c55e;
+  --mk-danger: #ef4444;
+}
+* { box-sizing: border-box; }
+body { background: var(--mk-bg); }
+.mk-page { position: relative; color: var(--mk-text); min-height: 100vh; overflow-x: hidden; }
+.mk-bg { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -2; display:block; }
+.mk-noise { position: fixed; inset:0; pointer-events:none; z-index: -1; background-image: url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"140\" height=\"140\" viewBox=\"0 0 140 140\"><filter id=\"n\"><feTurbulence type=\"fractalNoise\" baseFrequency=\"0.65\" numOctaves=\"1\" stitchTiles=\"stitch\"/></filter><rect width=\"100%\" height=\"100%\" filter=\"url(%23n)\" opacity=\"0.035\"/></svg>'); mix-blend-mode: soft-light; opacity:.6 }
+
+/* Buttons */
+.btn { display:inline-flex; align-items:center; gap:.5rem; padding:.85rem 1.1rem; border-radius: 999px; text-decoration:none; transition: transform .2s ease, box-shadow .2s ease; will-change: transform; }
+.btn:hover { transform: translateY(-2px); }
+.btn-primary { background: linear-gradient(135deg, var(--mk-accent), var(--mk-accent-2)); color:white; box-shadow: 0 10px 30px rgba(139,92,246,.35); }
+.btn-ghost { border:1px solid rgba(255,255,255,.2); color: var(--mk-text); }
+.btn-link { color: var(--mk-accent-2); }
+
+/* Hero */
+.mk-hero { position: relative; padding: 7rem 1.25rem 3rem; text-align:center; }
+.mk-hero-inner { max-width: 1100px; margin: 0 auto; }
+.mk-badge { display:inline-flex; align-items:center; gap:.5rem; padding:.4rem .8rem; border:1px solid rgba(255,255,255,.1); border-radius:999px; font-size:.9rem; color:#d9dcff; background: radial-gradient(100% 100% at var(--glow-x,50%) var(--glow-y,50%), rgba(139,92,246,.2), rgba(34,211,238,.15) 60%, transparent 80%); }
+.mk-hero h1 { font-size: clamp(2.2rem, 3.8vw, 3.6rem); line-height: 1.1; margin: 1rem 0 .75rem; }
+.mk-hero h1 span { background: linear-gradient(90deg, #fff, #a7b7ff, #7de3ff); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.mk-sub { font-size: clamp(1rem, 1.4vw, 1.1rem); color: var(--mk-sub); max-width: 840px; margin: 0 auto 1.4rem; }
+.mk-cta { display:flex; justify-content:center; gap:.8rem; flex-wrap:wrap; margin-top: .7rem; }
+.mk-logos { display:flex; justify-content:center; gap:.6rem; flex-wrap:wrap; margin-top: 1rem; }
+.mk-chip { font-size:.9rem; padding:.4rem .6rem; border-radius: 999px; background: rgba(255,255,255,.06); color:#cfe7ff; border:1px solid rgba(255,255,255,.08) }
+
+/* Sections */
+.mk-section { position: relative; padding: 3.6rem 1.25rem; }
+.mk-section h2 { text-align:center; font-size: clamp(1.6rem, 2.8vw, 2.2rem); margin-bottom:.4rem }
+.mk-section-sub { text-align:center; color: var(--mk-sub); max-width: 860px; margin: 0 auto 2rem; }
+
+/* Grid */
+.mk-grid { display:grid; grid-template-columns: repeat( auto-fit, minmax(260px, 1fr) ); gap: 16px; max-width: 1200px; margin: 0 auto; }
+.mk-card { position: relative; background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025)); border:1px solid rgba(255,255,255,.08); border-radius: 18px; padding: 18px; overflow:hidden; isolation:isolate; }
+.mk-card:before { content:""; position:absolute; inset:-1px; background: radial-gradient( 320px 200px at var(--glow-x,50%) var(--glow-y,50%), rgba(139,92,246,.25), rgba(34,211,238,.22), transparent 70% ); filter: blur(14px); opacity:.5; z-index: -1 }
+.mk-card .mk-ico { font-size: 1.4rem; color:#e9e9ff; }
+.mk-card h3 { margin: .35rem 0 .2rem; font-size: 1.15rem; }
+.mk-card .mk-desc { color: var(--mk-sub); font-size: .98rem; }
+.mk-tags { display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.65rem; }
+.mk-tag { font-size:.8rem; padding:.25rem .5rem; border-radius:999px; background: rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.08); color:#dfe7ff }
+
+/* Tilt */
+.tilt { transition: transform .15s ease; transform-style: preserve-3d; will-change: transform; }
+
+/* Steps */
+.mk-steps { display:grid; grid-template-columns: repeat( auto-fit, minmax(230px, 1fr) ); gap:14px; max-width:1100px; margin:0 auto }
+.mk-step { padding: 20px; background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:16px }
+.mk-step-num { font-weight:700; color:#99a2ff; opacity:.8; }
+.mk-step h4 { margin:.2rem 0 .2rem }
+.mk-step p { color: var(--mk-sub); }
+
+/* Cases */
+.mk-cases { overflow:hidden; }
+.mk-case-wrap { position:relative; max-width: 950px; margin: 0 auto; display:grid; grid-template-columns: 1fr; align-items:center; }
+.mk-case { position:absolute; left:50%; transform: translateX(-50%) scale(.92) rotateX(10deg); top:0; width: min(95%, 820px); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.09); border-radius:20px; padding:22px; opacity:0; transition: all .6s cubic-bezier(.2,.7,.2,1); box-shadow: 0 50px 120px rgba(0,0,0,.35); backdrop-filter: blur(6px); min-height: 180px; }
+.mk-case.active { position:relative; transform: translateX(0) scale(1) rotateX(0deg); opacity:1; }
+.mk-case h4 { margin: .2rem 0 .2rem; }
+.mk-case p { color: var(--mk-sub); }
+.mk-kpis { display:flex; gap:.5rem; flex-wrap:wrap; margin-top:.6rem }
+.mk-kpi { padding:.35rem .55rem; border-radius:999px; background: rgba(34,211,238,.12); color:#b8f2ff; border:1px solid rgba(34,211,238,.25) }
+.mk-quote { opacity:.25; font-size: 1.4rem; }
+.nav-btn { position:absolute; top:50%; transform: translateY(-50%); width:42px; height:42px; display:grid; place-items:center; border-radius:999px; border:1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.04); color:#fff; }
+.nav-btn.left { left:-2px }
+.nav-btn.right { right:-2px }
+.t-dots { display:flex; justify-content:center; gap:.4rem; margin-top: 12rem; }
+.dot { width:9px; height:9px; border-radius:999px; background:#3b3f6b; border:none }
+.dot.active { background:#9aa3ff }
+
+/* Packages */
+.mk-pack-grid { display:grid; grid-template-columns: repeat( auto-fit, minmax(240px, 1fr) ); gap: 14px; max-width: 1050px; margin:0 auto }
+.mk-pack { padding: 18px; border:1px solid rgba(255,255,255,.1); background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border-radius: 18px }
+.mk-pack h3 { margin-top: .1rem }
+.mk-pack ul { list-style:none; padding:0; margin:.6rem 0 0; display:grid; gap:.45rem }
+.mk-pack li { display:flex; align-items:center; gap:.4rem; color:#dfe7ff }
+.mk-pack li svg { color: var(--mk-success) }
+.mk-pack.highlight { outline: 2px solid rgba(139,92,246,.45); box-shadow: 0 20px 60px rgba(139,92,246,.25); }
+
+/* FAQ */
+.mk-accordion { max-width: 950px; margin: 0 auto; display:grid; gap:8px }
+.faq { border:1px solid rgba(255,255,255,.1); border-radius:14px; background: rgba(255,255,255,.04); overflow:hidden }
+.faq-q { width:100%; background:none; border:none; color:inherit; display:flex; align-items:center; justify-content:space-between; padding: 14px 16px; font-size:1rem; text-align:left }
+.faq-a { max-height:0; overflow:hidden; transition:max-height .35s ease; }
+.faq.open .faq-a { max-height: 300px; }
+.faq-a p { padding: 0 16px 14px; color: var(--mk-sub) }
+
+/* CTA */
+.mk-cta { padding: 3.2rem 1.25rem 5rem; }
+.mk-cta-inner { max-width: 980px; margin: 0 auto; text-align:center; border:1px dashed rgba(255,255,255,.18); border-radius: 20px; padding: 28px; background: radial-gradient(120% 120% at 50% 0%, rgba(139,92,246,.18), rgba(34,211,238,.18), transparent 60%); }
+.mk-cta-actions { display:flex; justify-content:center; gap:.7rem; flex-wrap:wrap; margin-top:.6rem }
+`;

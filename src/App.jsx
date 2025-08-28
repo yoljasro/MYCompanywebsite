@@ -9,8 +9,10 @@ import Projects from './sections/Projects.jsx';
 import WorkExperience from './sections/Experience.jsx';
 import Services from './pages/Services.jsx'; // ✅ Page sifatida
 import ITServices from "./pages/ITServices"; // ⬅️ Yangi sahifa
-import MarketingServices from "./pages/MarketingServices";
-import Investments from "./pages/Investments";  
+import Marketing from './pages/MarketingServices.jsx';
+import Investments from "./pages/Investments";
+import AIServices from "./pages/AI.jsx";
+
 
 
 const App = () => {
@@ -36,8 +38,10 @@ const App = () => {
         {/* Services sahifasi */}
         <Route path="/services" element={<Services />} />
         <Route path="/services/it" element={<ITServices />} />  {/* ⬅️ shu */}
-        <Route path="/services/marketing" element={<MarketingServices />} />
+        <Route path="/services/marketing" element={<Marketing />} />
         <Route path="/services/investments" element={<Investments />} />
+        <Route path="/services/ai" element={<AIServices />} />
+
       </Routes>
       <Footer />
     </Router>

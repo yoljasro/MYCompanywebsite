@@ -105,51 +105,51 @@ const Services = () => {
 
       {/* HERO */}
       <div className="services-content fade-in">
-        <h1 className="title">Наши услуги</h1>
-        <p className="subtitle">IT, Маркетинг и Инвестиционные проекты</p>
+              <h1 className="title">Наши услуги</h1>
+              <p className="subtitle">IT, Маркетинг и Инвестиционные проекты</p>
 
-        <div className="cards">
-          {/* IT */}
-          <Link to={'/services/it'}>
-            <div className="card gradient-blue slide-up">
-              <div className="card-icon large"><FaCode /></div>
+              <div className="cards">
+                {/* IT */}
+                <Link to={'/services/it'}>
+                  <div className="card gradient-blue slide-up">
+                    <div className="card-icon large"><FaCode /></div>
 
-              <h2>IT-услуги</h2>
-              <div className="buttons">
+                    <h2>IT-услуги</h2>
+                    <div className="buttons">
 
-                <button><FaCode />  <Link to={'/services/it'}> Создание сайтов   </Link></button>
+                      <button><FaCode />  <Link to={'/services/it'}> Создание сайтов   </Link></button>
 
 
-                <button><FaRobot /> Telegram-боты</button>
-                <button><FaMobileAlt /> Мобильные приложения</button>
-                <button><FaBrain /> AI-решения</button>
+                      <button><FaRobot /> Telegram-боты</button>
+                      <button><FaMobileAlt /> Мобильные приложения</button>
+                      <button><FaBrain /> AI-решения</button>
+                    </div>
+                  </div>
+                </Link>
+
+                {/* Marketing */}
+                <div className="card gradient-pink slide-up">
+                  <div className="card-icon large"><FaBullhorn /></div>
+                  <h2>Маркетинг</h2>
+                  <div className="buttons">
+                    <button><FaShareAlt /> SMM-продвижение</button>
+                    <button><FaCamera /> Мобилография</button>
+                    <button><FaVideo /> Видеомонтаж</button>
+                    <button><FaBullseye /> Таргетированная реклама</button>
+                  </div>
+                </div>
+
+                {/* Investments */}
+                <div className="card gradient-green slide-up">
+                  <div className="card-icon large"><FaChartLine /></div>
+                  <h2>Инвестиции</h2>
+                  <div className="buttons">
+                    <button><FaHandHoldingUsd /> Инвестиции в наши продукты</button>
+                    <button><FaRocket /> Инвестиции в перспективные проекты</button>
+                  </div>
+                </div>
               </div>
             </div>
-          </Link>
-
-          {/* Marketing */}
-          <div className="card gradient-pink slide-up">
-            <div className="card-icon large"><FaBullhorn /></div>
-            <h2>Маркетинг</h2>
-            <div className="buttons">
-              <button><FaShareAlt /> SMM-продвижение</button>
-              <button><FaCamera /> Мобилография</button>
-              <button><FaVideo /> Видеомонтаж</button>
-              <button><FaBullseye /> Таргетированная реклама</button>
-            </div>
-          </div>
-
-          {/* Investments */}
-          <div className="card gradient-green slide-up">
-            <div className="card-icon large"><FaChartLine /></div>
-            <h2>Инвестиции</h2>
-            <div className="buttons">
-              <button><FaHandHoldingUsd /> Инвестиции в наши продукты</button>
-              <button><FaRocket /> Инвестиции в перспективные проекты</button>
-            </div>
-          </div>
-        </div>
-      </div>
 
       {/* —— BOTTOM SECTIONS —— */}
 
