@@ -21,7 +21,7 @@ import {
   FaPlay,
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import "./Ai.css";
+import "./Al.css";
 
 const AIServices = () => {
   /* ===== Background (neural particles) ===== */
