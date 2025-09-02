@@ -48,21 +48,21 @@ const Hero = () => {
         </p>
 
         {/* CTA-кнопки */}
-        <div className="mt-2 flex flex-col sm:flex-row items-center gap-3">
+        {/* <div className="mt-2 flex flex-col sm:flex-row items-center gap-3">
           <a href="#contact">
             <Button name="Связаться сейчас" variant="primary" icon />
           </a>
           <a href="#work">
             <Button name="Портфолио" variant="ghost" />
           </a>
-        </div>
+        </div> */}
 
         {/* Плашки-доверия */}
-        <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-xs text-white/75">
+        {/* <div className="mt-3 flex flex-wrap items-center justify-center gap-3 text-xs text-white/75">
           <span className="glass-badge">Интеграции ИИ</span>
           <span className="glass-badge">Next.js · React</span>
           <span className="glass-badge">Производительность 95+</span>
-        </div>
+        </div> */}
       </div>
 
       {/* 3D-сцена */}

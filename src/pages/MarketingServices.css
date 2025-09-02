@@ -260,3 +260,9 @@ input[type="range"]:active::-webkit-slider-thumb{transform:scale(1.12)}
   .mk-breadcrumb{margin-top:76px}
   .stats-cards{grid-template-columns:1fr}
 }
+
+.faq{ max-width:800px; margin:44px auto; padding:0 20px; }
+.faq h2{ text-align:center; margin-bottom:12px; }
+.faq details{ background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.16); border-radius:14px; padding:12px 14px; margin-bottom:10px; }
+.faq summary{ cursor:pointer; font-weight:700; }
+.faq p{ color:#d9e4f3; margin-top:6px; }

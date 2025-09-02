@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import {
   FaCode, FaBullhorn, FaChartLine, FaRobot, FaMobileAlt, FaBrain, FaShareAlt,
-  FaCamera, FaVideo, FaBullseye, FaHandHoldingUsd, FaRocket, FaUsers,
-  FaCheckCircle, FaClock, FaShieldAlt, FaHeadset, FaAward, FaTelegramPlane,
-  FaWhatsapp, FaStar, FaHandshake, FaBolt, FaGlobe, FaChevronLeft, FaChevronRight, FaQuoteLeft
+  FaCamera, FaVideo, FaBullseye, FaHandHoldingUsd, FaRocket,
+  FaCheckCircle, FaShieldAlt, FaHeadset, FaBolt, FaGlobe,
+  FaTelegramPlane, FaWhatsapp, FaPhone
 } from "react-icons/fa";
 import "./Services.css";
 import { Link } from "react-router-dom";
 
 const Services = () => {
-  /* --------- Starfield background --------- */
+  // --------- Starfield background ---------
   useEffect(() => {
     const canvas = document.getElementById("backgroundCanvas");
     if (!canvas) return;
@@ -65,7 +65,7 @@ const Services = () => {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  /* --------- Scroll animations --------- */
+  // --------- Scroll animations ---------
   useEffect(() => {
     const elements = document.querySelectorAll(".fade-in, .slide-up, .scale-in");
     const observer = new IntersectionObserver((entries) => {
@@ -75,20 +75,13 @@ const Services = () => {
     return () => observer.disconnect();
   }, []);
 
-  /* --------- Testimonials slider --------- */
-  const testimonials = [
-    { name: "Азизбек", role: "Founder, Retail", text: "SMM + bot savdoni 32% oshirdi. Komanda tez ishlaydi va hisob-kitoblar shaffof.", stars: 5 },
-    { name: "Анна", role: "CEO, EdTech", text: "Mobil MVP 6 haftada. Dizayn + analytics bir joyda — juda qulay.", stars: 5 },
-    { name: "Мурад", role: "COO, HoReCa", text: "Target + videomontaj tufayli bronlar 2,3x ga oshdi. Qo‘llab-quvvatlash 24/7.", stars: 4 },
+  // --------- FAQ data ---------
+  const faqs = [
+    { q: "Сколько длится запуск?", a: "Обычно 10–14 дней: бриф, план работ, подготовка окружения. Для сложных систем — 2–6 недель." },
+    { q: "Как считаете стоимость?", a: "Фикс-прайс по ТЗ или почасовая ставка. Предоставляем прозрачную смету и план спринтов." },
+    { q: "Кто сопровождает проект?", a: "PM, разработчики, дизайнер и QA. Канал в Telegram, еженедельные демо и отчёты." },
+    { q: "Как передаёте доступы и данные?", a: "Через защищённые секрет-хранилища. Подписываем NDA по запросу." }
   ];
-  const [tIndex, setTIndex] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setTIndex((i) => (i + 1) % testimonials.length), 5000);
-    return () => clearInterval(id);
-  }, [testimonials.length]);
-
-  const prev = () => setTIndex((i) => (i - 1 + testimonials.length) % testimonials.length);
-  const next = () => setTIndex((i) => (i + 1) % testimonials.length);
 
   return (
     <div className="services-page">
@@ -105,81 +98,52 @@ const Services = () => {
 
       {/* HERO */}
       <div className="services-content fade-in">
-              <h1 className="title">Наши услуги</h1>
-              <p className="subtitle">IT, Маркетинг и Инвестиционные проекты</p>
+        <h1 className="title">Наши услуги</h1>
+        <p className="subtitle">IT, Маркетинг и Инвестиционные проекты</p>
 
-              <div className="cards">
-                {/* IT */}
-                <Link to={'/services/it'}>
-                  <div className="card gradient-blue slide-up">
-                    <div className="card-icon large"><FaCode /></div>
-
-                    <h2>IT-услуги</h2>
-                    <div className="buttons">
-
-                      <button><FaCode />  <Link to={'/services/it'}> Создание сайтов   </Link></button>
-
-
-                      <button><FaRobot /> Telegram-боты</button>
-                      <button><FaMobileAlt /> Мобильные приложения</button>
-                      <button><FaBrain /> AI-решения</button>
-                    </div>
-                  </div>
-                </Link>
-
-                {/* Marketing */}
-                <div className="card gradient-pink slide-up">
-                  <div className="card-icon large"><FaBullhorn /></div>
-                  <h2>Маркетинг</h2>
-                  <div className="buttons">
-                    <button><FaShareAlt /> SMM-продвижение</button>
-                    <button><FaCamera /> Мобилография</button>
-                    <button><FaVideo /> Видеомонтаж</button>
-                    <button><FaBullseye /> Таргетированная реклама</button>
-                  </div>
-                </div>
-
-                {/* Investments */}
-                <div className="card gradient-green slide-up">
-                  <div className="card-icon large"><FaChartLine /></div>
-                  <h2>Инвестиции</h2>
-                  <div className="buttons">
-                    <button><FaHandHoldingUsd /> Инвестиции в наши продукты</button>
-                    <button><FaRocket /> Инвестиции в перспективные проекты</button>
-                  </div>
-                </div>
+        <div className="cards">
+          {/* IT */}
+          <Link to={"/services/it"} className="card-link">
+            <div className="card gradient-blue slide-up">
+              <div className="card-icon large"><FaCode /></div>
+              <h2>IT-услуги</h2>
+              <div className="buttons">
+                <Link className="btn-like" to={"/services/it"}><FaCode /> Создание сайтов</Link>
+                <span className="btn-like"><FaRobot /> Telegram-боты</span>
+                <span className="btn-like"><FaMobileAlt /> Мобильные приложения</span>
+                <span className="btn-like"><FaBrain /> AI-решения</span>
               </div>
             </div>
+          </Link>
 
-      {/* —— BOTTOM SECTIONS —— */}
+          {/* Marketing */}
+          <Link to={"/services/marketing"} className="card-link">
+            <div className="card gradient-pink slide-up">
+              <div className="card-icon large"><FaBullhorn /></div>
+              <h2>Маркетинг</h2>
+              <div className="buttons">
+                <span className="btn-like"><FaShareAlt /> SMM-продвижение</span>
+                <span className="btn-like"><FaCamera /> Мобилография</span>
+                <span className="btn-like"><FaVideo /> Видеомонтаж</span>
+                <span className="btn-like"><FaBullseye /> Таргетированная реклама</span>
+              </div>
+            </div>
+          </Link>
 
-      {/* Stats */}
-      <section className="stats enhanced fade-in">
-        <div className="stat-box pro big">
-          <div className="stat-icon"><FaUsers /></div>
-          <h3>50+</h3>
-          <p>Успешных проектов</p>
+          {/* Investments */}
+          <div className="card gradient-green slide-up">
+            <div className="card-icon large"><FaChartLine /></div>
+            <h2>Инвестиции</h2>
+            <div className="buttons">
+              <span className="btn-like"><FaHandHoldingUsd /> В наши продукты</span>
+              <span className="btn-like"><FaRocket /> В перспективные проекты</span>
+            </div>
+          </div>
         </div>
-        <div className="stat-box pro big">
-          <div className="stat-icon"><FaHandshake /></div>
-          <h3>20+</h3>
-          <p>Партнёров</p>
-        </div>
-        <div className="stat-box pro big">
-          <div className="stat-icon"><FaClock /></div>
-          <h3>5 лет</h3>
-          <p>Опыта</p>
-        </div>
-        <div className="stat-box pro big">
-          <div className="stat-icon"><FaAward /></div>
-          <h3>98%</h3>
-          <p>Удовлетворённость</p>
-        </div>
+      </div>
 
-        {/* subtle parallax lights behind stats */}
-        <span className="stats-light l1"></span>
-        <span className="stats-light l2"></span>
-      </section>
+      {/* CTA — как на маркетинг странице */}
+   
 
       {/* Why us */}
       <section className="why-us slide-up">
@@ -188,87 +152,48 @@ const Services = () => {
           <div className="why-item">
             <i><FaBolt /></i>
             <h4>Скорость</h4>
-            <p>MVP va ilk natijalar 2–6 hafta ichida.</p>
+            <p>MVP и первые результаты за 2–6 недель.</p>
           </div>
           <div className="why-item">
             <i><FaShieldAlt /></i>
             <h4>Надёжность</h4>
-            <p>Shartnoma + kafolat + monitoring.</p>
+            <p>Договор, гарантия и мониторинг.</p>
           </div>
           <div className="why-item">
             <i><FaHeadset /></i>
             <h4>Поддержка 24/7</h4>
-            <p>Telegram guruh + shaxsiy menedjer.</p>
+            <p>Группа в Telegram и персональный менеджер.</p>
           </div>
           <div className="why-item">
             <i><FaGlobe /></i>
             <h4>Комплексный подход</h4>
-            <p>IT + Marketing + Invest — bir joyda.</p>
+            <p>IT + Маркетинг + Инвестиции — всё в одном месте.</p>
           </div>
         </div>
       </section>
 
-      {/* Testimonials */}
-      <section className="testimonials slide-up">
-        <h3>Отзывы клиентов</h3>
-        <div className="testimonial-wrap">
-          <button className="nav-btn left" onClick={prev} aria-label="previous">
-            <FaChevronLeft />
-          </button>
-
-          <div className="testimonial-card huge">
-            <FaQuoteLeft className="quote-mark" />
-            <div className="avatar" aria-hidden="true" />
-            <div className="stars">
-              {Array.from({ length: testimonials[tIndex].stars }).map((_, i) => <FaStar key={i} />)}
-            </div>
-            <p className="t-text">“{testimonials[tIndex].text}”</p>
-            <div className="t-meta">
-              <span className="t-name">{testimonials[tIndex].name}</span>
-              <span className="t-role"> · {testimonials[tIndex].role}</span>
-            </div>
-          </div>
-
-          <button className="nav-btn right" onClick={next} aria-label="next">
-            <FaChevronRight />
-          </button>
-        </div>
-
-        <div className="t-dots">
-          {testimonials.map((_, i) => (
-            <button
-              key={i}
-              aria-label={`testimonial ${i + 1}`}
-              className={`dot ${i === tIndex ? "active" : ""}`}
-              onClick={() => setTIndex(i)}
-            />
+      {/* FAQ — как на маркетинг странице (компакт) */}
+      <section className="faq-section fade-in">
+        <h2>FAQ</h2>
+        <div className="faq-accordion">
+          {faqs.map((f, i) => (
+            <details key={i} className="faq-item">
+              <summary>{f.q}</summary>
+              <div className="faq-body"><p>{f.a}</p></div>
+            </details>
           ))}
         </div>
-      </section>
 
-      {/* CTA Banner */}
-      <section className="cta-banner big fade-in">
-        <div className="cta-border"></div>
-        <h3>Готовы обсудить ваш проект?</h3>
-        <p>Yozing — 24 soat ichida bepul konsultatsiya va dastlabki roadmap taqdim etamiz.</p>
-        <div className="cta-actions">
-          <a className="btn btn-primary lift" href="https://t.me/" target="_blank" rel="noreferrer">
-            <FaTelegramPlane /> Telegram
+        {/* мини-CTA под FAQ */}
+        <div className="faq-mini-cta">
+          <a className="btn btn-primary" href="https://t.me/" target="_blank" rel="noreferrer">
+            <FaTelegramPlane/> Telegram
           </a>
-          <a className="btn btn-ghost lift" href="https://wa.me/" target="_blank" rel="noreferrer">
-            <FaWhatsapp /> WhatsApp
+          <a className="btn btn-ghost" href="https://wa.me/" target="_blank" rel="noreferrer">
+            <FaWhatsapp/> WhatsApp
           </a>
+          <Link className="btn btn-link" to="/services">Вернуться к услугам</Link>
         </div>
-        <ul className="cta-points">
-          <li><FaCheckCircle /> Бриф за 3 минуты</li>
-          <li><FaCheckCircle /> Прозрачная смета</li>
-          <li><FaCheckCircle /> Дедлайны под ключ</li>
-        </ul>
-
-        {/* sparkles */}
-        <span className="spark s1"></span>
-        <span className="spark s2"></span>
-        <span className="spark s3"></span>
       </section>
 
       {/* Footer */}

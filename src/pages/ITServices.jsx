@@ -3,13 +3,13 @@ import {
   FaHome, FaChevronRight, FaCode, FaRobot, FaMobileAlt, FaBrain,
   FaCloud, FaDatabase, FaDocker, FaShieldAlt, FaCogs, FaSearch,
   FaChartLine, FaCheckCircle, FaTelegramPlane, FaAndroid, FaApple,
-  FaReact, FaNode, FaPython, FaGitAlt, FaQuoteLeft, FaChevronLeft
+  FaReact, FaNode, FaPython, FaGitAlt, FaQuoteLeft, FaChevronLeft, 
 } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import "./ITServices.css";
 
 const ITServices = () => {
-  /* ------ Starfield Background ------ */
+  // ------ Фон: звёздное поле ------
   useEffect(() => {
     const canvas = document.getElementById("itBg");
     if (!canvas) return;
@@ -61,7 +61,7 @@ const ITServices = () => {
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
-  /* ------ Scroll animations ------ */
+  // ------ Анимации появления ------
   useEffect(() => {
     const items = document.querySelectorAll(".fade, .rise, .scale");
     const obs = new IntersectionObserver((entries) => {
@@ -71,25 +71,25 @@ const ITServices = () => {
     return () => obs.disconnect();
   }, []);
 
-  /* ------ Cases slider ------ */
+  // ------ Слайдер кейсов ------
   const cases = [
     {
-      title: "E-commerce sayt + Telegram-bot",
-      text: "Katalog, savat, to‘lov integratsiyasi. Bot orqali buyurtma va notifikatsiyalar.",
+      title: "E-commerce сайт + Telegram-бот",
+      text: "Каталог, корзина, оплата, уведомления. Бот принимает заказы и шлёт статусы.",
       tags: ["Next.js", "Node", "Stripe", "PostgreSQL"],
-      impact: "Konversiya +27%"
+      impact: "Конверсия +27%"
     },
     {
-      title: "EdTech mobil ilova",
-      text: "React Native (iOS/Android), video darslar, testlar, progress track.",
+      title: "EdTech мобильное приложение",
+      text: "Видео-уроки, тесты, прогресс-трекер, пуш-уведомления. iOS/Android.",
       tags: ["React Native", "Firebase", "Analytics"],
       impact: "DAU +35%"
     },
     {
-      title: "AI-kontent avto-generator",
-      text: "LLM integratsiya, prompt-jarayon, moderation va monitoring.",
+      title: "Автогенератор контента на ИИ",
+      text: "Интеграция LLM, продуманная цепочка промптов, модерация и мониторинг.",
       tags: ["Python", "FastAPI", "OpenAI", "Docker"],
-      impact: "Kontent tejalishi 60%"
+      impact: "Снижение расходов на контент ≈60%"
     }
   ];
   const [idx, setIdx] = useState(0);
@@ -102,111 +102,105 @@ const ITServices = () => {
     <div className="it-page">
       <canvas id="itBg" className="it-bg" />
 
-      {/* orbiting decor */}
-      <div className="it-orbits" aria-hidden="true">
-        <span className="io io1"></span>
-        <span className="io io2"></span>
-        <span className="io io3"></span>
-      </div>
-
-      {/* Breadcrumb */}
+      {/* Хлебные крошки */}
       <div className="crumbs fade">
         <Link to="/services" className="crumb"><FaHome /> Услуги</Link>
         <FaChevronRight className="sep" />
         <span className="crumb active">IT-услуги</span>
       </div>
 
-      {/* Hero */}
+      {/* Херо */}
       <header className="it-hero fade">
         <h1>IT-услуги под ключ</h1>
-        <p>Создаём сайты, Telegram-боты, мобильные приложения и AI-решения. От аналитики до сопровождения — быстро, прозрачно, безопасно.</p>
+        <p>
+          Разрабатываем сайты, Telegram-ботов, мобильные приложения и AI-решения.
+          Полный цикл: аналитика → дизайн/разработка → тестирование и безопасность → запуск и сопровождение.
+        </p>
         <div className="hero-cta">
-          <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer"><FaTelegramPlane /> Бесплатная консультация</a>
+          <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer">
+            <FaTelegramPlane /> Бесплатная консультация
+          </a>
           <a className="btn ghost" href="#pricing">Тарифы</a>
         </div>
         <div className="hero-highlights">
-          <span><FaCheckCircle /> MVP 2–6 недель</span>
-          <span><FaShieldAlt /> SLA & мониторинг</span>
-          <span><FaCogs /> CI/CD</span>
+          <span><FaCheckCircle /> MVP за 2–6 недель</span>
+          <span><FaShieldAlt /> SLA и мониторинг</span>
+          <span><FaCogs /> CI/CD и код-ревью</span>
         </div>
       </header>
 
-      {/* Services grid */}
+      {/* Сервисы */}
       <section className="svc-grid rise">
         <div className="svc-card">
           <i className="ic"><FaCode /></i>
           <h3>Создание сайтов</h3>
-          <p>Витрины, лендинги, интернет-магазины, порталы. SEO-friendly, быстрые, адаптивные.</p>
+          <p>Лендинги, интернет-магазины, порталы. Высокая скорость, адаптивность, SEO-фундамент.</p>
           <ul>
-            <li><FaCheckCircle /> Next.js / React frontend</li>
-            <li><FaCheckCircle /> Node / NestJS backend</li>
+            <li><FaCheckCircle /> Frontend: Next.js / React</li>
+            <li><FaCheckCircle /> Backend: Node / NestJS</li>
             <li><FaCheckCircle /> CMS: Headless (Strapi) или WordPress</li>
-            <li><FaCheckCircle /> Оплата: Stripe/Payme/Click</li>
+            <li><FaCheckCircle /> Оплата: Stripe / Payme / Click</li>
           </ul>
         </div>
 
         <div className="svc-card">
           <i className="ic"><FaRobot /></i>
           <h3>Telegram-боты</h3>
-          <p>Заказы, CRM, рассылки, чат-боты с LLM. Админ-панель va statistika.</p>
+          <p>Заказы, CRM, рассылки, чат-бот с ИИ. Админ-панель и статистика.</p>
           <ul>
-            <li><FaCheckCircle /> Node/Python bot-framework</li>
-            <li><FaCheckCircle /> WebApp + Pay интеграция</li>
-            <li><FaCheckCircle /> Moderation & logging</li>
+            <li><FaCheckCircle /> Node/Python фреймворки</li>
+            <li><FaCheckCircle /> WebApp + оплата в Telegram</li>
+            <li><FaCheckCircle /> Логи, модерация, алёрты</li>
           </ul>
         </div>
 
         <div className="svc-card">
           <i className="ic"><FaMobileAlt /></i>
           <h3>Мобильные приложения</h3>
-          <p>iOS/Android: React Native yoki native modullar. Offline-режим, push-уведомления.</p>
+          <p>React Native (iOS/Android) с офлайн-режимом и пушами. Витрина, профиль, покупки.</p>
           <ul>
-            <li><FaCheckCircle /> App Store / Google Play релиз</li>
-            <li><FaCheckCircle /> Аналитика va A/B test</li>
-            <li><FaCheckCircle /> OTA обновления (CodePush)</li>
+            <li><FaCheckCircle /> Публикация в App Store / Google Play</li>
+            <li><FaCheckCircle /> Аналитика и A/B-тесты</li>
+            <li><FaCheckCircle /> OTA-обновления (CodePush)</li>
           </ul>
         </div>
 
         <div className="svc-card">
           <i className="ic"><FaBrain /></i>
           <h3>AI-решения</h3>
-          <p>LLM chat, summarization, rekomendatsiya, avtomatlashtirish.</p>
+          <p>RAG-поиск по документам, чат-копилоты, рекомендации, автоматизация процессов.</p>
           <ul>
-            <li><FaCheckCircle /> Python/FastAPI микросервисы</li>
-            <li><FaCheckCircle /> Векторный поиск (FAISS/pgvector)</li>
-            <li><FaCheckCircle /> Observability va guardrails</li>
+            <li><FaCheckCircle /> Микросервисы на Python/FastAPI</li>
+            <li><FaCheckCircle /> Векторный поиск (FAISS / pgvector)</li>
+            <li><FaCheckCircle /> Guardrails и наблюдаемость</li>
           </ul>
         </div>
       </section>
 
-      {/* Process */}
+      {/* Процесс работы — без круглых маркеров */}
       <section className="process scale">
         <h2>Как мы работаем</h2>
         <div className="steps">
           <div className="step">
-            <span className="n">1</span>
             <h4><FaSearch /> Аналитика</h4>
-            <p>Бриф, цели, KPI, scope. Texnik topshiriq va prototip.</p>
+            <p>Бриф, цели и KPI, пользовательские сценарии, прототип, техническое задание.</p>
           </div>
           <div className="step">
-            <span className="n">2</span>
             <h4><FaCogs /> Разработка</h4>
-            <p>Agile спринты, код-ревью, CI/CD. Har hafta demo.</p>
+            <p>Agile-спринты, код-ревью, CI/CD. Еженедельные демо и прозрачный бэклог.</p>
           </div>
           <div className="step">
-            <span className="n">3</span>
-            <h4><FaShieldAlt /> Тесты и безопасность</h4>
-            <p>Автотесты, статический анализ, секретlar boshqaruvi.</p>
+            <h4><FaShieldAlt /> Тестирование и безопасность</h4>
+            <p>Автотесты, статический анализ, управление секретами, проверка производительности.</p>
           </div>
           <div className="step">
-            <span className="n">4</span>
             <h4><FaChartLine /> Запуск и рост</h4>
-            <p>Мониторинг, аналитика, A/B test, iterativ rivoj.</p>
+            <p>Мониторинг и алёрты, аналитика, A/B-эксперименты, итеративное развитие.</p>
           </div>
         </div>
       </section>
 
-      {/* Stack */}
+      {/* Стек */}
       <section className="stack rise">
         <h2>Технологический стек</h2>
         <div className="stack-list">
@@ -215,25 +209,30 @@ const ITServices = () => {
           <div className="st"><FaPython /> Python / FastAPI</div>
           <div className="st"><FaDatabase /> PostgreSQL / MongoDB</div>
           <div className="st"><FaDocker /> Docker / CI/CD</div>
-          <div className="st"><FaCloud /> Cloud (Vercel/Render)</div>
+          <div className="st"><FaCloud /> Облако (Vercel / Render)</div>
           <div className="st"><FaGitAlt /> GitHub Actions</div>
           <div className="st"><FaAndroid /> Android</div>
           <div className="st"><FaApple /> iOS</div>
         </div>
       </section>
 
-      {/* Pricing */}
+      {/* Тарифы (RUB + больше содержания) */}
       <section id="pricing" className="pricing fade">
         <h2>Тарифы</h2>
         <div className="price-grid">
+
           <div className="price-card">
             <h3>Start</h3>
-            <p className="desc">Landing yoki oddiy bot</p>
-            <div className="price">от $999</div>
+            <p className="desc">Лендинг или простой бот</p>
+            <div className="price">от 89 000 ₽</div>
             <ul>
-              <li><FaCheckCircle /> 1–2 hafta</li>
-              <li><FaCheckCircle /> Dizayn shablon</li>
-              <li><FaCheckCircle /> Hotfix 30 kun</li>
+              <li><FaCheckCircle /> Аналитика и прототип (до 2 секций)</li>
+              <li><FaCheckCircle /> Дизайн по сетке + адаптив</li>
+              <li><FaCheckCircle /> Разработка (Next.js / Node)</li>
+              <li><FaCheckCircle /> 1 интеграция (форма/оплата)</li>
+              <li><FaCheckCircle /> Базовая SEO-настройка</li>
+              <li><FaCheckCircle /> Хостинг и домен (1 месяц)</li>
+              <li><FaCheckCircle /> Гарантия и хотфиксы 30 дней</li>
             </ul>
             <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer">Заказать</a>
           </div>
@@ -241,36 +240,45 @@ const ITServices = () => {
           <div className="price-card best">
             <div className="badge">Популярно</div>
             <h3>Business</h3>
-            <p className="desc">Do‘kon / super-bot / app MVP</p>
-            <div className="price">от $2990</div>
+            <p className="desc">Магазин / супер-бот / MVP приложения</p>
+            <div className="price">от 269 000 ₽</div>
             <ul>
-              <li><FaCheckCircle /> 3–6 hafta</li>
-              <li><FaCheckCircle /> Individual dizayn</li>
-              <li><FaCheckCircle /> Integratsiyalar</li>
-              <li><FaCheckCircle /> 2 oy support</li>
+              <li><FaCheckCircle /> Проработка CJM и KPI</li>
+              <li><FaCheckCircle /> Индивидуальный дизайн</li>
+              <li><FaCheckCircle /> Каталог/корзина/оплата или сложный бот</li>
+              <li><FaCheckCircle /> 3–6 интеграций (CRM/оплаты/аналитика)</li>
+              <li><FaCheckCircle /> Настройка аналитики и событий</li>
+              <li><FaCheckCircle /> Автотесты + CI/CD</li>
+              <li><FaCheckCircle /> Поддержка 2 месяца</li>
             </ul>
             <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer">Заказать</a>
           </div>
 
           <div className="price-card">
             <h3>Enterprise</h3>
-            <p className="desc">AI + mikroservislar, SLA</p>
+            <p className="desc">AI + микросервисы, SLA</p>
             <div className="price">по запросу</div>
             <ul>
-              <li><FaCheckCircle /> Audit & roadmap</li>
-              <li><FaCheckCircle /> SSO, security</li>
-              <li><FaCheckCircle /> SRE/Monitoring</li>
+              <li><FaCheckCircle /> Аудит архитектуры и roadmap</li>
+              <li><FaCheckCircle /> SSO, RBAC, безопасность</li>
+              <li><FaCheckCircle /> RAG/LLM, очереди, шардирование</li>
+              <li><FaCheckCircle /> Наблюдаемость: метрики/логи/трейсы</li>
+              <li><FaCheckCircle /> SRE-подход и 24/7 мониторинг</li>
+              <li><FaCheckCircle /> SLA по доступности и реакции</li>
             </ul>
             <a className="btn ghost" href="https://t.me/" target="_blank" rel="noreferrer">Связаться</a>
           </div>
+
         </div>
       </section>
 
-      {/* Case studies slider */}
+      {/* Кейсы */}
       <section className="cases scale">
         <h2>Кейсы</h2>
         <div className="cases-wrap">
-          <button className="nav left" onClick={()=>setIdx((idx-1+cases.length)%cases.length)}><FaChevronLeft/></button>
+          <button className="nav left" onClick={()=>setIdx((idx-1+cases.length)%cases.length)} aria-label="Назад">
+            <FaChevronLeft/>
+          </button>
 
           <article className="case-card">
             <FaQuoteLeft className="qmark" />
@@ -282,7 +290,9 @@ const ITServices = () => {
             <div className="impact">{cases[idx].impact}</div>
           </article>
 
-          <button className="nav right" onClick={()=>setIdx((idx+1)%cases.length)}><FaChevronRight/></button>
+          <button className="nav right" onClick={()=>setIdx((idx+1)%cases.length)} aria-label="Вперёд">
+            <FaChevronRight/>
+          </button>
         </div>
       </section>
 
@@ -291,15 +301,15 @@ const ITServices = () => {
         <h2>FAQ</h2>
         <details>
           <summary>Сколько длится запуск?</summary>
-          <p>MVP odatda 2–6 hafta, murakkab tizimlar 2–3 oy.</p>
+          <p>MVP обычно занимает 2–6 недель, сложные системы — 2–3 месяца.</p>
         </details>
         <details>
-          <summary>Как считаете стоимость?</summary>
-          <p>Scope + baholash. Fiks narx yoki soatbay — sizning qulaylikka qarab.</p>
+          <summary>Как рассчитывается стоимость?</summary>
+          <p>Зависит от объёма и интеграций. Возможны фикс-прайс или почасовая модель — под вашу задачу.</p>
         </details>
         <details>
           <summary>Кто сопровождает проект?</summary>
-          <p>PM, devlar va dizaynerlar jamoasi, monitoring va support bilan.</p>
+          <p>Проект-менеджер, разработчики и дизайнеры. Настроены мониторинг, алёрты и поддержка.</p>
         </details>
       </section>
 
@@ -307,9 +317,11 @@ const ITServices = () => {
       <section className="it-cta fade">
         <div className="border-anim"></div>
         <h2>Готовы обсудить IT-проект?</h2>
-        <p>Qisqa qo‘ng‘iroq/чат: g‘oya → reja → byudjet va muddatlar.</p>
+        {/* <p>Короткий созвон/чат: идея → план → бюджет и сроки. Подскажем оптимальный старт.</p> */}
         <div className="cta-actions">
-          <a className="btn primary lift" href="https://t.me/" target="_blank" rel="noreferrer"><FaTelegramPlane/> Написать в Telegram</a>
+          <a className="btn primary lift" href="https://t.me/" target="_blank" rel="noreferrer">
+            <FaTelegramPlane/> Написать в Telegram
+          </a>
           <Link className="btn ghost lift" to="/services">Назад к услугам</Link>
         </div>
       </section>
