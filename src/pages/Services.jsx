@@ -185,7 +185,7 @@ const Services = () => {
         </div>
 
         {/* мини-CTA под FAQ */}
-        <div className="faq-mini-cta">
+        {/* <div className="faq-mini-cta">
           <a className="btn btn-primary" href="https://t.me/" target="_blank" rel="noreferrer">
             <FaTelegramPlane/> Telegram
           </a>
@@ -193,7 +193,7 @@ const Services = () => {
             <FaWhatsapp/> WhatsApp
           </a>
           <Link className="btn btn-link" to="/services">Вернуться к услугам</Link>
-        </div>
+        </div> */}
       </section>
 
       {/* Footer */}

@@ -154,7 +154,7 @@ export default function Marketing() {
             performance-кампаний, аналитики и автоматизации.
           </p>
           {/* <div className="mk-cta"> */}
-            <Link className="btn btn-link" to="/services/it">Нужен сайт/бот?</Link>
+            {/* <Link className="btn btn-link" to="/services/it">Нужен сайт/бот?</Link> */}
           {/* </div> */}
           {/* <div className="mk-logos">
             <span className="mk-chip"><FaInstagram /> Instagram</span>
@@ -259,17 +259,6 @@ export default function Marketing() {
       </section>
 
       {/* CTA */}
-      <section className="mk-cta">
-        <div className="mk-cta-inner">
-          <h3>Готовы обсудить ваш маркетинг?</h3>
-          {/* <p>Напишите нам — в течение 24 часов подготовим бесплатную консультацию и дорожную карту на 1–2 месяца.</p> */}
-          <div className="mk-cta-actions">
-            <a className="btn btn-primary" href="https://t.me/" target="_blank" rel="noreferrer"><FaTelegramPlane/> Telegram</a>
-            <a className="btn btn-ghost" href="https://wa.me/" target="_blank" rel="noreferrer"><FaWhatsapp/> WhatsApp</a>
-            <Link className="btn btn-link" to="/services">Вернуться к услугам</Link>
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

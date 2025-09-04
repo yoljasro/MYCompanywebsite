@@ -14,6 +14,9 @@ import Investments from "./pages/Investments";
 import AIServices from "./pages/AI.jsx";
 import Contact from "./pages/contact.jsx";
 import RatesWidget from "./sections/RatesWidget.jsx"
+import OurServices from "./pages/OurServices.jsx"
+import ITProjects from "./pages/ITProjects.jsx";
+import TelegramBots from "./pages/TelegramBots.jsx";
 
 const App = () => {
   return (
@@ -48,6 +51,9 @@ const App = () => {
         <Route path="/services/marketing" element={<Marketing />} />
         <Route path="/services/investments" element={<Investments />} />
         <Route path="/services/ai" element={<AIServices />} />
+        <Route path="/ourservices" element={<OurServices/>} />
+        <Route path="/itprojects" element={<ITProjects/>} />
+        <Route path="/telegrambots" element={<TelegramBots/>} />
         <Route path="/contact" element={<Contact />} />
 
       </Routes>

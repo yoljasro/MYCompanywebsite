@@ -63,26 +63,28 @@ const Navbar = () => {
   }, []);
 
   // Brand: katta logo + premium glow badge
-  const brand = useMemo(
-    () => (
-      <div className="relative group flex items-center">
-        {/* yumshoq halo */}
-        <span
-          className="absolute -inset-2 rounded-2xl bg-[conic-gradient(from_180deg,rgba(167,139,250,.20),rgba(34,211,238,.20),transparent_70%)] blur-[14px] opacity-60 group-hover:opacity-80 transition-opacity"
-          aria-hidden
+ const brand = useMemo(
+  () => (
+    <div className="relative group flex items-center">
+      {/* Glow halo (yumshoq fon atrofida nurlanish) */}
+      <span
+        className="absolute -inset-3 rounded-2xl bg-gradient-to-r from-fuchsia-500/30 via-violet-400/25 to-cyan-400/30 blur-2xl opacity-70 group-hover:opacity-90 transition-opacity"
+        aria-hidden
+      />
+
+      {/* Badge container */}
+      <div className="relative z-[1] rounded-2xl px-3 py-2 bg-black/30 border border-white/10 backdrop-blur-md shadow-lg shadow-fuchsia-500/20 flex items-center">
+        <img
+          src="assets/logo.png" 
+          alt="Logo"
+          className="h-14 md:h-16 lg:h-20 w-auto object-contain transition-transform duration-300 drop-shadow-[0_0_18px_rgba(168,85,247,0.55)] group-hover:scale-[1.05]"
         />
-        {/* badge */}
-        <div className="relative z-[1] rounded-2xl px-3 py-2 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 backdrop-blur shadow-[0_10px_30px_-12px_rgba(0,0,0,0.55)] flex items-center">
-          <img
-            src="assets/logo.png"
-            alt="Logo"
-            className="h-14 md:h-16 lg:h-20 w-auto object-contain transition-transform duration-300 drop-shadow-[0_0_14px_rgba(168,85,247,0.45)] group-hover:scale-[1.03]"
-          />
-        </div>
       </div>
-    ),
-    []
-  );
+    </div>
+  ),
+  []
+);
+
 
   return (
     <header

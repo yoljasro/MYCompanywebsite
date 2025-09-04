@@ -314,17 +314,7 @@ const ITServices = () => {
       </section>
 
       {/* CTA */}
-      <section className="it-cta fade">
-        <div className="border-anim"></div>
-        <h2>Готовы обсудить IT-проект?</h2>
-        {/* <p>Короткий созвон/чат: идея → план → бюджет и сроки. Подскажем оптимальный старт.</p> */}
-        <div className="cta-actions">
-          <a className="btn primary lift" href="https://t.me/" target="_blank" rel="noreferrer">
-            <FaTelegramPlane/> Написать в Telegram
-          </a>
-          <Link className="btn ghost lift" to="/services">Назад к услугам</Link>
-        </div>
-      </section>
+
     </div>
   );
 };
