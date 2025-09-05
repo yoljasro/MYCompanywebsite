@@ -17,6 +17,9 @@ import RatesWidget from "./sections/RatesWidget.jsx"
 import OurServices from "./pages/OurServices.jsx"
 import ITProjects from "./pages/ITProjects.jsx";
 import TelegramBots from "./pages/TelegramBots.jsx";
+import MobileApps from "./pages/MobileApps.jsx";
+import AIProjectFaceID from "./sections/Ai.jsx";
+
 
 const App = () => {
   return (
@@ -33,13 +36,14 @@ const App = () => {
               <Projects />
               {/* <Clients /> */}
               <WorkExperience />
-               <RatesWidget
-        baseFiat="UZS"
-        fiats={["USD", "RUB", "EUR"]}      // Fiat bo‘limi: Dollar, Rubl, Yevro
-        cryptos={["bitcoin","ethereum","tether","solana"]}
-        vs={["usd","eur","rub","uzs"]}
-        refreshSec={45}
-      />
+              <RatesWidget
+                baseFiat="UZS"
+                fiats={["USD", "RUB", "EUR"]}      // Fiat bo‘limi: Dollar, Rubl, Yevro
+                cryptos={["bitcoin", "ethereum", "tether", "solana"]}
+                vs={["usd", "eur", "rub", "uzs"]}
+                refreshSec={45}
+              />
+
               {/* <Contact /> */}
             </main>
           }
@@ -51,9 +55,11 @@ const App = () => {
         <Route path="/services/marketing" element={<Marketing />} />
         <Route path="/services/investments" element={<Investments />} />
         <Route path="/services/ai" element={<AIServices />} />
-        <Route path="/ourservices" element={<OurServices/>} />
-        <Route path="/itprojects" element={<ITProjects/>} />
-        <Route path="/telegrambots" element={<TelegramBots/>} />
+        <Route path="/ourservices" element={<OurServices />} />
+        <Route path="/itprojects" element={<ITProjects />} />
+        <Route path="/telegrambots" element={<TelegramBots />} />
+        <Route path="/ai" element={<AIProjectFaceID />} />
+        <Route path="/mobile" element={<MobileApps />} />
         <Route path="/contact" element={<Contact />} />
 
       </Routes>

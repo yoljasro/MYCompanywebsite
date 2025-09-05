@@ -88,7 +88,7 @@ const Navbar = () => {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all ${
+      className={`fixed top-0 left-0  right-0 z-50 transition-all ${
         elevated
           ? 'backdrop-blur-xl bg-black/55 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)]'
           : 'backdrop-blur-sm bg-black/40'

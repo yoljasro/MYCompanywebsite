@@ -22,7 +22,7 @@ const Hero = () => {
   const sizes = calculateSizes(isSmall, isMobile, isTablet);
 
   return (
-    <section id="home" className="relative w-full min-h-screen overflow-hidden">
+    <section id="home" className="relative w-full min-h-screen ">
       {/* Яркие градиентные пятна на фоне */}
       <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute -top-32 -left-24 h-80 w-80 rounded-full blur-3xl opacity-35 bg-gradient-to-br from-fuchsia-500 via-violet-500 to-cyan-400" />
@@ -31,7 +31,7 @@ const Hero = () => {
       </div>
 
       {/* Заголовок и подзаголовок */}
-      <div className="mx-auto flex flex-col items-center gap-4 sm:mt-32 mt-20 px-4 text-center">
+      <div className="mx-auto flex flex-col items-center gap-4 sm:mt-32 mt-30 px-4 text-center">
         <p className="text-xs tracking-widest text-white/70 uppercase">
           Премиальные решения для вашего бизнеса
         </p>
@@ -66,7 +66,7 @@ const Hero = () => {
       </div>
 
       {/* 3D-сцена */}
-      <div className="absolute inset-0">
+      <div className="absolute inset-0"  >
         <Canvas className="w-full h-full">
           <Suspense fallback={<CanvasLoader />}>
             <Leva hidden />
