@@ -1,419 +1,269 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  FaHome,
-  FaChevronRight,
-  FaTelegramPlane,
-  FaCheckCircle,
-  FaBrain,
-  FaMagic,
-  FaCogs,
-  FaShieldAlt,
-  FaSearch,
-  FaRobot,
-  FaProjectDiagram,
-  FaChartLine,
-  FaPlug,
-  FaDatabase,
-  FaNetworkWired,
-  FaUserShield,
-  FaFileAlt,
-  FaChevronLeft,
-  FaPlay,
-} from "react-icons/fa";
+import React, { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
+import {
+  FaComments,
+  FaBrain,
+  FaCamera,
+  FaCogs,
+  FaChartLine,
+  FaMicrophoneAlt,
+  FaShieldAlt,
+  FaDatabase,
+  FaArrowRight,
+} from "react-icons/fa";
 import "./Al.css";
 
-const AIServices = () => {
-  /* ===== Background (neural particles) ===== */
+export default function AIServices() {
+  const canvasRef = useRef(null);
+
+  // Infinite animated background (stars + soft orbs)
   useEffect(() => {
-    const canvas = document.getElementById("aiBg");
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-
+    const c = canvasRef.current;
+    if (!c) return;
+    const ctx = c.getContext("2d");
+    let raf;
     const DPR = Math.min(2, window.devicePixelRatio || 1);
-    let W = (canvas.width = window.innerWidth * DPR);
-    let H = (canvas.height = window.innerHeight * DPR);
-    canvas.style.width = window.innerWidth + "px";
-    canvas.style.height = window.innerHeight + "px";
 
-    const N = Math.min(140, Math.floor((W * H) / 30000));
-    const nodes = new Array(N).fill(0).map(() => ({
-      x: Math.random() * W,
-      y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      r: 1.2 + Math.random() * 1.8,
+    const resize = () => {
+      c.width = Math.floor(c.clientWidth * DPR);
+      c.height = Math.floor(c.clientHeight * DPR);
+    };
+    resize();
+
+    const STARS = 160;
+    const stars = Array.from({ length: STARS }).map(() => ({
+      x: Math.random() * c.width,
+      y: Math.random() * c.height,
+      r: (Math.random() * 1.4 + 0.4) * DPR,
+      vx: (Math.random() - 0.5) * 0.25 * DPR,
+      vy: (Math.random() - 0.5) * 0.25 * DPR,
+      a: Math.random() * Math.PI * 2,
     }));
 
-    function tick() {
-      ctx.clearRect(0, 0, W, H);
-      // gradient background glow
-      const g = ctx.createRadialGradient(W * 0.7, H * 0.2, 40, W * 0.7, H * 0.2, Math.max(W, H));
-      g.addColorStop(0, "rgba(120, 84, 255, .15)");
-      g.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+    const orbs = [
+      { hue: 265, r: 360 * DPR, t: Math.random() * 1000, x: () => c.width * 0.22, y: () => c.height * 0.28 },
+      { hue: 190, r: 320 * DPR, t: Math.random() * 1000, x: () => c.width * 0.80, y: () => c.height * 0.22 },
+      { hue: 330, r: 280 * DPR, t: Math.random() * 1000, x: () => c.width * 0.55, y: () => c.height * 0.78 },
+    ];
 
-      for (let i = 0; i < N; i++) {
-        const a = nodes[i];
-        a.x += a.vx; a.y += a.vy;
-        if (a.x < 0 || a.x > W) a.vx *= -1;
-        if (a.y < 0 || a.y > H) a.vy *= -1;
+    const draw = () => {
+      // bg gradient
+      const g = ctx.createLinearGradient(0, 0, c.width, c.height);
+      g.addColorStop(0, "#0a0b12");
+      g.addColorStop(1, "#0c0f1c");
+      ctx.fillStyle = g;
+      ctx.fillRect(0, 0, c.width, c.height);
 
-        // draw node
+      // soft glowing orbs
+      orbs.forEach((o, i) => {
+        o.t += 0.003;
+        const ox = o.x() + Math.cos(o.t + i) * 30 * DPR;
+        const oy = o.y() + Math.sin(o.t * 0.8 + i) * 28 * DPR;
+        const rg = ctx.createRadialGradient(ox, oy, 0, ox, oy, o.r);
+        rg.addColorStop(0, `hsla(${o.hue}, 90%, 60%, .16)`);
+        rg.addColorStop(1, "transparent");
+        ctx.fillStyle = rg;
         ctx.beginPath();
-        ctx.arc(a.x, a.y, a.r, 0, Math.PI * 2);
-        ctx.fillStyle = "rgba(255,255,255,.8)";
+        ctx.arc(ox, oy, o.r, 0, Math.PI * 2);
         ctx.fill();
+      });
 
-        // connect to neighbors
-        for (let j = i + 1; j < N; j++) {
-          const b = nodes[j];
-          const dx = a.x - b.x; const dy = a.y - b.y;
-          const d2 = dx * dx + dy * dy;
-          if (d2 < 120 * 120) {
-            const o = 1 - Math.sqrt(d2) / 120;
-            ctx.strokeStyle = `rgba(120, 84, 255, ${o * 0.35})`;
-            ctx.lineWidth = 1 * DPR * o;
-            ctx.beginPath(); ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y); ctx.stroke();
-          }
-        }
-      }
-      raf = requestAnimationFrame(tick);
-    }
+      // stars
+      stars.forEach((s) => {
+        s.x += s.vx;
+        s.y += s.vy;
+        s.a += 0.03;
+        if (s.x < 0) s.x = c.width;
+        if (s.x > c.width) s.x = 0;
+        if (s.y < 0) s.y = c.height;
+        if (s.y > c.height) s.y = 0;
+        ctx.globalAlpha = 0.55 + Math.sin(s.a) * 0.45;
+        ctx.fillStyle = "#ffffff";
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
 
-    let raf = requestAnimationFrame(tick);
-    const onResize = () => {
-      W = canvas.width = window.innerWidth * DPR;
-      H = canvas.height = window.innerHeight * DPR;
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
+      raf = requestAnimationFrame(draw);
     };
+    draw();
+
+    const onResize = () => resize();
     window.addEventListener("resize", onResize);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
+    return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("resize", onResize);
+    };
   }, []);
 
-  /* ===== Scroll-in animations ===== */
+  // Reveal-on-scroll animations
   useEffect(() => {
-    const items = document.querySelectorAll(".fade, .rise, .scale");
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((e) => e.isIntersecting && e.target.classList.add("show"));
-    }, { threshold: 0.2 });
-    items.forEach((el) => obs.observe(el));
-    return () => obs.disconnect();
+    const els = document.querySelectorAll(".fade-in, .slide-up");
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => e.isIntersecting && e.target.classList.add("show"));
+      },
+      { threshold: 0.2 }
+    );
+
+    els.forEach((el) => {
+      io.observe(el);
+      // if already in viewport on mount
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight * 0.85) el.classList.add("show");
+    });
+
+    return () => io.disconnect();
   }, []);
 
-  /* ===== Interactive tabs / demos ===== */
-  const demos = [
-    { key: "chat", title: "AI Chat / Copilot", icon: <FaRobot/>,
-      desc: "Brendingizga mos AI chat: savol-javob, FAQ, lead yig‘ish, CRMga yuborish.",
-      hint: "LLM + Retrieval (RAG) + Guardrails"
+  const features = [
+    {
+      theme: "violet",
+      icon: <FaComments />,
+      title: "Чат-боты и ассистенты",
+      desc:
+        "Telegram / WhatsApp, колл-боты, приём заказов, поддержка клиентов, интеграции с CRM и платежами.",
+      to: "/telegrambots",
     },
-    { key: "rag", title: "RAG: hujjatlar bilan javob", icon: <FaSearch/>,
-      desc: "PDF/Google Docs/Notion dan bilim bazasi. Kontekst bilan aniq javob.",
-      hint: "Embedding + vektor qidiruv + citatsiya"
+    {
+      theme: "cyan",
+      icon: <FaBrain />,
+      title: "RAG и база знаний",
+      desc:
+        "Поиск по документам (PDF, DOCX, БД), векторные базы, контроль приватности и ролевая модель доступа.",
     },
-    { key: "vision", title: "Vision: Face/QR/Invoice", icon: <FaBrain/>,
-      desc: "Kameradan xodim yuzini aniqlash va kelib-ketish vaqtini log qilamiz.",
-      hint: "Face recognition + Attendance + Reports"
+    {
+      theme: "pink",
+      icon: <FaCamera />,
+      title: "Компьютерное зрение",
+      desc:
+        "Face ID, счёт людей, распознавание номеров/товаров, контроль качества и безопасность на объектах.",
+      to: "/ai",
     },
-    { key: "automation", title: "Automation / Integrations", icon: <FaCogs/>,
-      desc: "Telegram-bot, CRM, 1C, Click/Payme, Shopify, Notion bilan ulanadi.",
-      hint: "Webhook + ETL + Event Orchestrations"
-    }
+    {
+      theme: "mint",
+      icon: <FaCogs />,
+      title: "Автоматизация процессов",
+      desc:
+        "RPA/скрипты, интеграции 1С/Bitrix/amoCRM, ETL-пайплайны, обработка заявок и уведомления без ручного труда.",
+    },
+    {
+      theme: "blue",
+      icon: <FaChartLine />,
+      title: "Аналитика и прогнозы",
+      desc:
+        "Дэшборды, когортный анализ, LTV/CAC, предсказание оттока, оптимизация маркетинга и запасов.",
+    },
+    {
+      theme: "violet",
+      icon: <FaMicrophoneAlt />,
+      title: "Речь и перевод",
+      desc:
+        "STT/TTS, суммаризация звонков, автопротоколы встреч, перевод и распознавание аудио/видео.",
+    },
+    {
+      theme: "cyan",
+      icon: <FaShieldAlt />,
+      title: "Безопасные интеграции",
+      desc:
+        "OAuth/Keys rotation, шифрование, аудит логов, SSO, приватный деплой (on-prem / VPC) и контроль рисков.",
+    },
+    {
+      theme: "mint",
+      icon: <FaDatabase />,
+      title: "Данные и хранилища",
+      desc:
+        "Vector DB (Qdrant/PGVecto/Weaviate), PostgreSQL, S3/MinIO, импорт из Google/Excel и API-коннекторы.",
+    },
   ];
-  const [demoKey, setDemoKey] = useState("chat");
 
-  /* ===== Fake typing for demo ===== */
-  const typedRef = useRef(null);
-  const typingText = useMemo(() => ({
-    chat: "Salom! Menga mahsulot haqida ma'lumot bering. – Albatta! Mana katalog va narxlar…",
-    rag: "Savол: Qanday hujjatlar kerak? → Javob: Shartnoma 1.2-bandiga ko‘ra … (manba bilan)",
-    vision: "Xodim: #A-102 | Kirish 09:03 | Chiqish 18:12 | Ish vaqti 8:45",
-    automation: "Trigger: Yangi buyurtma → CRMga yozildi → Omborga yuborildi → Mijozga xabar"
-  }), []);
-
-  useEffect(() => {
-    const el = typedRef.current; if (!el) return;
-    let i = 0; const text = typingText[demoKey];
-    el.textContent = "";
-    const id = setInterval(() => {
-      el.textContent = text.slice(0, i++);
-      if (i > text.length) clearInterval(id);
-    }, 18);
-    return () => clearInterval(id);
-  }, [demoKey, typingText]);
-
-  /* ===== Cases slider ===== */
-  const cases = [
-    { title: "AI helpdesk + CRM", text: "Savollarni avtomatik javob + leadlarni CRMga push.", tags: ["RAG", "Node", "Postgres"], impact: "Response time −63%" },
-    { title: "Face Attendance", text: "Yuz orqali kelib-ketish. Hisobot va grafiklar.", tags: ["Vision", "Python", "Docker"], impact: "Manual tekshiruv −90%" },
-    { title: "AI Content Engine", text: "SMM post, caption, hashtag, scheduling.", tags: ["OpenAI", "Next.js", "Redis"], impact: "Content cost −55%" }
+  const steps = [
+    { n: "01", t: "Аудит и гипотезы", d: "Разбираем задачи, источники данных и KPI. Быстрый план пилота." },
+    { n: "02", t: "Прототип", d: "Кликабельная демо/PoC: показываем ценность на реальных сценариях." },
+    { n: "03", t: "MVP 2–6 недель", d: "Функционал ядра, метрики, обучение персонала и документация." },
+    { n: "04", t: "Интеграции", d: "CRM/ERP/1C, базы данных, хранилища файлов, BI-панели и отчёты." },
+    { n: "05", t: "Запуск и масштаб", d: "Нагрузочное тестирование, безопасность, мониторинг, автодеплой." },
+    { n: "06", t: "Поддержка", d: "Сопровождение, A/B, развитие моделей и оптимизация затрат." },
   ];
-  const [idx, setIdx] = useState(0);
-  useEffect(() => {
-    const id = setInterval(() => setIdx((i) => (i + 1) % cases.length), 6000);
-    return () => clearInterval(id);
-  }, [cases.length]);
 
   return (
     <div className="ai-page">
-      <canvas id="aiBg" className="ai-bg" />
+      <canvas ref={canvasRef} className="ai-bg" />
 
-      {/* Glow orbits */}
-      <div className="ai-orbits" aria-hidden>
-        <span className="ao ao1"/>
-        <span className="ao ao2"/>
-        <span className="ao ao3"/>
-      </div>
+      {/* HERO */}
+      <section className="ai-hero fade-in">
+        <h1>AI-сервисы</h1>
+        <p className="ai-subtitle">
+          От идеи до продакшна: чат-боты, RAG, компьютерное зрение, автоматизация процессов
+          и безопасные интеграции с вашими системами.
+        </p>
 
-      {/* Breadcrumb */}
-      <div className="crumbs fade">
-        <Link to="/services" className="crumb"><FaHome/> Услуги</Link>
-        <FaChevronRight className="sep" />
-        <span className="crumb active">AI-услуги</span>
-      </div>
-
-      {/* Hero */}
-      <header className="ai-hero fade">
-        <div className="hero-col">
-          <h1>AI-услуги и интеграции</h1>
-          <p>От идеи до продакшна: чат-боты, RAG, комп. зрение, автоматизация процессов и безопасные интеграции с вашими системами.</p>
-          <div className="hero-cta">
-            <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer"><FaTelegramPlane/> Бесплатная консультация</a>
-            <a className="btn ghost" href="#pricing">Тарифы</a>
-          </div>
-          <div className="hero-bullets">
-            <span><FaCheckCircle/> PoC 1–2 недели</span>
-            <span><FaShieldAlt/> Guardrails & мониторинг</span>
-            <span><FaCogs/> CI/CD & observability</span>
-          </div>
+        <div className="ai-badges">
+          <span className="badge">LLM • GPT-4/Claude</span>
+          <span className="badge">RAG • Vector DB</span>
+          <span className="badge">Vision • Face ID</span>
+          <span className="badge">On-prem / VPC</span>
         </div>
 
-        {/* 3D cube */}
-        <div className="hero-cube">
-          <div className="cube" tabIndex={0} aria-label="interactive cube">
-            <div className="face f1"><FaBrain/></div>
-            <div className="face f2"><FaSearch/></div>
-            <div className="face f3"><FaRobot/></div>
-            <div className="face f4"><FaProjectDiagram/></div>
-            <div className="face f5"><FaDatabase/></div>
-            <div className="face f6"><FaUserShield/></div>
-          </div>
-          <small className="cube-hint">Наведи/зажми — поверни куб</small>
-        </div>
-      </header>
-
-      {/* What we build */}
-      <section className="ai-grid rise">
-        <div className="ai-card">
-          <i className="ic"><FaRobot/></i>
-          <h3>AI чат и ассистенты</h3>
-          <p>Клиентская поддержка, внутренний помощник, генерация контента, голосовые сценарии.</p>
-          <ul>
-            <li><FaCheckCircle/> LLM + RAG + цитаты</li>
-            <li><FaCheckCircle/> Multi-lang RU/UZ/EN</li>
-            <li><FaCheckCircle/> Web/App/Telegram</li>
-          </ul>
-        </div>
-        <div className="ai-card">
-          <i className="ic"><FaSearch/></i>
-          <h3>RAG и поиск по знаниям</h3>
-          <p>Индексация PDF, Google Drive, Notion, Confluence. Достоверные ответы со ссылками.</p>
-          <ul>
-            <li><FaCheckCircle/> pgvector/FAISS/Redis</li>
-            <li><FaCheckCircle/> Цитирование источников</li>
-            <li><FaCheckCircle/> ACL и приватность</li>
-          </ul>
-        </div>
-        <div className="ai-card">
-          <i className="ic"><FaBrain/></i>
-          <h3>Vision и OCR</h3>
-          <p>Face-ID табель, счёт-фактуры, штрих/QR, дефекты на производстве, кассовые чеки.</p>
-          <ul>
-            <li><FaCheckCircle/> Realtime + отчёты</li>
-            <li><FaCheckCircle/> Kamera/RTSP stream</li>
-            <li><FaCheckCircle/> Export to Excel/BI</li>
-          </ul>
-        </div>
-        <div className="ai-card">
-          <i className="ic"><FaPlug/></i>
-          <h3>Интеграции и автоматика</h3>
-          <p>CRM/ERP, 1C, Telegram, Click/Payme, Shopify, Notion. События и сценарии.</p>
-          <ul>
-            <li><FaCheckCircle/> Webhook & API gateway</li>
-            <li><FaCheckCircle/> ETL/ELT пайплайны</li>
-            <li><FaCheckCircle/> Role-based доступ</li>
-          </ul>
+        <div className="ai-cta">
+          <Link to="/contact" className="ai-btn primary">
+            Обсудить проект <FaArrowRight />
+          </Link>
+          <Link to="/itprojects" className="ai-btn ghost">Портфолио</Link>
         </div>
       </section>
 
-      {/* Demos (interactive) */}
-      <section className="ai-demos scale" id="demos">
-        <h2>Живые демо</h2>
-        <div className="tabs">
-          {demos.map((d) => (
-            <button
-              key={d.key}
-              className={`tab ${demoKey===d.key?"active":""}`}
-              onClick={() => setDemoKey(d.key)}
-            >{d.icon} {d.title}</button>
+      {/* FEATURES */}
+      <section className="ai-grid slide-up">
+        {features.map((f, i) => (
+          <article key={i} className={`ai-card theme-${f.theme}`}>
+            <div className="ai-ring" />
+            <div className="ai-head">
+              <span className="ai-ico">{f.icon}</span>
+              <h3>{f.title}</h3>
+            </div>
+            <p className="ai-desc">{f.desc}</p>
+            <div className="ai-actions">
+              <Link to="/contact" className="ai-chip">Консультация</Link>
+              {f.to && (
+                <Link to={f.to} className="ai-chip ghost">
+                  Подробнее
+                </Link>
+              )}
+            </div>
+          </article>
+        ))}
+      </section>
+
+      {/* STEPS */}
+      <section className="ai-steps fade-in">
+        <h2>Как работаем</h2>
+        <div className="steps-grid">
+          {steps.map((s) => (
+            <div key={s.n} className="step-card">
+              <span className="num">{s.n}</span>
+              <h4>{s.t}</h4>
+              <p>{s.d}</p>
+              <span className="sheen" />
+            </div>
           ))}
         </div>
-        <div className="demo-stage">
-          <div className="stage-header">
-            <span className="dot"/><span className="dot"/><span className="dot"/>
-            <span className="hint"><FaMagic/> {demos.find(d=>d.key===demoKey)?.hint}</span>
-          </div>
-          <pre className="typing" ref={typedRef}/>
-          <button className="play"><FaPlay/> Запустить сценарий</button>
-        </div>
-      </section>
-
-      {/* Integrations marquee */}
-      <section className="ai-marquee fade" aria-label="Интеграции">
-        <div className="row">
-          <span>OpenAI</span>
-          <span>Anthropic</span>
-          <span>Google AI</span>
-          <span>Telegram</span>
-          <span>Notion</span>
-          <span>Shopify</span>
-          <span>1C</span>
-          <span>Click</span>
-          <span>Payme</span>
-          <span>Firebase</span>
-          <span>PostgreSQL</span>
-          <span>Redis</span>
-        </div>
-        <div className="row clone" aria-hidden>
-          <span>OpenAI</span>
-          <span>Anthropic</span>
-          <span>Google AI</span>
-          <span>Telegram</span>
-          <span>Notion</span>
-          <span>Shopify</span>
-          <span>1C</span>
-          <span>Click</span>
-          <span>Payme</span>
-          <span>Firebase</span>
-          <span>PostgreSQL</span>
-          <span>Redis</span>
-        </div>
-      </section>
-
-      {/* Process */}
-      <section className="ai-process rise">
-        <h2>Как мы запускаем AI</h2>
-        <div className="steps">
-          <div className="step">
-            <span className="n">1</span>
-            <h4><FaSearch/> Диагностика</h4>
-            <p>Юз-кейсы, KPI, датасеты, приватность. Быстрый PoC-план.</p>
-          </div>
-          <div className="step">
-            <span className="n">2</span>
-            <h4><FaProjectDiagram/> Архитектура</h4>
-            <p>RAG/векторка, очереди, ретраи, кеши, observability.</p>
-          </div>
-          <div className="step">
-            <span className="n">3</span>
-            <h4><FaCogs/> Разработка</h4>
-            <p>Спринты, автотесты, CI/CD, безопасные ключи и секреты.</p>
-          </div>
-          <div className="step">
-            <span className="n">4</span>
-            <h4><FaChartLine/> Запуск и рост</h4>
-            <p>AB-тесты, наблюдение и дообучение. Экономия и масштаб.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing */}
-      <section id="pricing" className="ai-pricing fade">
-        <h2>Тарифы</h2>
-        <div className="price-grid">
-          <div className="price-card">
-            <h3>PoC</h3>
-            <p className="desc">Гипотеза проверяется за 1–2 недели</p>
-            <div className="price">от $1,490</div>
-            <ul>
-              <li><FaCheckCircle/> 1 юз-кейс</li>
-              <li><FaCheckCircle/> Базовый прототип</li>
-              <li><FaCheckCircle/> Итоговый отчёт</li>
-            </ul>
-            <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer">Заказать</a>
-          </div>
-          <div className="price-card best">
-            <div className="badge">Популярно</div>
-            <h3>Business</h3>
-            <p className="desc">RAG/чат/автоматизация для команды</p>
-            <div className="price">от $3,490</div>
-            <ul>
-              <li><FaCheckCircle/> 2–3 интеграции</li>
-              <li><FaCheckCircle/> Внедрение + обучение</li>
-              <li><FaCheckCircle/> 2 месяца поддержки</li>
-            </ul>
-            <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer">Заказать</a>
-          </div>
-          <div className="price-card">
-            <h3>Enterprise</h3>
-            <p className="desc">SLA, SSO, приватный хостинг</p>
-            <div className="price">по запросу</div>
-            <ul>
-              <li><FaCheckCircle/> Аудит и roadmap</li>
-              <li><FaCheckCircle/> Observability/Alerting</li>
-              <li><FaCheckCircle/> SRE/24×7</li>
-            </ul>
-            <a className="btn ghost" href="https://t.me/" target="_blank" rel="noreferrer">Связаться</a>
-          </div>
-        </div>
-      </section>
-
-      {/* Cases slider */}
-      <section className="ai-cases scale">
-        <h2>Кейсы</h2>
-        <div className="cases-wrap">
-          <button className="nav left" onClick={()=>setIdx((idx-1+cases.length)%cases.length)}><FaChevronLeft/></button>
-          <article className="case-card">
-            <FaFileAlt className="qmark" />
-            <h3>{cases[idx].title}</h3>
-            <p className="c-text">{cases[idx].text}</p>
-            <div className="tags">{cases[idx].tags.map((t,i)=> <span key={i} className="tag">{t}</span>)}</div>
-            <div className="impact">{cases[idx].impact}</div>
-          </article>
-          <button className="nav right" onClick={()=>setIdx((idx+1)%cases.length)}><FaChevronLeft style={{transform:'rotate(180deg)'}}/></button>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="ai-faq rise">
-        <h2>FAQ</h2>
-        <details>
-          <summary>Что нужно для старта?</summary>
-          <p>Доступы к источникам (Docs/Notion/CRM), один контакт от бизнеса и KPI.</p>
-        </details>
-        <details>
-          <summary>Данные будут безопасны?</summary>
-          <p>Секреты в vault, аудиты доступа, шифрование в транзите и на хранении.</p>
-        </details>
-        <details>
-          <summary>Можно кастомизировать под бренд?</summary>
-          <p>Да. UI, тональность, языки, шаблоны ответов и сценарии — под ключ.</p>
-        </details>
       </section>
 
       {/* CTA */}
-      <section className="ai-cta fade">
-        <div className="border-anim"></div>
-        <h2>Запустим AI-проект?</h2>
-        <p>15–30 минут созвона: цель → решение → бюджет → сроки. Присылайте задачу в Telegram.</p>
-        <div className="cta-actions">
-          <a className="btn primary lift" href="https://t.me/" target="_blank" rel="noreferrer"><FaTelegramPlane/> Написать в Telegram</a>
-          <Link className="btn ghost lift" to="/services">Назад к услугам</Link>
+      <section className="ai-final slide-up">
+        <div className="ai-final-inner">
+          <div className="glow-border" />
+          <h3>Хотите внедрить AI в бизнес-процессы?</h3>
+          <p>
+            Поможем выбрать верные сценарии, посчитать экономику и запустим пилот за 2–6 недель.
+          </p>
+          <Link to="/contact" className="ai-btn primary">
+            Хочу внедрить AI <FaArrowRight />
+          </Link>
         </div>
       </section>
     </div>
   );
-};
-
-export default AIServices;
+}

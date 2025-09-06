@@ -19,6 +19,7 @@ import ITProjects from "./pages/ITProjects.jsx";
 import TelegramBots from "./pages/TelegramBots.jsx";
 import MobileApps from "./pages/MobileApps.jsx";
 import AIProjectFaceID from "./sections/Ai.jsx";
+import InternalProjects from "./pages/InternalProjects.jsx";
 
 
 const App = () => {
@@ -60,6 +61,7 @@ const App = () => {
         <Route path="/telegrambots" element={<TelegramBots />} />
         <Route path="/ai" element={<AIProjectFaceID />} />
         <Route path="/mobile" element={<MobileApps />} />
+        <Route path="/internal" element={<InternalProjects />} />
         <Route path="/contact" element={<Contact />} />
 
       </Routes>

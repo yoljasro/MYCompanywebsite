@@ -17,19 +17,35 @@ export default function Investments() {
     const ctx = c.getContext("2d");
     const fit = () => { c.width = innerWidth; c.height = innerHeight; };
     fit();
+
     class Star {
       constructor(){
         this.x=Math.random()*c.width; this.y=Math.random()*c.height;
-        this.r=Math.random()*1.6+.5; this.vx=(Math.random()-.5)*.3; this.vy=(Math.random()-.5)*.3;
+        this.r=Math.random()*1.4+.4; this.vx=(Math.random()-.5)*.25; this.vy=(Math.random()-.5)*.25;
+        this.a=Math.random()*Math.PI*2;
       }
-      step(){ this.x+=this.vx; this.y+=this.vy;
-        if(this.x<0||this.x>c.width) this.vx*=-1; if(this.y<0||this.y>c.height) this.vy*=-1; }
-      draw(){ ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2); ctx.fillStyle="rgba(255,255,255,.9)"; ctx.fill(); }
+      step(){
+        this.x+=this.vx; this.y+=this.vy; this.a+=0.03;
+        if(this.x<0) this.x=c.width; if(this.x>c.width) this.x=0;
+        if(this.y<0) this.y=c.height; if(this.y>c.height) this.y=0;
+      }
+      draw(){
+        const alpha = 0.55 + Math.sin(this.a)*0.45;
+        ctx.globalAlpha = alpha;
+        ctx.beginPath(); ctx.arc(this.x,this.y,this.r,0,Math.PI*2);
+        ctx.fillStyle="#fff"; ctx.fill(); ctx.globalAlpha=1;
+      }
     }
-    let stars = Array.from({length:150},()=>new Star());
-    const loop=()=>{ ctx.clearRect(0,0,c.width,c.height); stars.forEach(s=>{s.step(); s.draw();}); requestAnimationFrame(loop); };
+    let stars = Array.from({length:160},()=>new Star());
+    const loop=()=>{ 
+      // bg gradient
+      const g = ctx.createLinearGradient(0,0,c.width,c.height);
+      g.addColorStop(0,"#0a0b12"); g.addColorStop(1,"#0c0f1c");
+      ctx.fillStyle=g; ctx.fillRect(0,0,c.width,c.height);
+      stars.forEach(s=>{s.step(); s.draw();}); requestAnimationFrame(loop);
+    };
     loop();
-    const onResize=()=>{ fit(); stars = Array.from({length:150},()=>new Star()); };
+    const onResize=()=>{ fit(); stars = Array.from({length:160},()=>new Star()); };
     addEventListener("resize", onResize);
     return ()=>removeEventListener("resize", onResize);
   }, []);
@@ -58,7 +74,6 @@ export default function Investments() {
   const [apr, setApr] = useState(16); // % годовых
   const monthlyRate = useMemo(()=> apr/100/12, [apr]);
   const forecast = useMemo(()=>{
-    // сложный процент помесячно
     let principal = amount;
     for(let i=0;i<months;i++){ principal *= (1+monthlyRate); }
     return principal;
@@ -122,7 +137,10 @@ export default function Investments() {
       {/* hero */}
       <header className="inv-hero inv-fade">
         <h1 className="inv-title"><FaCoins/> Инвестиционные решения</h1>
-        <p>Прозрачные инструменты с понятными рисками: доходная недвижимость, проекты Star House и технологические доли. Контроль, отчётность и защита капитала.</p>
+        <p>
+          Прозрачные инструменты с понятными рисками: доходная недвижимость, проекты Star House
+          и технологические доли. Контроль, отчётность и защита капитала.
+        </p>
         <div className="inv-hero-tags">
           <span><FaShieldAlt/> Залог активов</span>
           <span><FaCheckCircle/> KYC/AML</span>
@@ -130,7 +148,7 @@ export default function Investments() {
         </div>
       </header>
 
-      {/* 3D products */}
+      {/* products */}
       <section className="inv-products inv-rise">
         {products.map((p,i)=>(
           <div className="prod-card tilt3d" key={i} tabIndex={0}>
@@ -147,7 +165,7 @@ export default function Investments() {
             <div className="face back">
               <h4>Преимущества</h4>
               <ul>{p.bullets.map((b,bi)=>(<li key={bi}>{b}</li>))}</ul>
-              <button className="btn-primary">Оставить заявку</button>
+              <Link className="btn-primary" to="/contact">Оставить заявку</Link>
             </div>
           </div>
         ))}
@@ -222,17 +240,6 @@ export default function Investments() {
         <details><summary>Можно ли выйти раньше срока?</summary>
           <p>Досрочный выкуп возможен на рыночных условиях по согласованию (в зависимости от продукта и стадии проекта).</p>
         </details>
-      </section>
-
-      {/* CTA */}
-      <section className="inv-cta inv-fade">
-        <div className="glow"></div>
-        <h2>Готовы обсудить стратегию инвестиций?</h2>
-        <p>Оставьте контакты — вышлем досье по продуктам и подготовим персональный медиаплан доходности.</p>
-        <div className="cta-actions">
-          <a className="btn-primary" href="https://t.me/" target="_blank" rel="noreferrer">Получить консультацию</a>
-          <Link className="btn-ghost" to="/services">Вернуться к услугам</Link>
-        </div>
       </section>
     </div>
   );

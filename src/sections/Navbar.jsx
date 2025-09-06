@@ -17,7 +17,6 @@ const NavItems = ({ onClick = () => {}, active = '' }) => (
             }`}
           >
             {item.name}
-            {/* underline */}
             <span
               className={`absolute -bottom-1 left-0 h-[2px] w-0 bg-gradient-to-r from-fuchsia-400 via-violet-300 to-cyan-300 transition-all duration-300 group-hover:w-full ${
                 isActive ? 'w-full' : ''
@@ -38,7 +37,6 @@ const Navbar = () => {
   const toggleMenu = () => setIsOpen((p) => !p);
   const closeMenu = () => setIsOpen(false);
 
-  // Active link (hash yoki path)
   useEffect(() => {
     const handler = () => {
       const hash = window.location.hash || '';
@@ -54,7 +52,6 @@ const Navbar = () => {
     };
   }, []);
 
-  // Scroll bo‘lganda ko‘tarilgan navbar (soyali)
   useEffect(() => {
     const onScroll = () => setElevated(window.scrollY > 6);
     onScroll();
@@ -62,33 +59,24 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Brand: katta logo + premium glow badge
- const brand = useMemo(
-  () => (
-    <div className="relative group flex items-center">
-      {/* Glow halo (yumshoq fon atrofida nurlanish) */}
-      <span
-        className="absolute -inset-3 rounded-2xl bg-gradient-to-r from-fuchsia-500/30 via-violet-400/25 to-cyan-400/30 blur-2xl opacity-70 group-hover:opacity-90 transition-opacity"
-        aria-hidden
+  // Brand — logo only, no background panel
+  const brand = useMemo(
+    () => (
+      <img
+        src="assets/logo.png"
+        alt="Logo"
+        className="block h-14 sm:h-16 lg:h-20 w-auto object-contain select-none
+                   transition-transform duration-300 hover:scale-[1.04]
+                   drop-shadow-[0_0_18px_rgba(168,85,247,0.45)]"
+        draggable="false"
       />
-
-      {/* Badge container */}
-      <div className="relative z-[1] rounded-2xl px-3 py-2 bg-black/30 border border-white/10 backdrop-blur-md shadow-lg shadow-fuchsia-500/20 flex items-center">
-        <img
-          src="assets/logo.png" 
-          alt="Logo"
-          className="h-14 md:h-16 lg:h-20 w-auto object-contain transition-transform duration-300 drop-shadow-[0_0_18px_rgba(168,85,247,0.55)] group-hover:scale-[1.05]"
-        />
-      </div>
-    </div>
-  ),
-  []
-);
-
+    ),
+    []
+  );
 
   return (
     <header
-      className={`fixed top-0 left-0  right-0 z-50 transition-all ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all ${
         elevated
           ? 'backdrop-blur-xl bg-black/55 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.6)]'
           : 'backdrop-blur-sm bg-black/40'
@@ -108,7 +96,10 @@ const Navbar = () => {
             <NavItems active={active} />
             <a
               href="tel:+79111004793"
-              className="hidden md:inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold text-slate-900 bg-gradient-to-r from-fuchsia-400 via-violet-300 to-cyan-300 hover:brightness-110 shadow-[0_10px_30px_-10px_rgba(168,85,247,0.45)] transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300"
+              className="hidden md:inline-flex items-center gap-2 rounded-xl px-4 py-2 font-semibold text-slate-900 
+                         bg-gradient-to-r from-fuchsia-400 via-violet-300 to-cyan-300 hover:brightness-110
+                         shadow-[0_10px_30px_-10px_rgba(168,85,247,0.45)] transition
+                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300"
               aria-label="Позвонить +7 911 100 4793"
             >
               +7 911 100 4793
@@ -120,7 +111,8 @@ const Navbar = () => {
           <button
             onClick={toggleMenu}
             aria-label="Открыть меню"
-            className="sm:hidden inline-flex items-center justify-center rounded-lg p-2 text-white/80 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300"
+            className="sm:hidden inline-flex items-center justify-center rounded-lg p-2 text-white/80 hover:text-white
+                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300"
           >
             <img
               src={isOpen ? 'assets/close.svg' : 'assets/menu.svg'}
@@ -143,7 +135,9 @@ const Navbar = () => {
             <a
               href="tel:+79111004793"
               onClick={closeMenu}
-              className="mt-4 inline-flex w-full items-center justify-center rounded-xl px-4 py-3 font-semibold text-slate-900 bg-gradient-to-r from-fuchsia-400 via-violet-300 to-cyan-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300"
+              className="mt-4 inline-flex w-full items-center justify-center rounded-xl px-4 py-3 font-semibold text-slate-900 
+                         bg-gradient-to-r from-fuchsia-400 via-violet-300 to-cyan-300
+                         focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-fuchsia-300"
               aria-label="Позвонить +7 911 100 4793"
             >
               +7 911 100 4793

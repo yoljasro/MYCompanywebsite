@@ -68,27 +68,72 @@
   display: grid; grid-template-columns: repeat(3, 340px);
   justify-content: center; column-gap: 72px; row-gap: 56px; margin: 0 auto; padding-inline: 16px;
 }
+
+/* “Glass” bazasi */
 .card {
   width: 340px; max-width: 340px; border-radius: 20px; color: #fff; padding: 30px;
   position: relative; overflow: hidden; backdrop-filter: blur(12px);
-  transition: transform .4s ease, box-shadow .4s ease;
+  transition: transform .4s ease, box-shadow .4s ease, border-color .25s ease, filter .25s ease;
   box-shadow: 0 8px 25px rgba(0, 0, 0, .5); border: 1px solid rgba(255, 255, 255, .2);
+  background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
+  isolation: isolate;
 }
-.card:hover { transform: translateY(-14px) scale(1.06); box-shadow: 0 16px 44px rgba(0, 0, 0, .85); }
+.card:hover { transform: translateY(-14px) scale(1.06); box-shadow: 0 16px 44px rgba(0, 0, 0, .85); border-color: rgba(255,255,255,.24); filter:saturate(1.05); }
 .card h2 { font-size: 1.6rem; margin: 15px 0 18px; }
-.card-icon.large svg { font-size: 64px; margin-bottom: 8px; filter: drop-shadow(0 0 12px rgba(255, 255, 255, .6)); }
-.gradient-blue  { background: linear-gradient(135deg, rgba(59,130,246,.9), rgba(37,99,235,.7)); }
-.gradient-pink  { background: linear-gradient(135deg, rgba(236,72,153,.9), rgba(219,39,119,.7)); }
-.gradient-green { background: linear-gradient(135deg, rgba(34,197,94,.9), rgba(22,163,74,.7)); }
 
+/* Tematik “glow” halosi */
+.card::before{
+  content:""; position:absolute; inset:-1px; border-radius: 22px;
+  filter: blur(18px); opacity:.55; z-index:-1;
+  background:
+    radial-gradient(340px 200px at 18% 8%, var(--h1, rgba(255,255,255,.0)) 35%, transparent 70%),
+    radial-gradient(320px 180px at 85% 120%, var(--h2, rgba(255,255,255,.0)) 28%, transparent 70%);
+}
+
+/* ICON qutisi — temaga bog‘langan */
+.card-icon.large{
+  width: 60px; height: 60px; border-radius: 16px;
+  display:grid; place-items:center; color:#0b0f16;
+  border: 1px solid rgba(255,255,255,.22);
+  background: var(--grad, rgba(255,255,255,.1));
+  box-shadow: 0 16px 44px var(--shadow, rgba(0,0,0,.35));
+}
+.card-icon.large svg { font-size: 32px; filter: drop-shadow(0 0 10px rgba(255,255,255,.5)); }
+
+/* Tugma-chiplari — temaga bog‘langan */
 .buttons { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
 .btn-like {
-  background: rgba(255,255,255,.16); border: 1px solid rgba(255,255,255,.25);
-  color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 15px; font-weight: 500;
+  border: 1px solid rgba(255,255,255,.22);
+  color: #0b0f16; padding: 12px 18px; border-radius: 999px; font-size: 15px; font-weight: 700;
   display: inline-flex; align-items: center; gap: 10px; justify-content: center; cursor: pointer;
-  transition: all .28s ease; text-decoration: none;
+  transition: transform .18s ease, box-shadow .18s ease, filter .18s ease; text-decoration: none;
+  background: var(--grad, rgba(255,255,255,.16));
+  box-shadow: 0 12px 34px var(--shadow, rgba(0,0,0,.35));
 }
-.btn-like:hover { background: rgba(255,255,255,.38); transform: scale(1.07) translateY(-2px); box-shadow: 0 5px 18px rgba(255,255,255,.38); }
+.btn-like:hover { transform: translateY(-2px) scale(1.04); box-shadow: 0 16px 40px var(--shadow, rgba(0,0,0,.45)); filter:saturate(1.05); }
+
+/* ===== TEMALAR (hammasi bir xil palitrada) ===== */
+/* IT — ko‘k/siyohrang */
+.gradient-blue{
+  --grad: linear-gradient(135deg,#a78bfa,#7dd3fc);
+  --shadow: rgba(139,92,246,.38);
+  --h1: rgba(167,139,250,.28);
+  --h2: rgba(125,211,252,.22);
+}
+/* Marketing — pushti */
+.gradient-pink{
+  --grad: linear-gradient(135deg,#f472b6,#a78bfa);
+  --shadow: rgba(244,114,182,.38);
+  --h1: rgba(244,114,182,.28);
+  --h2: rgba(167,139,250,.22);
+}
+/* Invest — yashil/mint */
+.gradient-green{
+  --grad: linear-gradient(135deg,#34d399,#a7f3d0);
+  --shadow: rgba(52,211,153,.38);
+  --h1: rgba(52,211,153,.28);
+  --h2: rgba(167,243,208,.22);
+}
 
 /* ===== CTA banner (compact, как на marketing) ===== */
 .cta-banner {

@@ -1,68 +1,56 @@
+// src/constants/index.js
+
 export const navLinks = [
-  {
-    id: 1,
-    name: 'Услуги',
-    href: '/services',
-  },
-  {
-    id: 2,
-    name: 'О нас',
-    href: '#about',
-  },
-  {
-    id: 3,
-    name: 'Наша работа',
-    href: '#work',
-  },
-  {
-    id: 4,
-    name: 'Контакт',
-    href: '/contact  ',
-  },
+  { id: 1, name: 'Услуги',      href: '/services' },
+  { id: 2, name: 'О нас',       href: '#about'   },
+  { id: 3, name: 'Портфолио',   href: '#work'    },
+  { id: 4, name: 'Контакты',    href: '/contact' },
 ];
 
 export const clientReviews = [
   {
     id: 1,
-    name: 'Emily Johnson',
-    position: 'Marketing Director at GreenLeaf',
+    name: 'Екатерина Л.',
+    position: 'Маркетинг-директор, розница',
     img: 'assets/review1.png',
     review:
-      'Working with Adrian was a fantastic experience. He transformed our outdated website into a modern, user-friendly platform. His attention to detail and commitment to quality are unmatched. Highly recommend him for any web dev projects.',
+      'Команда быстро разобралась в нише и собрала воронку: сайт, квизы, SMM и аналитика. Лиды подешевели, отдел продаж стал работать осмысленнее. Рекомендуем.',
   },
   {
     id: 2,
-    name: 'Mark Rogers',
-    position: 'Founder of TechGear Shop',
+    name: 'Михаил Р.',
+    position: 'Основатель финтех-стартапа',
     img: 'assets/review2.png',
     review:
-      'Adrian’s expertise in web development is truly impressive. He delivered a robust and scalable solution for our e-commerce site, and our online sales have significantly increased since the launch. He’s a true professional! Fantastic work.',
+      'Ребята сделали MVP за 6 недель: дизайн, бэкенд, интеграции и дашборд. Запустились в срок, метрики прозрачные, связь 24/7. Отличная работа.',
   },
   {
     id: 3,
-    name: 'John Dohsas',
-    position: 'Project Manager at UrbanTech ',
+    name: 'Алина С.',
+    position: 'Операционный директор HoReCa',
     img: 'assets/review3.png',
     review:
-      'I can’t say enough good things about Adrian. He was able to take our complex project requirements and turn them into a seamless, functional website. His problem-solving abilities are outstanding.',
+      'Запуск рекламы + контент дал рост бронирований в 2,3 раза. Понравилось, что каждый спринт — с цифрами и гипотезами. Вижу результат, а не отчёты ради отчётов.',
   },
   {
     id: 4,
-    name: 'Ether Smith',
-    position: 'CEO of BrightStar Enterprises',
+    name: 'Ильдар Н.',
+    position: 'CEO EdTech-проекта',
     img: 'assets/review4.png',
     review:
-      'Adrian was a pleasure to work with. He understood our requirements perfectly and delivered a website that exceeded our expectations. His skills in both frontend backend dev are top-notch.',
+      'Собрали лендинг, квиз и Telegram-бота, подключили оплату и аналитику. Получили предсказуемый поток заявок и понятную юнит-экономику.',
   },
 ];
 
+// Ниже — русские описания, но структура (texture/logo/tags) сохранена.
+// Если хотите, подставим ваши реальные ссылки (unicorngo, broniboy и др.) — скажите какие именно к каким карточкам привязать.
 export const myProjects = [
   {
-    title: 'Podcastr - AI Podcast Platform',
-    desc: 'Podcastr is a revolutionary Software-as-a-Service platform that transforms the way podcasts are created. With advanced AI-powered features like text-to-multiple-voices functionality, it allows creators to generate diverse voiceovers from a single text input.',
+    title: 'Podcastr — платформа подкастов с ИИ',
+    desc: 'Веб-приложение, которое превращает текст в многоголосый озвученный подкаст. Управление тембрами, паузами и монтажом — прямо в браузере.',
     subdesc:
-      'Built as a unique Software-as-a-Service app with Next.js 14, Tailwind CSS, TypeScript, Framer Motion and Convex, Podcastr is designed for optimal performance and scalability.',
-    href: 'https://www.youtube.com/watch?v=zfAb95tJvZQ',
+      'Архитектура под высокие нагрузки, быстрый рендер, очередь задач, биллинг и ролевая модель доступа. Оптимизировано под SEO и индексируемые страницы выпусков.',
+    href: '', // можно добавить вашу ссылку; если пусто — кнопка скрывается
     texture: '/textures/project/project1.mp4',
     logo: '/assets/project-logo1.png',
     logoStyle: {
@@ -72,34 +60,18 @@ export const myProjects = [
     },
     spotlight: '/assets/spotlight1.png',
     tags: [
-      {
-        id: 1,
-        name: 'React.js',
-        path: '/assets/react.svg',
-      },
-      {
-        id: 2,
-        name: 'TailwindCSS',
-        path: 'assets/tailwindcss.png',
-      },
-      {
-        id: 3,
-        name: 'TypeScript',
-        path: '/assets/typescript.png',
-      },
-      {
-        id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
-      },
+      { id: 1, name: 'React',        path: '/assets/react.svg' },
+      { id: 2, name: 'Tailwind',     path: 'assets/tailwindcss.png' },
+      { id: 3, name: 'TypeScript',   path: '/assets/typescript.png' },
+      { id: 4, name: 'Framer Motion',path: '/assets/framer.png' },
     ],
   },
   {
-    title: 'LiveDoc - Real-Time Google Docs Clone',
-    desc: 'LiveDoc is a powerful collaborative app that elevates the capabilities of real-time document editing. As an enhanced version of Google Docs, It supports millions of collaborators simultaneously, ensuring that every change is captured instantly and accurately.',
+    title: 'LiveDoc — совместное редактирование в реальном времени',
+    desc: 'Редактор документов с мгновенной синхронизацией курсоров и изменений для тысяч пользователей одновременно.',
     subdesc:
-      'With LiveDoc, users can experience the future of collaboration, where multiple contributors work together in real time without any lag, by using Next.js and Liveblocks newest features.',
-    href: 'https://www.youtube.com/watch?v=y5vE8y_f_OM',
+      'Реализованы presence-индикаторы, история правок, комментарии и разрешения. Масштабирование за счёт WebSocket-шардинга и CRDT.',
+    href: '',
     texture: '/textures/project/project2.mp4',
     logo: '/assets/project-logo2.png',
     logoStyle: {
@@ -109,34 +81,18 @@ export const myProjects = [
     },
     spotlight: '/assets/spotlight2.png',
     tags: [
-      {
-        id: 1,
-        name: 'React.js',
-        path: '/assets/react.svg',
-      },
-      {
-        id: 2,
-        name: 'TailwindCSS',
-        path: 'assets/tailwindcss.png',
-      },
-      {
-        id: 3,
-        name: 'TypeScript',
-        path: '/assets/typescript.png',
-      },
-      {
-        id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
-      },
+      { id: 1, name: 'React',      path: '/assets/react.svg' },
+      { id: 2, name: 'Tailwind',   path: 'assets/tailwindcss.png' },
+      { id: 3, name: 'TypeScript', path: '/assets/typescript.png' },
+      { id: 4, name: 'Liveblocks', path: '/assets/framer.png' },
     ],
   },
   {
-    title: 'CarePulse - Health Management System',
-    desc: 'An innovative healthcare platform designed to streamline essential medical processes. It simplifies patient registration, appointment scheduling, and medical record management, providing a seamless experience for both healthcare providers and patients.',
+    title: 'CarePulse — медицинская платформа',
+    desc: 'Онлайн-регистрация пациентов, расписание, медкарты и напоминания. Упрощает работу клиники и снижает нагрузку на ресепшен.',
     subdesc:
-      'With a focus on efficiency, CarePulse integrantes complex forms and SMS notifications, by using Next.js, Appwrite, Twillio and Sentry that enhance operational workflows.',
-    href: 'https://www.youtube.com/watch?v=lEflo_sc82g',
+      'Безопасное хранение данных, события и триггеры уведомлений, антидубли и гибкая отчётность. Интеграции со сторонними сервисами.',
+    href: '',
     texture: '/textures/project/project3.mp4',
     logo: '/assets/project-logo3.png',
     logoStyle: {
@@ -148,34 +104,18 @@ export const myProjects = [
     },
     spotlight: '/assets/spotlight3.png',
     tags: [
-      {
-        id: 1,
-        name: 'React.js',
-        path: '/assets/react.svg',
-      },
-      {
-        id: 2,
-        name: 'TailwindCSS',
-        path: 'assets/tailwindcss.png',
-      },
-      {
-        id: 3,
-        name: 'TypeScript',
-        path: '/assets/typescript.png',
-      },
-      {
-        id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
-      },
+      { id: 1, name: 'React',      path: '/assets/react.svg' },
+      { id: 2, name: 'Tailwind',   path: 'assets/tailwindcss.png' },
+      { id: 3, name: 'TypeScript', path: '/assets/typescript.png' },
+      { id: 4, name: 'SaaS',       path: '/assets/framer.png' },
     ],
   },
   {
-    title: 'Horizon - Online Banking Platform',
-    desc: 'Horizon is a comprehensive online banking platform that offers users a centralized finance management dashboard. It allows users to connect multiple bank accounts, monitor real-time transactions, and seamlessly transfer money to other users.',
+    title: 'Horizon — онлайн-банкинг',
+    desc: 'Единая панель финансов: подключение банков, транзакции, переводы и аналитика расходов.',
     subdesc:
-      'Built with Next.js 14 Appwrite, Dwolla and Plaid, Horizon ensures a smooth and secure banking experience, tailored to meet the needs of modern consumers.',
-    href: 'https://www.youtube.com/watch?v=PuOVqP_cjkE',
+      'Двухфакторная аутентификация, маскирование данных, очереди платежей и мониторинг событий. Гибкие роли и лимиты.',
+    href: '',
     texture: '/textures/project/project4.mp4',
     logo: '/assets/project-logo4.png',
     logoStyle: {
@@ -185,34 +125,18 @@ export const myProjects = [
     },
     spotlight: '/assets/spotlight4.png',
     tags: [
-      {
-        id: 1,
-        name: 'React.js',
-        path: '/assets/react.svg',
-      },
-      {
-        id: 2,
-        name: 'TailwindCSS',
-        path: 'assets/tailwindcss.png',
-      },
-      {
-        id: 3,
-        name: 'TypeScript',
-        path: '/assets/typescript.png',
-      },
-      {
-        id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
-      },
+      { id: 1, name: 'React',      path: '/assets/react.svg' },
+      { id: 2, name: 'Tailwind',   path: 'assets/tailwindcss.png' },
+      { id: 3, name: 'TypeScript', path: '/assets/typescript.png' },
+      { id: 4, name: 'Next.js',    path: '/assets/framer.png' },
     ],
   },
   {
-    title: 'Imaginify - AI Photo Manipulation App',
-    desc: 'Imaginify is a groundbreaking Software-as-a-Service application that empowers users to create stunning photo manipulations using AI technology. With features like AI-driven image editing, a payments system, and a credits-based model.',
+    title: 'Imaginify — AI-редактор изображений',
+    desc: 'Веб-сервис для генерации и улучшения фото с оплатой по кредитам и личным кабинетом.',
     subdesc:
-      'Built with Next.js 14, Cloudinary AI, Clerk, and Stripe, Imaginify combines cutting-edge technology with a user-centric approach. It can be turned into a side income or even a full-fledged business.',
-    href: 'https://www.youtube.com/watch?v=Ahwoks_dawU',
+      'Очереди рендеринга, предпросмотры, история операций и безопасный биллинг. Кэширование и CDN для скорости.',
+    href: '',
     texture: '/textures/project/project5.mp4',
     logo: '/assets/project-logo5.png',
     logoStyle: {
@@ -222,26 +146,10 @@ export const myProjects = [
     },
     spotlight: '/assets/spotlight5.png',
     tags: [
-      {
-        id: 1,
-        name: 'React.js',
-        path: '/assets/react.svg',
-      },
-      {
-        id: 2,
-        name: 'TailwindCSS',
-        path: 'assets/tailwindcss.png',
-      },
-      {
-        id: 3,
-        name: 'TypeScript',
-        path: '/assets/typescript.png',
-      },
-      {
-        id: 4,
-        name: 'Framer Motion',
-        path: '/assets/framer.png',
-      },
+      { id: 1, name: 'React',      path: '/assets/react.svg' },
+      { id: 2, name: 'Tailwind',   path: 'assets/tailwindcss.png' },
+      { id: 3, name: 'TypeScript', path: '/assets/typescript.png' },
+      { id: 4, name: 'AI',         path: '/assets/framer.png' },
     ],
   },
 ];
@@ -260,28 +168,31 @@ export const calculateSizes = (isSmall, isMobile, isTablet) => {
 export const workExperiences = [
   {
     id: 1,
-    name: 'Framer',
-    pos: 'Lead Web Developer',
-    duration: '2022 - Present',
-    title: "Framer serves as my go-to tool for creating interactive prototypes. I use it to bring designs to  life, allowing stakeholders to experience the user flow and interactions before development.",
+    name: 'Прототипирование',
+    pos: 'Ведущие продуктовые дизайнеры',
+    duration: '2022 — наст. время',
+    title:
+      'Быстро валидируем идеи через интерактивные прототипы и UX-тесты. Показываем логику, сценарии и метрики до старта разработки.',
     icon: '/assets/framer.svg',
     animation: 'victory',
   },
   {
     id: 2,
-    name: 'Figma',
-    pos: 'Web Developer',
-    duration: '2020 - 2022',
-    title: "Figma is my collaborative design platform of choice. I utilize it to work seamlessly with team members and clients, facilitating real-time feedback and design iterations. Its cloud-based.",
+    name: 'Дизайн-система',
+    pos: 'Product / Web-разработка',
+    duration: '2020 — 2022',
+    title:
+      'Собираем единую библиотеку компонентов и токены бренда. Это ускоряет разработку, повышает качество и снижает стоимость поддержки.',
     icon: '/assets/figma.svg',
     animation: 'clapping',
   },
   {
     id: 3,
-    name: 'Notion',
-    pos: 'Junior Web Developer',
-    duration: '2019 - 2020',
-    title: "Notion helps me keep my projects organized. I use it for project management, task tracking, and as a central hub for documentation, ensuring that everything from design notes to.",
+    name: 'Процессы и документация',
+    pos: 'Ведение проектов',
+    duration: '2019 — 2020',
+    title:
+      'Управляем спринтами, гипотезами и рисками. Поддерживаем единый knowledge base, чтобы команда и заказчик всегда были «на одной странице».',
     icon: '/assets/notion.svg',
     animation: 'salute',
   },
