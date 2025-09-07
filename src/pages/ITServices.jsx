@@ -116,12 +116,12 @@ const ITServices = () => {
           Разрабатываем сайты, Telegram-ботов, мобильные приложения и AI-решения.
           Полный цикл: аналитика → дизайн/разработка → тестирование и безопасность → запуск и сопровождение.
         </p>
-        <div className="hero-cta">
+        {/* <div className="hero-cta">
           <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer">
             <FaTelegramPlane /> Бесплатная консультация
           </a>
           <a className="btn ghost" href="#pricing">Тарифы</a>
-        </div>
+        </div> */}
         <div className="hero-highlights">
           <span><FaCheckCircle /> MVP за 2–6 недель</span>
           <span><FaShieldAlt /> SLA и мониторинг</span>

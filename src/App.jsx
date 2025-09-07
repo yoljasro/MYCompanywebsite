@@ -3,12 +3,10 @@ import Hero from './sections/Hero.jsx';
 import About from './sections/About.jsx';
 import Footer from './sections/Footer.jsx';
 import Navbar from './sections/Navbar.jsx';
-// import Contact from './sections/Contact.jsx';
-// import Clients from './sections/Clients.jsx';
 import Projects from './sections/Projects.jsx';
 import WorkExperience from './sections/Experience.jsx';
-import Services from './pages/Services.jsx'; // ✅ Page sifatida
-import ITServices from "./pages/ITServices"; // ⬅️ Yangi sahifa
+import Services from './pages/Services.jsx';
+import ITServices from "./pages/ITServices";
 import Marketing from './pages/MarketingServices.jsx';
 import Investments from "./pages/Investments";
 import AIServices from "./pages/AI.jsx";
@@ -20,12 +18,17 @@ import TelegramBots from "./pages/TelegramBots.jsx";
 import MobileApps from "./pages/MobileApps.jsx";
 import AIProjectFaceID from "./sections/Ai.jsx";
 import InternalProjects from "./pages/InternalProjects.jsx";
-
+import CrispChat from "./components/CrispChat.jsx";
+import Mystic from "./pages/Mystic.jsx";
 
 const App = () => {
   return (
     <Router>
       <Navbar />
+
+      {/* Crisp butun sayt bo‘ylab ishlashi uchun shu yerda */}
+      <CrispChat />
+
       <Routes>
         {/* Asosiy sahifa */}
         <Route
@@ -35,24 +38,21 @@ const App = () => {
               <Hero />
               <About />
               <Projects />
-              {/* <Clients /> */}
               <WorkExperience />
               <RatesWidget
                 baseFiat="UZS"
-                fiats={["USD", "RUB", "EUR"]}      // Fiat bo‘limi: Dollar, Rubl, Yevro
+                fiats={["USD", "RUB", "EUR"]}
                 cryptos={["bitcoin", "ethereum", "tether", "solana"]}
                 vs={["usd", "eur", "rub", "uzs"]}
                 refreshSec={45}
               />
-
-              {/* <Contact /> */}
             </main>
           }
         />
 
-        {/* Services sahifasi */}
+        {/* Services sahifalari */}
         <Route path="/services" element={<Services />} />
-        <Route path="/services/it" element={<ITServices />} />  {/* ⬅️ shu */}
+        <Route path="/services/it" element={<ITServices />} />
         <Route path="/services/marketing" element={<Marketing />} />
         <Route path="/services/investments" element={<Investments />} />
         <Route path="/services/ai" element={<AIServices />} />
@@ -61,10 +61,11 @@ const App = () => {
         <Route path="/telegrambots" element={<TelegramBots />} />
         <Route path="/ai" element={<AIProjectFaceID />} />
         <Route path="/mobile" element={<MobileApps />} />
+        <Route path="/mystic" element={<Mystic />} />
         <Route path="/internal" element={<InternalProjects />} />
         <Route path="/contact" element={<Contact />} />
-
       </Routes>
+
       <Footer />
     </Router>
   );

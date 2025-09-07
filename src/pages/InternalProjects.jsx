@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   FaMagic, FaChartPie, FaWallet, FaShieldAlt, FaRocket,
   FaPlaneDeparture, FaGlobeEurope, FaArrowRight
@@ -40,14 +40,12 @@ export default function InternalProjects() {
     ];
 
     const draw = () => {
-      // bg
       const g = ctx.createLinearGradient(0, 0, c.width, c.height);
       g.addColorStop(0, "#0a0b12");
       g.addColorStop(1, "#0b0f1c");
       ctx.fillStyle = g;
       ctx.fillRect(0, 0, c.width, c.height);
 
-      // orbs
       orbs.forEach((o, i) => {
         o.t += 0.003;
         const ox = o.x() + Math.cos(o.t + i) * 30 * DPR;
@@ -59,7 +57,6 @@ export default function InternalProjects() {
         ctx.beginPath(); ctx.arc(ox, oy, o.r, 0, Math.PI * 2); ctx.fill();
       });
 
-      // stars
       stars.forEach(s => {
         s.x += s.vx; s.y += s.vy; s.a += 0.03;
         if (s.x < 0) s.x = c.width; if (s.x > c.width) s.x = 0;
@@ -129,6 +126,9 @@ export default function InternalProjects() {
     return () => io.disconnect();
   }, []);
 
+  const navigate = useNavigate();
+  const goContact = () => navigate("/contact");
+
   return (
     <div className="ip">
       <style>{styles}</style>
@@ -162,8 +162,8 @@ export default function InternalProjects() {
             "Персональные рекомендации по дате/времени"
           ]}
           offer="Ищем партнёров для масштабирования контента, маркетинга и подписочной модели в СНГ/МЕНА."
-          cta1={{ to: "/contact", text: "Инвестировать" }}
-          cta2={{ to: "/contact", text: "Стать партнёром" }}
+          onPrimary={goContact}
+          onSecondary={goContact}
         />
 
         <ProjectCard
@@ -178,8 +178,8 @@ export default function InternalProjects() {
             "Контроль рисков, KYC/AML, антифрод"
           ]}
           offer="Открыты к инвестициям и стратегическим интеграциям: эмиссия карт, процессинг, локализация под рынки."
-          cta1={{ to: "/contact", text: "Обсудить инвестиции" }}
-          cta2={{ to: "/contact", text: "Партнёрство" }}
+          onPrimary={goContact}
+          onSecondary={goContact}
         />
 
         <ProjectCard
@@ -194,8 +194,8 @@ export default function InternalProjects() {
             "Комьюнити-гид и UGC-контент"
           ]}
           offer="Нужны партнёры из travel-сферы и инвестиции в контент/договорные сети, запуск пилота в 2–3 странах."
-          cta1={{ to: "/contact", text: "Инвестировать" }}
-          cta2={{ to: "/contact", text: "Стать реселлером" }}
+          onPrimary={goContact}
+          onSecondary={goContact}
         />
       </section>
 
@@ -217,20 +217,20 @@ export default function InternalProjects() {
           </Why>
         </div>
         <div className="ip-cta">
-          <Link to="/contact" className="ip-btn">
+          {/* MAIN CTA → /contact */}
+          <button type="button" onClick={goContact} className="ip-btn">
             Связаться и получить питч <FaArrowRight/>
-          </Link>
+          </button>
         </div>
       </section>
     </div>
   );
 }
 
-function ProjectCard({ theme, logo, title, tag, points, offer, cta1, cta2 }) {
+function ProjectCard({ theme, logo, title, tag, points, offer, onPrimary, onSecondary }) {
   const cardRef = useRef(null);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
 
-  // 3D tilt + reset
   const onMove = (e) => {
     const r = cardRef.current.getBoundingClientRect();
     const x = (e.clientX - r.left) / r.width - 0.5;
@@ -239,11 +239,18 @@ function ProjectCard({ theme, logo, title, tag, points, offer, cta1, cta2 }) {
   };
   const onLeave = () => setTilt({ rx: 0, ry: 0 });
 
+  // Enter bosilganda ham ishlasin
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") onPrimary?.();
+  };
+
   return (
     <article
       ref={cardRef}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
+      onKeyDown={onKeyDown}
+      tabIndex={0}
       className={`ip-card theme-${theme} reveal`}
       style={{ transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)` }}
     >
@@ -254,7 +261,6 @@ function ProjectCard({ theme, logo, title, tag, points, offer, cta1, cta2 }) {
           <h3>{title}</h3>
           <span className="ip-tag">{tag}</span>
         </div>
-        {/* orbit dekor */}
         <span className="orbit o1" />
         <span className="orbit o2" />
       </div>
@@ -266,8 +272,9 @@ function ProjectCard({ theme, logo, title, tag, points, offer, cta1, cta2 }) {
       <p className="ip-offer">{offer}</p>
 
       <div className="ip-actions">
-        <Link to={cta1.to} className="ip-cta filled">{cta1.text}</Link>
-        <Link to={cta2.to} className="ip-cta ghost">{cta2.text}</Link>
+        {/* BARCHA TUGMALAR → /contact */}
+        <button type="button" onClick={onPrimary} className="ip-cta filled">Инвестировать</button>
+        <button type="button" onClick={onSecondary} className="ip-cta ghost">Стать партнёром</button>
       </div>
     </article>
   );

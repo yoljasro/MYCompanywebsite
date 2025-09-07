@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { FaGlobe, FaPaperPlane, FaMobileAlt, FaBrain, FaArrowRight } from "react-icons/fa";
 
 const CARDS = [
-  { key: "web",    title: "Веб-сайты",            desc: "Лендинги, магазины, порталы. Скорость и SEO.",          to: "/projects/web",    icon: FaGlobe,       theme: "violet" },
-  { key: "bots",   title: "Telegram-боты",        desc: "Витрины, оплаты, CRM, рассылки.",                      to: "/projects/bots",   icon: FaPaperPlane,  theme: "cyan"   },
-  { key: "mobile", title: "Мобильные приложения", desc: "iOS/Android, оффлайн-режим, пуш-уведомления.",         to: "/projects/mobile", icon: FaMobileAlt,   theme: "pink"   },
-  { key: "ai",     title: "AI-проекты",           desc: "RAG, ассистенты, генерация контента.",                 to: "/projects/ai",     icon: FaBrain,       theme: "lime"   },
+  { key: "web",    title: "Веб-сайты",            desc: "Лендинги, магазины, порталы. Скорость и SEO.",          to: "/itprojects",    icon: FaGlobe,       theme: "violet" },
+  { key: "bots",   title: "Telegram-боты",        desc: "Витрины, оплаты, CRM, рассылки.",                      to: "/telegrambots",   icon: FaPaperPlane,  theme: "cyan"   },
+  { key: "mobile", title: "Мобильные приложения", desc: "iOS/Android, оффлайн-режим, пуш-уведомления.",         to: "/mobile", icon: FaMobileAlt,   theme: "pink"   },
+  { key: "ai",     title: "AI-проекты",           desc: "RAG, ассистенты, генерация контента.",                 to: "/ai",     icon: FaBrain,       theme: "lime"   },
 ];
 
 export default function OurServicesMini() {
