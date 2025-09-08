@@ -276,13 +276,27 @@ export default function Marketing() {
 /* ========================= FAQ PILL ========================= */
 function Faq({ f }) {
   const [open, setOpen] = useState(false);
+
   return (
     <div className={`faq-pill ${open ? "open" : ""}`}>
-      <button className="faq-head" onClick={() => setOpen(v => !v)}>
+      <button
+        className="faq-head"
+        onClick={() => setOpen(v => !v)}
+        aria-expanded={open}
+        aria-controls={`faq-panel-${f.q}`}
+      >
         <span className="faq-title">{f.q}</span>
-        <span className="faq-chevron" aria-hidden="true"><FaChevronRight /></span>
+        <span className="faq-chevron" aria-hidden="true">
+          <FaChevronRight />
+        </span>
       </button>
-      <div className="faq-body"><p>{f.a}</p></div>
+
+      {/* ichki o‘ram: yopiq holatda padding=0, to‘liq yashiriladi */}
+      <div className="faq-body" id={`faq-panel-${f.q}`}>
+        <div className="faq-inner">
+          <p>{f.a}</p>
+        </div>
+      </div>
     </div>
   );
 }
@@ -350,9 +364,28 @@ const styles = `
 .faq-title{font-weight:600}
 .faq-chevron{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);transition:transform .25s,background .25s;color:#e9ecff}
 .faq-pill.open .faq-chevron{transform:rotate(90deg)}
-.faq-body{max-height:0;overflow:hidden;transition:max-height .3s ease}
-.faq-pill.open .faq-body{max-height:220px}
-.faq-body p{padding:0 18px 16px 18px;color:var(--muted)}
+
+/* Grid-accordion: auto balandlik + to‘liq yopilish */
+.faq-body{
+  display:grid;
+  grid-template-rows: 0fr;              /* yopiq */
+  transition: grid-template-rows .35s ease;
+}
+.faq-pill.open .faq-body{
+  grid-template-rows: 1fr;              /* ochiq */
+}
+
+/* ichki o‘ram: yopiqda padding yo‘q, overflow yashiradi */
+.faq-inner{
+  min-height:0;
+  overflow:hidden;
+  padding: 0 15px 0 15px;               /* yopiq holat */
+}
+.faq-pill.open .faq-inner{
+  padding: 0 15px 16px 15px;            /* ochiq holat */
+}
+
+.faq-body p{margin:0;color:var(--muted)}
 
 /* responsive */
 @media (max-width:820px){ .mk-section{padding:32px 16px} .mk-hero{padding-top:110px} }

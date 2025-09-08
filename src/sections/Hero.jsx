@@ -66,64 +66,64 @@ const Hero = () => {
       </div>
 
       {/* 3D-сцена */}
-      <div className="absolute inset-0"  >
-        <Canvas className="w-full h-full">
-          <Suspense fallback={<CanvasLoader />}>
-            <Leva hidden />
-            <PerspectiveCamera makeDefault position={[0, 0, 30]} />
+    <div className="relative w-full h-[100vh]">
+  <Canvas className="w-full h-full">
+    <Suspense fallback={<CanvasLoader />}>
+      <Leva hidden />
+      <PerspectiveCamera makeDefault position={[0, 0, 30]} />
 
-            {/* Лёгкий туман + окружающая среда (даёт современный блеск) */}
-            <fog attach="fog" args={['#0b0b12', 38, 120]} />
-            <Environment preset="city" />
+      {/* Лёгкий туман + окружающая среда */}
+      <fog attach="fog" args={['#0b0b12', 38, 120]} />
+      <Environment preset="city" />
 
-            <HeroCamera isMobile={isMobile}>
-              <HackerRoom
-                scale={sizes.deskScale}
-                position={sizes.deskPosition}
-                rotation={[0.08, -Math.PI, 0]}
-              />
-            </HeroCamera>
+      <HeroCamera isMobile={isMobile}>
+        <HackerRoom
+          scale={sizes.deskScale}
+          position={sizes.deskPosition}
+          rotation={[0.08, -Math.PI, 0]}
+        />
+      </HeroCamera>
 
-            {/* Контрастная подсветка неоновыми прожекторами */}
-            <spotLight
-              position={[22, 28, 18]}
-              angle={0.33}
-              intensity={2.35}
-              color={'#8ad6ff'}
-              penumbra={0.8}
-              castShadow
-            />
-            <spotLight
-              position={[-24, 10, 12]}
-              angle={0.28}
-              intensity={1.8}
-              color={'#a855f7'}
-              penumbra={0.9}
-            />
-            <ambientLight intensity={0.4} />
+      {/* Неон прожекторы */}
+      <spotLight
+        position={[22, 28, 18]}
+        angle={0.33}
+        intensity={2.35}
+        color={'#8ad6ff'}
+        penumbra={0.8}
+        castShadow
+      />
+      <spotLight
+        position={[-24, 10, 12]}
+        angle={0.28}
+        intensity={1.8}
+        color={'#a855f7'}
+        penumbra={0.9}
+      />
+      <ambientLight intensity={0.4} />
 
-            {/* Вспомогательные 3D-элементы */}
-            <group>
-              <Target position={sizes.targetPosition} />
-              <ReactLogo position={sizes.reactLogoPosition} />
-              <Rings position={sizes.ringPosition} />
-              <Float floatIntensity={1.3}>
-                <Cube position={sizes.cubePosition} />
-              </Float>
-            </group>
+      {/* Дополнительные элементы */}
+      <group>
+        <Target position={sizes.targetPosition} />
+        <ReactLogo position={sizes.reactLogoPosition} />
+        <Rings position={sizes.ringPosition} />
+        <Float floatIntensity={1.3}>
+          <Cube position={sizes.cubePosition} />
+        </Float>
+      </group>
 
-            {/* Мягкие контактные тени под объектами */}
-            <ContactShadows
-              opacity={0.4}
-              scale={90}
-              blur={2}
-              far={55}
-              resolution={1024}
-              color="#000000"
-            />
-          </Suspense>
-        </Canvas>
-      </div>
+      {/* Тени */}
+      <ContactShadows
+        opacity={0.4}
+        scale={90}
+        blur={2}
+        far={55}
+        resolution={1024}
+        color="#000000"
+      />
+    </Suspense>
+  </Canvas>
+</div>
 
       {/* Индикатор прокрутки */}
       <div className="absolute bottom-6 inset-x-0 flex justify-center">

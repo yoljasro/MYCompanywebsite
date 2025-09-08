@@ -1,29 +1,23 @@
-// File: src/components/RatesWidget.jsx
 import React, { useEffect, useMemo, useRef, useState } from "react";
 
 /**
  * RatesWidget — Fiat + Crypto kurslari (gradient, glass, animated background)
- *  - Fiat API: https://api.exchangerate.host/latest
- *  - Crypto API: https://api.coingecko.com/api/v3/simple/price
- *
- * Dizayn:
- *  - Glow orbs + grain
- *  - Tabs (Fiat/Crypto)
- *  - Auto refresh (default: 60s)
- *  - Neon-gradient border, hover parallax
+ *  - Fiat API (primary):  https://api.frankfurter.app/latest?from=USD&to=EUR,RUB
+ *  - Fiat API (fallback): https://open.er-api.com/v6/latest/USD
+ *  - Crypto API:         https://api.coingecko.com/api/v3/simple/price
  *
  * Props (ixtiyoriy):
  *  baseFiat="USD"
- *  fiats=["EUR","RUB","UZS"]
+ *  fiats=["EUR","RUB"]
  *  cryptos=["bitcoin","ethereum","tether","solana"]
- *  vs=["usd","eur","rub","uzs"]
+ *  vs=["usd","eur","rub"]
  *  refreshSec={60}
  *  compact={false}
  */
 
-const D_FIATS   = ["EUR", "RUB", "UZS"];
+const D_FIATS   = ["EUR", "RUB"];
 const D_CRYPTOS = ["bitcoin", "ethereum", "tether", "solana"];
-const D_VS      = ["usd", "eur", "rub", "uzs"];
+const D_VS      = ["usd", "eur", "rub"];
 
 export default function RatesWidget({
   baseFiat   = "USD",
@@ -33,150 +27,233 @@ export default function RatesWidget({
   refreshSec = 60,
   compact    = false,
 }) {
-  // —— styles (scoped) ——
+  // inject styles once
   useEffect(() => {
     const id = "rates-widget-styles";
-    if (document.getElementById(id)) return;
-    const style = document.createElement("style");
-    style.id = id;
-    style.innerHTML = css;
-    document.head.appendChild(style);
+    if (!document.getElementById(id)) {
+      const el = document.createElement("style");
+      el.id = id;
+      el.innerHTML = css;
+      document.head.appendChild(el);
+    }
   }, []);
 
-  // —— animated bg orbs ——
+  // animated bg
   const bgRef = useRef(null);
   useEffect(() => {
-    const c = bgRef.current;
-    if (!c) return;
+    const c = bgRef.current; if (!c) return;
     const ctx = c.getContext("2d");
     let raf;
     const DPR = Math.min(2, window.devicePixelRatio || 1);
-    const resize = () => {
-      c.width = c.clientWidth * DPR;
-      c.height = c.clientHeight * DPR;
-    };
-    resize();
+    const fit = () => { c.width = c.clientWidth * DPR; c.height = c.clientHeight * DPR; };
+    fit();
+
     const colors = [
-      ["rgba(139,92,246,0.28)", "rgba(34,211,238,0.22)"],
-      ["rgba(236,72,153,0.22)", "rgba(99,102,241,0.22)"],
-      ["rgba(34,197,94,0.18)", "rgba(59,130,246,0.18)"],
+      ["rgba(139,92,246,0.28)","rgba(34,211,238,0.22)"],
+      ["rgba(236,72,153,0.22)","rgba(99,102,241,0.22)"],
+      ["rgba(34,197,94,0.18)","rgba(59,130,246,0.18)"],
     ];
-    const orbs = Array.from({ length: 10 }).map((_, i) => ({
-      x: Math.random() * c.width,
-      y: Math.random() * c.height,
-      r: (120 + Math.random() * 200) * DPR,
-      dx: (Math.random() - 0.5) * 0.35 * DPR,
-      dy: (Math.random() - 0.5) * 0.35 * DPR,
-      c: colors[i % colors.length],
+    const orbs = Array.from({length:10}).map((_,i)=>({
+      x: Math.random()*c.width, y: Math.random()*c.height,
+      r: (120+Math.random()*200)*DPR,
+      dx: (Math.random()-0.5)*0.35*DPR, dy:(Math.random()-0.5)*0.35*DPR,
+      c: colors[i%colors.length],
     }));
+
     const draw = () => {
-      ctx.clearRect(0, 0, c.width, c.height);
-      // grain background
-      ctx.fillStyle = "#090a0f";
-      ctx.fillRect(0, 0, c.width, c.height);
-      orbs.forEach(o => {
-        o.x += o.dx; o.y += o.dy;
-        if (o.x < -o.r) o.x = c.width + o.r;
-        if (o.x > c.width + o.r) o.x = -o.r;
-        if (o.y < -o.r) o.y = c.height + o.r;
-        if (o.y > c.height + o.r) o.y = -o.r;
-        const g = ctx.createRadialGradient(o.x, o.y, 0, o.x, o.y, o.r);
-        g.addColorStop(0, o.c[0]);
-        g.addColorStop(1, "transparent");
-        ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(o.x, o.y, o.r, 0, Math.PI * 2); ctx.fill();
+      ctx.clearRect(0,0,c.width,c.height);
+      ctx.fillStyle="#090a0f"; ctx.fillRect(0,0,c.width,c.height);
+      orbs.forEach(o=>{
+        o.x+=o.dx; o.y+=o.dy;
+        if(o.x<-o.r) o.x=c.width+o.r; if(o.x>c.width+o.r) o.x=-o.r;
+        if(o.y<-o.r) o.y=c.height+o.r; if(o.y>c.height+o.r) o.y=-o.r;
+        const g=ctx.createRadialGradient(o.x,o.y,0,o.x,o.y,o.r);
+        g.addColorStop(0,o.c[0]); g.addColorStop(1,"transparent");
+        ctx.fillStyle=g; ctx.beginPath(); ctx.arc(o.x,o.y,o.r,0,Math.PI*2); ctx.fill();
       });
-      raf = requestAnimationFrame(draw);
+      raf=requestAnimationFrame(draw);
     };
     draw();
-    const onResize = () => resize();
-    window.addEventListener("resize", onResize);
-    return () => { cancelAnimationFrame(raf); window.removeEventListener("resize", onResize); };
+    const onResize=()=>fit();
+    window.addEventListener("resize",onResize);
+    return ()=>{ cancelAnimationFrame(raf); window.removeEventListener("resize",onResize); };
   }, []);
 
-  // —— data state ——
-  const [tab, setTab] = useState("fiat"); // fiat | crypto
-  const [fiat, setFiat] = useState(null);
-  const [crypto, setCrypto] = useState(null);
-  const [lf, setLf] = useState(false);
-  const [lc, setLc] = useState(false);
-  const [ef, setEf] = useState("");
-  const [ec, setEc] = useState("");
-  const [at, setAt] = useState(null);
+  // data
+  const [tab,setTab]=useState("fiat");
+  const [fiat,setFiat]=useState(null);
+  const [crypto,setCrypto]=useState(null);
+  const [lf,setLf]=useState(false), [lc,setLc]=useState(false);
+  const [ef,setEf]=useState(""), [ec,setEc]=useState("");
+  const [at,setAt]=useState(null);
+  const [fiatProvider, setFiatProvider] = useState("frankfurter");
 
-  const nf2 = useMemo(() => new Intl.NumberFormat(undefined, { maximumFractionDigits: 2 }), []);
-  const nf4 = useMemo(() => new Intl.NumberFormat(undefined, { maximumFractionDigits: 4 }), []);
+  const nf2 = useMemo(()=>new Intl.NumberFormat(undefined,{maximumFractionDigits:2}),[]);
+  const nf4 = useMemo(()=>new Intl.NumberFormat(undefined,{maximumFractionDigits:4}),[]);
 
-  useEffect(() => {
-    let alive = true;
-    const load = async () => {
+  useEffect(()=>{
+    let alive=true;
+    const load=async()=>{
       await Promise.all([getFiat(), getCrypto()]);
-      alive && setAt(new Date());
+      if(alive) setAt(new Date());
     };
     load();
-    const tick = setInterval(load, Math.max(15, refreshSec) * 1000);
-    return () => { alive = false; clearInterval(tick); };
+    const t=setInterval(load, Math.max(15,refreshSec)*1000);
+    return ()=>{ alive=false; clearInterval(t); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [baseFiat, fiats.join(","), cryptos.join(","), vs.join(","), refreshSec]);
 
-  async function getFiat() {
-    try {
-      setEf(""); setLf(true);
-      const url = `https://api.exchangerate.host/latest?base=${encodeURIComponent(baseFiat)}&symbols=${fiats.map(encodeURIComponent).join(",")}`;
-      const r = await fetch(url);
-      if (!r.ok) throw new Error(`Fiat API: ${r.status}`);
-      const j = await r.json();
-      setFiat(j);
-    } catch (e) {
-      setEf(e.message || "Fiat yuklashda xatolik");
-    } finally { setLf(false); }
-  }
-  async function getCrypto() {
-    try {
-      setEc(""); setLc(true);
-      const url = `https://api.coingecko.com/api/v3/simple/price?ids=${cryptos.join(",")}&vs_currencies=${vs.join(",")}&include_24hr_change=true`;
-      const r = await fetch(url);
-      if (!r.ok) throw new Error(`Crypto API: ${r.status}`);
-      const j = await r.json();
-      setCrypto(j);
-    } catch (e) {
-      setEc(e.message || "Crypto yuklashda xatolik");
-    } finally { setLc(false); }
+  /** Fiat rates: Frankfurter -> (fallback) open.er-api */
+ async function getFiat() {
+  // 1) Frankfurter (asosiy)
+  try {
+    setEf(""); setLf(true);
+    const url1 = `https://api.frankfurter.app/latest?from=${encodeURIComponent(baseFiat)}&to=${fiats.map(encodeURIComponent).join(",")}&v=${Date.now()}`;
+    const r1 = await fetch(url1, { cache: "no-store" });
+    if (!r1.ok) throw new Error(`Frankfurter: ${r1.status}`);
+    const j1 = await r1.json();                       // { base, date, rates: {...} }
+    if (!j1?.rates) throw new Error("Frankfurter: empty rates");
+
+    // Frankfurter natijalari
+    const rates = { ...j1.rates };
+
+    // ❗ Yetishmayotgan valyutalarni aniqlaymiz (masalan, RUB)
+    const missing = fiats.filter(sym => rates[sym] == null);
+
+    // Agar kam bo‘lsa — open.er-api dan olib, merge qilamiz
+    if (missing.length) {
+      const url2 = `https://open.er-api.com/v6/latest/${encodeURIComponent(baseFiat)}?v=${Date.now()}`;
+      const r2 = await fetch(url2, { cache: "no-store" });
+      if (r2.ok) {
+        const j2 = await r2.json();                   // { base_code, rates: {...} }
+        missing.forEach(sym => {
+          const v = j2?.rates?.[sym];
+          if (typeof v === "number") rates[sym] = v;
+        });
+        setFiatProvider("frankfurter+er-api");
+      } else {
+        setFiatProvider("frankfurter");               // fallback bo‘lmadi, lekin borini ko‘rsatamiz
+      }
+    } else {
+      setFiatProvider("frankfurter");
+    }
+
+    setFiat({ base: j1.base, rates });
+    return; // muvaffaqiyatli tugadi
+  } catch (e) {
+    console.warn("Frankfurter failed -> fallback open.er-api", e);
+  } finally {
+    setLf(false);
   }
 
-  // —— tilt/parallax —
-  const cardRef = useRef(null);
-  useEffect(() => {
-    const el = cardRef.current; if (!el) return;
-    const move = (e) => {
-      const r = el.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width - 0.5;
-      const py = (e.clientY - r.top) / r.height - 0.5;
-      el.style.setProperty("--rx", `${(-py * 6).toFixed(2)}deg`);
-      el.style.setProperty("--ry", `${(px * 8).toFixed(2)}deg`);
-      el.style.setProperty("--gx", `${50 + px * 30}%`);
-      el.style.setProperty("--gy", `${50 + py * 30}%`);
-    };
-    const reset = () => {
-      el.style.setProperty("--rx", `0deg`);
-      el.style.setProperty("--ry", `0deg`);
-      el.style.setProperty("--gx", `50%`);
-      el.style.setProperty("--gy", `50%`);
-    };
-    el.addEventListener("mousemove", move);
-    el.addEventListener("mouseleave", reset);
-    return () => { el.removeEventListener("mousemove", move); el.removeEventListener("mouseleave", reset); };
-  }, []);
+    // 2) open.er-api (fallback)
+    try {
+    setEf(""); setLf(true);
+    const url2 = `https://open.er-api.com/v6/latest/${encodeURIComponent(baseFiat)}?v=${Date.now()}`;
+    const r2 = await fetch(url2, { cache: "no-store" });
+    if (!r2.ok) throw new Error(`ER-API: ${r2.status}`);
+    const j2 = await r2.json();
+    const out = { base: j2.base_code, rates: {} };
+    fiats.forEach(sym => { out.rates[sym] = j2?.rates?.[sym]; });
+    setFiat(out);
+    setFiatProvider("open.er-api");
+  } catch (e) {
+    setEf(e.message || "Fiat yuklashda xatolik");
+    setFiat(null);
+  } finally {
+    setLf(false);
+  }
+}
+  // 🔁 Crypto: CoinGecko -> (fallback) Binance + fiat konversiya
+// 🔁 Crypto kurslari (CoinGecko -> Binance fallback)
+async function getCrypto() {
+  try {
+    setEc(""); setLc(true);
 
-  const wrapCls = `rw ${compact ? "rw--compact" : ""}`;
+    // === 1) CoinGecko urunib ko‘ramiz ===
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${cryptos.join(",")}&vs_currencies=${vs.join(",")}&include_24hr_change=true&v=${Date.now()}`;
+    const r = await fetch(url, { cache: "no-store" });
+    if (!r.ok) throw new Error(`CoinGecko: ${r.status}`);
+    const j = await r.json();
+    setCrypto(j);
+    return; // ✅ CoinGecko ishlasa shu yerda to‘xtaydi
+  } catch (e) {
+    console.warn("CoinGecko ishlamadi, Binance fallback:", e.message);
+  }
+
+  // === 2) Binance fallback ===
+  try {
+    const map = {
+      bitcoin: "BTCUSDT",
+      ethereum: "ETHUSDT",
+      tether: "USDTUSDT", // deyarli 1
+      solana: "SOLUSDT",
+    };
+    const symbols = cryptos.map(c => map[c]).filter(Boolean);
+    const urlB = `https://api.binance.com/api/v3/ticker/price?symbols=${encodeURIComponent(JSON.stringify(symbols))}`;
+    const rb = await fetch(urlB, { cache: "no-store" });
+    if (!rb.ok) throw new Error(`Binance: ${rb.status}`);
+    const arr = await rb.json(); // [{symbol:"BTCUSDT",price:"..."}]
+
+    // Fiat kurslari (USD -> EUR/RUB)
+    const usdTo = {
+      EUR: fiat?.rates?.EUR ?? 0,
+      RUB: fiat?.rates?.RUB ?? 0,
+    };
+
+    // Binance USD narxlaridan chiqadigan obyekt
+    const out = {};
+    for (const c of cryptos) {
+      const sym = map[c];
+      const row = arr.find(x => x.symbol === sym);
+      if (!row) continue;
+      const usd = parseFloat(row.price) || 0;
+
+      const entry = {};
+      vs.forEach(v => {
+        const V = v.toUpperCase();
+        if (V === "USD") entry.usd = usd;
+        else if (V === "EUR" && usdTo.EUR) entry.eur = usd * usdTo.EUR;
+        else if (V === "RUB" && usdTo.RUB) entry.rub = usd * usdTo.RUB;
+      });
+
+      out[c] = entry;
+    }
+
+    setCrypto(out);
+  } catch (e) {
+    setEc(e.message || "Crypto yuklashda xatolik");
+    setCrypto(null);
+  } finally {
+    setLc(false);
+  }
+}
+
+
+  // tilt
+  const cardRef=useRef(null);
+  useEffect(()=>{
+    const el=cardRef.current; if(!el) return;
+    const move=(e)=>{
+      const r=el.getBoundingClientRect();
+      const px=(e.clientX-r.left)/r.width-0.5;
+      const py=(e.clientY-r.top)/r.height-0.5;
+      el.style.setProperty("--rx", `${(-py*6).toFixed(2)}deg`);
+      el.style.setProperty("--ry", `${(px*8).toFixed(2)}deg`);
+      el.style.setProperty("--gx", `${50+px*30}%`);
+      el.style.setProperty("--gy", `${50+py*30}%`);
+    };
+    const reset=()=>{ el.style.setProperty("--rx","0deg"); el.style.setProperty("--ry","0deg"); el.style.setProperty("--gx","50%"); el.style.setProperty("--gy","50%"); };
+    el.addEventListener("mousemove",move); el.addEventListener("mouseleave",reset);
+    return ()=>{ el.removeEventListener("mousemove",move); el.removeEventListener("mouseleave",reset); };
+  },[]);
+
+  const wrapCls=`rw ${compact?"rw--compact":""}`;
 
   return (
     <section className={wrapCls}>
-      {/* background layers */}
       <canvas ref={bgRef} className="rw-bg" />
       <div className="rw-grain" />
-
-      {/* widget card */}
       <div ref={cardRef} className="rw-card">
         <div className="rw-border" />
         <div className="rw-head">
@@ -184,33 +261,24 @@ export default function RatesWidget({
             <div className="rw-badge">Live</div>
             <h3>Курсы валют и криптовалют</h3>
             <p className="rw-sub">
-              База: <strong>{baseFiat}</strong>
-              {at && <> · Обновлено: {at.toLocaleTimeString()}</>}
+              База: <strong>{baseFiat}</strong>{at && <> · Обновлено: {at.toLocaleTimeString()}</>}
             </p>
           </div>
-
           <div className="rw-tabs">
-            <button
-              className={`rw-tab ${tab === "fiat" ? "is-active" : ""}`}
-              onClick={() => setTab("fiat")}
-            >Fiat</button>
-            <button
-              className={`rw-tab ${tab === "crypto" ? "is-active" : ""}`}
-              onClick={() => setTab("crypto")}
-            >Crypto</button>
+            <button className={`rw-tab ${tab==="fiat"?"is-active":""}`} onClick={()=>setTab("fiat")}>Fiat</button>
+            <button className={`rw-tab ${tab==="crypto"?"is-active":""}`} onClick={()=>setTab("crypto")}>Crypto</button>
           </div>
         </div>
 
-        {tab === "fiat" ? (
-          <FiatTable data={fiat} nf2={nf2} base={baseFiat} fiats={fiats} loading={lf} error={ef} />
-        ) : (
-          <CryptoGrid data={crypto} nf2={nf2} nf4={nf4} vs={vs} cryptos={cryptos} loading={lc} error={ec} />
-        )}
+        {tab==="fiat"
+          ? <FiatTable data={fiat} nf2={nf2} base={baseFiat} fiats={fiats} loading={lf} error={ef}/>
+          : <CryptoGrid data={crypto} nf2={nf2} nf4={nf4} vs={vs} cryptos={cryptos} loading={lc} error={ec}/>
+        }
 
         <div className="rw-foot">
-          <span>exchangerate.host</span>
+          <span>{fiatProvider === "frankfurter" ? "frankfurter.app" : "open.er-api.com"}</span>
           <span>CoinGecko</span>
-          <span>Auto: {Math.max(15, refreshSec)}s</span>
+          <span>Auto: {Math.max(15,refreshSec)}s</span>
         </div>
       </div>
     </section>
@@ -218,23 +286,19 @@ export default function RatesWidget({
 }
 
 /* ---------- subviews ---------- */
-
-function FiatTable({ data, nf2, base, fiats, loading, error }) {
-  if (loading && !data) return <Skeleton rows={3} />;
-  if (error) return <ErrorBox text={error} />;
-  if (!data?.rates) return <EmptyBox text="Нет данных по валютам." />;
+function FiatTable({ data, nf2, base, fiats, loading, error }){
+  if (loading && !data) return <Skeleton rows={3}/>;
+  if (error) return <ErrorBox text={error}/>;
+  if (!data?.rates) return <EmptyBox text="Нет данных по валютам."/>;
 
   return (
     <div className="rw-table-wrap">
       <table className="rw-table">
         <thead>
-          <tr>
-            <th>Пара</th>
-            <th className="t-right">Курс</th>
-          </tr>
+          <tr><th>Пара</th><th className="t-right">Курс</th></tr>
         </thead>
         <tbody>
-          {fiats.map(sym => (
+          {fiats.map(sym=>(
             <tr key={sym}>
               <td>{base} / {sym}</td>
               <td className="t-right">{data.rates[sym] ? nf2.format(data.rates[sym]) : "—"}</td>
@@ -246,32 +310,30 @@ function FiatTable({ data, nf2, base, fiats, loading, error }) {
   );
 }
 
-function CryptoGrid({ data, nf2, nf4, vs, cryptos, loading, error }) {
-  if (loading && !data) return <Skeleton rows={cryptos.length} />;
-  if (error) return <ErrorBox text={error} retryHint="CoinGecko rate limit bo‘lishi mumkin" />;
+function CryptoGrid({ data, nf2, nf4, vs, cryptos, loading, error }){
+  if (loading && !data) return <Skeleton rows={cryptos.length}/>;
+  if (error) return <ErrorBox text={error} retryHint="CoinGecko rate limit bo‘lishi mumkin"/>;
   if (!data) return <EmptyBox text="Нет данных по крипто." />;
 
   return (
     <div className="rw-grid">
-      {cryptos.map(id => {
-        const row = data[id] || {};
-        const ch = row.usd_24h_change;
-        const pos = typeof ch === "number" && ch >= 0;
+      {cryptos.map(id=>{
+        const row=data[id]||{};
+        const ch=row.usd_24h_change;
+        const pos=typeof ch==="number" && ch>=0;
         return (
           <div key={id} className="rw-coin">
             <div className="rw-coin-top">
-              <h4 className="cap">{id.replace(/-/g, " ")}</h4>
-              {typeof ch === "number" && (
-                <span className={`chg ${pos ? "up" : "dn"}`}>
-                  {pos ? "▲" : "▼"} {nf2.format(ch)}%
-                </span>
+              <h4 className="cap">{id.replace(/-/g," ")}</h4>
+              {typeof ch==="number" && (
+                <span className={`chg ${pos?"up":"dn"}`}>{pos?"▲":"▼"} {nf2.format(ch)}%</span>
               )}
             </div>
             <div className="rw-coin-grid">
-              {vs.map(v => {
-                const key = v.toLowerCase();
-                const price = row[key];
-                const val = price !== undefined ? (price < 1 ? nf4.format(price) : nf2.format(price)) : "—";
+              {vs.map(v=>{
+                const key=v.toLowerCase();
+                const price=row[key];
+                const val=price!==undefined ? (price<1 ? nf4.format(price) : nf2.format(price)) : "—";
                 return (
                   <div key={v} className="rw-coin-row">
                     <span className="vs">{v.toUpperCase()}</span>
@@ -288,7 +350,6 @@ function CryptoGrid({ data, nf2, nf4, vs, cryptos, loading, error }) {
 }
 
 /* ---------- helpers ---------- */
-
 function Skeleton({ rows = 3 }) {
   return (
     <div className="rw-skel">

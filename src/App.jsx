@@ -42,13 +42,13 @@ const App = () => {
               <About />
               <Projects />
               <WorkExperience />
-              <RatesWidget
-                baseFiat="UZS"
-                fiats={["USD", "RUB", "EUR"]}
-                cryptos={["bitcoin", "ethereum", "tether", "solana"]}
-                vs={["usd", "eur", "rub", "uzs"]}
-                refreshSec={45}
-              />
+             <RatesWidget
+  baseFiat="USD"
+  fiats={["EUR","RUB"]}
+  cryptos={["bitcoin","ethereum","tether","solana"]}
+  vs={["usd","eur","rub"]}
+  refreshSec={45}
+/>
             </main>
           }
         />

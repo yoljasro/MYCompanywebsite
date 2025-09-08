@@ -185,30 +185,24 @@ export default function CryptoBank() {
                     <div className="cb-badge">
                         <FaWallet /> Платёжная экосистема • Кастодиальные и некастодиальные кошельки
                     </div>
-                    <h1>
-                        CryptoBank — полный крипто‑банк
-                        <span> токен, P2P, обмен, on/off‑ramp, карты</span>
+                    <h1 className="cb-titlee">
+                       CryptoBank 
+                        {/* <span> токен, P2P, обмен, on/off‑ramp, карты</span> */}
                     </h1>
                     <p className="cb-sub">
                         Мы строим инфраструктуру для крипто‑платежей: кошельки, обмен, P2P-переводы,
                         мерчант‑эквайринг, мультисетевые переводы и SDK для интеграции. Приватность,
                         безопасность и комплаенс — с первого дня.
                     </p>
-                    <div className="cb-cta">
-                        <Link to="/contact" className="btn btn-primary">Инвестировать <FaArrowRight /></Link>
-                        <a href="#features" className="btn btn-ghost">Что внутри?</a>
-                        <a href="#token" className="btn btn-ghost">Tokenomics</a>
-                        <a href="#roadmap" className="btn btn-ghost">Roadmap</a>
-                    </div>
 
                     {/* Floating chips */}
-                    <div className="cb-floaters">
+                    {/* <div className="cb-floaters">
                         <span className="chip">Own Token</span>
                         <span className="chip">P2P</span>
                         <span className="chip">DEX/CEX</span>
                         <span className="chip">KYC/AML</span>
                         <span className="chip">Cards</span>
-                    </div>
+                    </div> */}
                 </div>
             </header>
 

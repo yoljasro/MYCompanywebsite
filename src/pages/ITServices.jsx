@@ -234,7 +234,7 @@ const ITServices = () => {
               <li><FaCheckCircle /> Хостинг и домен (1 месяц)</li>
               <li><FaCheckCircle /> Гарантия и хотфиксы 30 дней</li>
             </ul>
-            <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer">Заказать</a>
+            <a className="btn primary" href="/contact"  rel="noreferrer">Заказать</a>
           </div>
 
           <div className="price-card best">
@@ -251,7 +251,7 @@ const ITServices = () => {
               <li><FaCheckCircle /> Автотесты + CI/CD</li>
               <li><FaCheckCircle /> Поддержка 2 месяца</li>
             </ul>
-            <a className="btn primary" href="https://t.me/" target="_blank" rel="noreferrer">Заказать</a>
+            <a className="btn primary" href="/contact" rel="noreferrer">Заказать</a>
           </div>
 
           <div className="price-card">
@@ -266,14 +266,14 @@ const ITServices = () => {
               <li><FaCheckCircle /> SRE-подход и 24/7 мониторинг</li>
               <li><FaCheckCircle /> SLA по доступности и реакции</li>
             </ul>
-            <a className="btn ghost" href="https://t.me/" target="_blank" rel="noreferrer">Связаться</a>
+            <a className="btn ghost" href="/contact"  rel="noreferrer">Связаться</a>
           </div>
 
         </div>
       </section>
 
       {/* Кейсы */}
-      <section className="cases scale">
+      {/* <section className="cases scale">
         <h2>Кейсы</h2>
         <div className="cases-wrap">
           <button className="nav left" onClick={()=>setIdx((idx-1+cases.length)%cases.length)} aria-label="Назад">
@@ -294,7 +294,7 @@ const ITServices = () => {
             <FaChevronRight/>
           </button>
         </div>
-      </section>
+      </section> */}
 
       {/* FAQ */}
       <section className="faq rise">
