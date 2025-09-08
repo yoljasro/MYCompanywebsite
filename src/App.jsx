@@ -20,6 +20,9 @@ import AIProjectFaceID from "./sections/Ai.jsx";
 import InternalProjects from "./pages/InternalProjects.jsx";
 import CrispChat from "./components/CrispChat.jsx";
 import Mystic from "./pages/Mystic.jsx";
+import CryptoBank from "./pages/crypto.jsx";
+import TravelCand from "./pages/travelcand.jsx";
+
 
 const App = () => {
   return (
@@ -62,6 +65,8 @@ const App = () => {
         <Route path="/ai" element={<AIProjectFaceID />} />
         <Route path="/mobile" element={<MobileApps />} />
         <Route path="/mystic" element={<Mystic />} />
+        <Route path="/fintech" element={<CryptoBank />} />
+        <Route path="/travelcand" element={<TravelCand />} />
         <Route path="/internal" element={<InternalProjects />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>
