@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   FaCode, FaBullhorn, FaChartLine, FaRobot, FaMobileAlt, FaBrain, FaShareAlt,
-  FaCamera, FaVideo, FaBullseye, FaHandHoldingUsd, FaRocket,
-  FaCheckCircle, FaShieldAlt, FaHeadset, FaBolt, FaGlobe,
+  FaCamera, FaVideo, FaBullseye, FaHandHoldingUsd, FaRocket,FaUserFriends,
+  FaCheckCircle, FaShieldAlt, FaHeadset, FaBolt, FaGlobe, FaMagic,
   FaTelegramPlane, FaWhatsapp, FaPhone
 } from "react-icons/fa";
 import "./Services.css";
@@ -131,19 +131,24 @@ const Services = () => {
           </Link>
 
           {/* Investments */}
+           <Link to={"/services/ai"} className="card-link">
           <div className="card gradient-green slide-up">
-            <div className="card-icon large"><FaChartLine /></div>
-            <h2>Инвестиции</h2>
-            <div className="buttons">
-              <span className="btn-like"><FaHandHoldingUsd /> В наши продукты</span>
-              <span className="btn-like"><FaRocket /> В перспективные проекты</span>
-            </div>
-          </div>
+  <div className="card-icon large"><FaRobot /></div>
+  <h2>AI-решения</h2>
+  <div className="buttons">
+    <span className="btn-like"><FaBrain /> Генерация контента</span>
+    <span className="btn-like"><FaMagic /> Автоматизация процессов</span>
+    <span className="btn-like"><FaChartLine /> Аналитика и прогнозы</span>
+    <span className="btn-like"><FaUserFriends /> AI-чаты и ассистенты</span>
+  </div>
+</div>
+</Link>
+
         </div>
       </div>
 
       {/* CTA — как на маркетинг странице */}
-   
+
 
       {/* Why us */}
       <section className="why-us slide-up">

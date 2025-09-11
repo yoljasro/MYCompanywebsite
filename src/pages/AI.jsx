@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import "./Al.css";
 
-export default function AIServices() {
+export default function   AIServices() {
   const canvasRef = useRef(null);
 
   // Infinite animated background (stars + soft orbs)
@@ -210,7 +210,7 @@ export default function AIServices() {
           <Link to="/contact" className="ai-btn primary">
             Обсудить проект <FaArrowRight />
           </Link>
-          <Link to="/itprojects" className="ai-btn ghost">Портфолио</Link>
+          {/* <Link to="/itprojects" className="ai-btn ghost">Портфолио</Link> */}
         </div>
       </section>
 
@@ -225,12 +225,12 @@ export default function AIServices() {
             </div>
             <p className="ai-desc">{f.desc}</p>
             <div className="ai-actions">
-              <Link to="/contact" className="ai-chip">Консультация</Link>
-              {f.to && (
+              {/* <Link to="/contact" className="ai-chip">Консультация</Link> */}
+              {/* {f.to && (
                 <Link to={f.to} className="ai-chip ghost">
                   Подробнее
                 </Link>
-              )}
+              )} */}
             </div>
           </article>
         ))}
@@ -252,7 +252,7 @@ export default function AIServices() {
       </section>
 
       {/* CTA */}
-      <section className="ai-final slide-up">
+      {/* <section className="ai-final slide-up">
         <div className="ai-final-inner">
           <div className="glow-border" />
           <h3>Хотите внедрить AI в бизнес-процессы?</h3>
@@ -263,7 +263,7 @@ export default function AIServices() {
             Хочу внедрить AI <FaArrowRight />
           </Link>
         </div>
-      </section>
+      </section> */}
     </div>
   );
 }

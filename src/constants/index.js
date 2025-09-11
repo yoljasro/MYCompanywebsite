@@ -2,7 +2,7 @@
 
 export const navLinks = [
   { id: 1, name: 'Услуги',      href: '/services' },
-  { id: 2, name: 'Для инвестиций',  href: '/internal'   },
+  { id: 2, name: ' Инвестиции',  href: '/internal'   },
   { id: 3, name: 'Портфолио',   href: '/ourservices'    },
   { id: 4, name: 'Контакты',    href: '/contact' },
 ];

@@ -88,21 +88,21 @@ export default function InternalProjects() {
 
     const draw = () => {
       t += 0.0035;
-      const { width:w, height:h } = c;
-      ctx.clearRect(0,0,w,h);
+      const { width: w, height: h } = c;
+      ctx.clearRect(0, 0, w, h);
 
       const layers = [
-        { hue: 265, amp: 38, alpha:.10 },
-        { hue: 195, amp: 28, alpha:.08 },
-        { hue: 315, amp: 24, alpha:.06 },
+        { hue: 265, amp: 38, alpha: .10 },
+        { hue: 195, amp: 28, alpha: .08 },
+        { hue: 315, amp: 24, alpha: .06 },
       ];
       layers.forEach((L, i) => {
         ctx.beginPath();
         for (let x = 0; x <= w; x += 8) {
-          const y = h*0.25 + Math.sin(x*0.004 + t*(1+i*0.6)) * (L.amp*DPR) + i*60*DPR;
-          if (x===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+          const y = h * 0.25 + Math.sin(x * 0.004 + t * (1 + i * 0.6)) * (L.amp * DPR) + i * 60 * DPR;
+          if (x === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
         }
-        ctx.lineTo(w,h); ctx.lineTo(0,h); ctx.closePath();
+        ctx.lineTo(w, h); ctx.lineTo(0, h); ctx.closePath();
         ctx.fillStyle = `hsla(${L.hue},90%,60%,${L.alpha})`;
         ctx.fill();
       });
@@ -152,23 +152,22 @@ export default function InternalProjects() {
       <section className="ip-grid">
         <ProjectCard
           theme="violet"
-          logo={<span className="logo-circ"><FaMagic/></span>}
+          logo={<span className="logo-circ"><FaMagic /></span>}
           title="Mystic"
-          tag="Астрология • Мета-практики"
+          tag="Астрология • Знакомства • Медитации"
           points={[
-            "Таро-расклады и консультации онлайн",
-            "Натальная карта и совместимость",
-            "Колесо Фортуны и медитации",
-            "Персональные рекомендации по дате/времени"
+            "Астрологические прогнозы",
+            "Знакомства и комьюнити по интересам",
+            "Медитации и практики для гармонии",
           ]}
-          offer="Ищем партнёров для масштабирования контента, маркетинга и подписочной модели в СНГ/МЕНА."
-          onPrimary={goContact}
-          onSecondary={goContact}
+          offer="Mystic — это инвестиционный проект, который объединяет астрологию, знакомства и практики для роста. Ищем партнёров для масштабирования контента и маркетинга."
+          route="/mystic"
         />
+
 
         <ProjectCard
           theme="cyan"
-          logo={<span className="logo-circ"><FaWallet/></span>}
+          logo={<span className="logo-circ"><FaWallet /></span>}
           title="FinTech (Crypto Bank)"
           tag="Платёжная экосистема"
           points={[
@@ -178,14 +177,13 @@ export default function InternalProjects() {
             "Контроль рисков, KYC/AML, антифрод"
           ]}
           offer="Открыты к инвестициям и стратегическим интеграциям: эмиссия карт, процессинг, локализация под рынки."
-          onPrimary={goContact}
-          onSecondary={goContact}
+          route="/fintech"
         />
 
         <ProjectCard
           theme="mint"
-          logo={<span className="logo-circ"><FaPlaneDeparture/></span>}
-          title="TravelCand"
+          logo={<span className="logo-circ"><FaPlaneDeparture /></span>}
+          title="StellarBond"
           tag="Туризм и путешествия"
           points={[
             "Умное планирование маршрутов (AI)",
@@ -194,8 +192,7 @@ export default function InternalProjects() {
             "Комьюнити-гид и UGC-контент"
           ]}
           offer="Нужны партнёры из travel-сферы и инвестиции в контент/договорные сети, запуск пилота в 2–3 странах."
-          onPrimary={goContact}
-          onSecondary={goContact}
+          route="/travelcand"
         />
       </section>
 
@@ -203,23 +200,23 @@ export default function InternalProjects() {
       <section className="ip-why reveal">
         <h2>Почему это интересно инвестору</h2>
         <div className="ip-why-grid">
-          <Why icon={<FaRocket/>} title="Быстрый пилот">
+          <Why icon={<FaRocket />} title="Быстрый пилот">
             MVP-подход, time-to-market 6–12 недель, метрики и экономика на ранних этапах.
           </Why>
-          <Why icon={<FaChartPie/>} title="Прозрачная экономика">
+          <Why icon={<FaChartPie />} title="Прозрачная экономика">
             Юнит-экономика, отчётность, недельные спринты и трекинг гипотез.
           </Why>
-          <Why icon={<FaShieldAlt/>} title="Риски под контролем">
+          <Why icon={<FaShieldAlt />} title="Риски под контролем">
             Правовые и тех-риски, безопасность данных, масштабируемая архитектура.
           </Why>
-          <Why icon={<FaGlobeEurope/>} title="Глобальный взгляд">
+          <Why icon={<FaGlobeEurope />} title="Глобальный взгляд">
             Продукты проектируются для быстрого выхода на зарубежные рынки.
           </Why>
         </div>
         <div className="ip-cta">
           {/* MAIN CTA → /contact */}
           <button type="button" onClick={goContact} className="ip-btn">
-            Связаться и получить питч <FaArrowRight/>
+            Связаться и получить питч <FaArrowRight />
           </button>
         </div>
       </section>
@@ -227,9 +224,10 @@ export default function InternalProjects() {
   );
 }
 
-function ProjectCard({ theme, logo, title, tag, points, offer, onPrimary, onSecondary }) {
+function ProjectCard({ theme, logo, title, tag, points, offer, route }) {
   const cardRef = useRef(null);
   const [tilt, setTilt] = useState({ rx: 0, ry: 0 });
+  const navigate = useNavigate();
 
   const onMove = (e) => {
     const r = cardRef.current.getBoundingClientRect();
@@ -239,9 +237,14 @@ function ProjectCard({ theme, logo, title, tag, points, offer, onPrimary, onSeco
   };
   const onLeave = () => setTilt({ rx: 0, ry: 0 });
 
-  // Enter bosilganda ham ishlasin
+  const go = () => route && navigate(route);
+
+  // Enter / Space bilan ham ishlasin
   const onKeyDown = (e) => {
-    if (e.key === "Enter") onPrimary?.();
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      go();
+    }
   };
 
   return (
@@ -249,8 +252,11 @@ function ProjectCard({ theme, logo, title, tag, points, offer, onPrimary, onSeco
       ref={cardRef}
       onMouseMove={onMove}
       onMouseLeave={onLeave}
+      onClick={go}
       onKeyDown={onKeyDown}
       tabIndex={0}
+      role="button"
+      aria-label={`${title} — Подробнее`}
       className={`ip-card theme-${theme} reveal`}
       style={{ transform: `rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)` }}
     >
@@ -272,9 +278,14 @@ function ProjectCard({ theme, logo, title, tag, points, offer, onPrimary, onSeco
       <p className="ip-offer">{offer}</p>
 
       <div className="ip-actions">
-        {/* BARCHA TUGMALAR → /contact */}
-        <button type="button" onClick={onPrimary} className="ip-cta filled">Инвестировать</button>
-        <button type="button" onClick={onSecondary} className="ip-cta ghost">Стать партнёром</button>
+        {/* BARCHA TUGMALAR → card route */}
+        <button
+          type="button"
+          className="ip-cta filled"
+          onClick={(e) => { e.stopPropagation(); go(); }}
+        >
+          Подробно
+        </button>
       </div>
     </article>
   );
@@ -289,7 +300,7 @@ function Why({ icon, title, children }) {
         <h4>{title}</h4>
         <p>{children}</p>
       </div>
-      <span className="sheen"/>
+      <span className="sheen" />
     </div>
   );
 }

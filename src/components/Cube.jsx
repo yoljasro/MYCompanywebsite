@@ -10,26 +10,29 @@ const Cube = ({ ...props }) => {
   const cubeRef = useRef();
   const [hovered, setHovered] = useState(false);
 
-  // Animatsiya
+  // Animatsiya (memory leak bo‘lmasligi uchun cleanup bilan)
   useGSAP(() => {
     if (!cubeRef.current) return;
 
-    gsap.timeline({ repeat: -1, repeatDelay: 0.4 })
-      .to(cubeRef.current.rotation, {
-        y: hovered ? '+=2' : `+=${Math.PI * 2}`,
-        x: hovered ? '+=1.6' : `-=${Math.PI * 2}`,
-        duration: hovered ? 3.2 : 2.3,
-        ease: 'power1.inOut',
-        stagger: { each: 0.12 },
-      });
-  }, { dependencies: [hovered] });
+    const ctx = gsap.context(() => {
+      gsap.timeline({ repeat: -1, repeatDelay: 0.4 })
+        .to(cubeRef.current.rotation, {
+          y: hovered ? '+=2' : `+=${Math.PI * 2}`,
+          x: hovered ? '+=1.6' : `-=${Math.PI * 2}`,
+          duration: hovered ? 3.2 : 2.3,
+          ease: 'power1.inOut',
+        });
+    }, cubeRef);
+
+    return () => ctx.revert();
+  }, [hovered]);
 
   return (
-    <Float floatIntensity={2.5} speed={hovered ? 4 : 2}>
+    <Float floatIntensity={hovered ? 3 : 1.6} speed={hovered ? 3.5 : 2}>
       <group
         position={[9, -4, 0]}
         rotation={[2.6, 0.8, -1.8]}
-        scale={hovered ? 0.9 : 0.74} // hover qilinganda biroz kattalashadi
+        scale={hovered ? 0.88 : 0.74}
         dispose={null}
         {...props}
       >
@@ -42,7 +45,6 @@ const Cube = ({ ...props }) => {
           onPointerEnter={() => setHovered(true)}
           onPointerLeave={() => setHovered(false)}
         >
-          {/* Hover paytida rang va yorqinlik biroz o‘zgaradi */}
           <meshMatcapMaterial
             matcap={texture}
             toneMapped={false}

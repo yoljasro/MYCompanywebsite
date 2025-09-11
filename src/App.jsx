@@ -8,7 +8,7 @@ import WorkExperience from './sections/Experience.jsx';
 import Services from './pages/Services.jsx';
 import ITServices from "./pages/ITServices";
 import Marketing from './pages/MarketingServices.jsx';
-import Investments from "./pages/Investments";
+// import Investments from "./pages/Investments";
 import AIServices from "./pages/AI.jsx";
 import Contact from "./pages/contact.jsx";
 import RatesWidget from "./sections/RatesWidget.jsx"
@@ -57,7 +57,7 @@ const App = () => {
         <Route path="/services" element={<Services />} />
         <Route path="/services/it" element={<ITServices />} />
         <Route path="/services/marketing" element={<Marketing />} />
-        <Route path="/services/investments" element={<Investments />} />
+        {/* <Route path="/services/investments" element={<Investments />} /> */}
         <Route path="/services/ai" element={<AIServices />} />
         <Route path="/ourservices" element={<OurServices />} />
         <Route path="/itprojects" element={<ITProjects />} />

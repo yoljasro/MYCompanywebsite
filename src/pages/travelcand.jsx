@@ -161,16 +161,16 @@ export default function TravelCand() {
       <header className="tc-hero">
         <div className="tc-hero-inner">
           {/* <div className="tc-badge"><FaStar/> Умное планирование • Бронирования • Поддержка</div> */}
-          <h1>TravelCand — полный travel‑суперапп</h1>
+          <h1>StellarBond — полный travel‑суперапп</h1>
           <p className="tc-sub">
             Один сервис для всего путешествия: идея → план → бронирования → развлечения → трансфер. 
             Прилетел в новую страну — сразу видишь цены, локации, парашют‑клубы, маршруты и такси из отеля.
           </p>
-          <div className="tc-cta">
+          {/* <div className="tc-cta">
             <Link to="/contact" className="btn btn-primary">Стать партнёром <FaArrowRight/></Link>
             <a href="#features" className="btn btn-ghost">Что внутри?</a>
             <a href="#how" className="btn btn-ghost">Как это работает</a>
-          </div>
+          </div> */}
 
           {/* Floating destination pins */}
           <div className="tc-pins">
@@ -209,13 +209,13 @@ export default function TravelCand() {
 
       <section className="tc-section">
         <div className="tc-cta center">
-          <Link to="/contact" className="btn btn-primary">Подключить TravelCand <FaArrowRight/></Link>
+          <Link to="/contact" className="btn btn-primary">Подключить StellarBond <FaArrowRight/></Link>
         </div>
       </section>
 
       <footer className="tc-foot">
         <Link to="/internal" className="tc-back">← Ко всем внутренним проектам</Link>
-        <div className="tc-rights">© {new Date().getFullYear()} TravelCand (внутренний проект)</div>
+        <div className="tc-rights">© {new Date().getFullYear()} StellarBond (внутренний проект)</div>
       </footer>
     </div>
   );

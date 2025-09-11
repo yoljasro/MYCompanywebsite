@@ -310,12 +310,12 @@ export default function Mystic() {
             практики и медитации, напоминания и персональные советы по продуктивности и благополучию.
           </p>
 
-          <div className="m-cta">
+          {/* <div className="m-cta">
             <Link to="/contact" className="btn btn-primary">
               Хочу установить в компании <FaArrowRight />
             </Link>
             <a href="#features" className="btn btn-ghost">Что внутри?</a>
-          </div>
+          </div> */}
 
           {/* 3D floater chips */}
           <div className="m-floaters">
@@ -329,22 +329,38 @@ export default function Mystic() {
       </header>
 
       {/* Feature Cards */}
-      <section id="features" className="m-section">
-        <h2>Ключевые возможности</h2>
-        <p className="m-section-sub">
-          Собираем практики в единое приложение: от таро и натальной карты до медитаций и трекинга состояния.
-        </p>
-        <div className="m-grid">
-          <Card icon={<FaCompass />} title="Таро-расклады и консультации"
-                desc="Быстрые спрэды на день/неделю, глубокие расклады на запрос, расшифровки и советы."/>
-          <Card icon={<FaMoon />} title="Натальная карта и совместимость"
-                desc="Построение карты, аспекты, совместимость партнёров, сильные и слабые стороны."/>
-          <Card icon={<FaHeartbeat />} title="Медитации и практики"
-                desc="Сеансы на фокус, сон, баланс; дыхательные техники и ритуалы благополучия."/>
-          <Card icon={<FaClock />} title="Персональные рекомендации"
-                desc="Окна удачи, рекомендованные часы, напоминания и трекинг самочувствия."/>
-        </div>
-      </section>
+   <section id="features" className="m-section">
+  <h2>Ключевые возможности</h2>
+  <p className="m-section-sub">
+    Астрология, знакомства и медитации в одном приложении: прогнозы, совместимость и персональные рекомендации.
+  </p>
+
+  <div className="m-grid">
+    <Card
+      icon={<FaMoon />}
+      title="Астрологические прогнозы"
+      desc="Ежедневные и недельные прогнозы, транзиты и события, рекомендации по датам."
+    />
+
+    <Card
+      icon={<FaCompass />}
+      title="Знакомства и комьюнити"
+      desc="Профили по знакам и совместимости, матчи по интересам, чаты и тематические группы."
+    />
+
+    <Card
+      icon={<FaHeartbeat />}
+      title="Медитации и практики"
+      desc="Сеансы для фокуса, сна и баланса, дыхательные техники и ритуалы благополучия."
+    />
+
+    <Card
+      icon={<FaClock />}
+      title="Персональные рекомендации"
+      desc="Окна удачи, лучшие часы для действий, напоминания и трекинг самочувствия."
+    />
+  </div>
+</section>
 
       {/* How it works */}
       <section className="m-section">
