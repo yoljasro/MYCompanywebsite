@@ -227,7 +227,13 @@ const styles = `
 
 /* Hero */
 .hero{ position:relative; padding: 120px 16px 40px; }
-.hero-inner{ max-width:1100px; margin:0 auto; text-align:center; }
+.hero-inner{ 
+  max-width:1100px; 
+  margin:0 auto; 
+  text-align:center; 
+  position:relative; 
+  z-index:2;                /* kontent doimo skanerdan yuqorida */
+}
 .badge{ display:inline-block; padding:.4rem .8rem; border:1px solid var(--stroke); border-radius:999px; color:#cfe7ff; background:rgba(255,255,255,.04); }
 .hero h1{
   margin:.9rem 0 .4rem;
@@ -245,7 +251,16 @@ const styles = `
   background:linear-gradient(135deg,var(--vio),var(--cy)); color:#0b0f16 }
 
 /* CSS face scanner */
-.scanner{ position:absolute; inset:0; pointer-events:none; display:flex; align-items:flex-end; justify-content:center; }
+.scanner{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  bottom:-28px;             /* biroz pastroqqa tushirdik */
+  width:100%;
+  max-width:1100px;
+  pointer-events:none;
+  z-index:1;                /* hero kontentidan pastda, fon canvasidan yuqorida */
+}
 .face{
   position:relative; width:min(560px, 78vw); height:min(300px, 42vw);
   border-radius:22px; overflow:hidden; border:1px solid var(--stroke);
@@ -254,7 +269,7 @@ const styles = `
               linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
   backdrop-filter: blur(2px);
   box-shadow: 0 40px 120px rgba(0,0,0,.45);
-  transform: translateY(24px);
+  transform:none;           /* avvalgi translateY(24px) olib tashlandi */
 }
 .eye{ position:absolute; top:32%; width:12%; height:16%; border-radius:50%; background:rgba(255,255,255,.12); }
 .eye:after{ content:""; position:absolute; inset:20% 24%; border-radius:50%; background:#fff; opacity:.85; animation:blink 5s infinite; }
@@ -316,6 +331,6 @@ const styles = `
 /* Responsive tweaks */
 @media (max-width: 780px){
   .hero{ padding-top: 110px; }
-  .scanner .face{ transform: translateY(16px); }
+  .scanner{ bottom:-14px; }   /* mobil ekranda joylashuvni yumshatdik */
 }
 `;

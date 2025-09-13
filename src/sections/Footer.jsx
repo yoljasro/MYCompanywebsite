@@ -23,7 +23,7 @@ const Footer = () => {
               <img src="https://cdn-icons-png.flaticon.com/512/3670/3670070.png" alt="tg" className="h-4 w-4" />
             </a>
             <a
-              href="https://vk.com/id89111004793"
+              href="https://vk.com/aomentertainment"
               target="_blank" rel="noopener noreferrer"
               className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:scale-105 transition"
               aria-label="VK"
@@ -31,7 +31,7 @@ const Footer = () => {
               <img src="https://img.icons8.com/?size=100&id=13977&format=png&color=ffffff" alt="vk" className="h-4 w-4" />
             </a>
             <a
-              href="https://l.likee.video/p/jQRMDB"
+              href="https://l.likee.video/p/SCCTG8"
               target="_blank" rel="noopener noreferrer"
               className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:scale-105 transition"
               aria-label="Likee"

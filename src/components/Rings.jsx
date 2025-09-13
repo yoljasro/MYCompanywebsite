@@ -1,54 +1,43 @@
-import { useGSAP } from '@gsap/react';
-import { Center, useTexture } from '@react-three/drei';
-import gsap from 'gsap';
-import { useCallback, useRef } from 'react';
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import React, { useCallback, useRef } from "react";
+import { Center, useTexture } from "@react-three/drei";
 
-const Rings = ({ position }) => {
+const Rings = ({ position = [-7, 2, -2] }) => {
   const refList = useRef([]);
-  const getRef = useCallback((mesh) => {
-    if (mesh && !refList.current.includes(mesh)) {
-      refList.current.push(mesh);
-    }
+  const addRef = useCallback((m) => {
+    if (m && !refList.current.includes(m)) refList.current.push(m);
   }, []);
 
-  const texture = useTexture('textures/rings.png');
+  const texture = useTexture("/textures/rings.png");
 
   useGSAP(
     () => {
-      if (refList.current.length === 0) return;
-
-      refList.current.forEach((r) => {
-        r.position.set(position[0], position[1], position[2]);
-      });
-
-      gsap
-        .timeline({
-          repeat: -1,
-          repeatDelay: 0.5,
-        })
-        .to(
-          refList.current.map((r) => r.rotation),
-          {
-            y: `+=${Math.PI * 2}`,
-            x: `-=${Math.PI * 2}`,
-            duration: 2.5,
-            stagger: {
-              each: 0.15,
-            },
-          },
-        );
+      if (!refList.current.length) return;
+      refList.current.forEach((r) => r.position.set(position[0], position[1], position[2]));
+      const tl = gsap.timeline({ repeat: -1, repeatDelay: 0.4 });
+      tl.to(
+        refList.current.map((r) => r.rotation),
+        {
+          y: `+=${Math.PI * 2}`,
+          x: `-=${Math.PI * 2}`,
+          duration: 5.5,
+          stagger: { each: 0.2 },
+          ease: "none",
+        }
+      );
+      return () => tl.kill();
     },
-    {
-      dependencies: position,
-    },
+    { dependencies: [position] }
   );
 
   return (
     <Center>
       <group scale={0.5}>
-        {Array.from({ length: 4 }, (_, index) => (
-          <mesh key={index} ref={getRef}>
-            <torusGeometry args={[(index + 1) * 0.5, 0.1]}></torusGeometry>
+        {Array.from({ length: 4 }, (_, i) => (
+          <mesh key={i} ref={addRef}>
+            <torusGeometry args={[(i + 1) * 0.5, 0.1, 24, 64]} />
+            {/* Matcap engil material */}
             <meshMatcapMaterial matcap={texture} toneMapped={false} />
           </mesh>
         ))}

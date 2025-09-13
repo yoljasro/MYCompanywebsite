@@ -318,13 +318,13 @@ export default function Mystic() {
           </div> */}
 
           {/* 3D floater chips */}
-          <div className="m-floaters">
+          {/* <div className="m-floaters">
             <span className="chip">Таро</span>
             <span className="chip">Натал</span>
             <span className="chip">Медитации</span>
             <span className="chip">Совместимость</span>
             <span className="chip">Вдх техники</span>
-          </div>
+          </div> */}
         </div>
       </header>
 
