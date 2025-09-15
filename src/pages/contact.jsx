@@ -7,8 +7,15 @@ import { EarthCanvas } from "../sections/canvas";
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../utils/motion";
 
+/** ------- EmailJS kalitlari (ENV bo'lmasa shu yerda) ------- */
+const EMAILJS = {
+  SERVICE_ID: "service_9uofmsp",
+  TEMPLATE_ID: "template_auzwdzn",
+  PUBLIC_KEY: "9HKMbL4I6ZZt6k9hA",
+};
+
 const Contact = () => {
-  const formRef = useRef();
+  const formRef = useRef(null);
   const [form, setForm] = useState({ name: "", email: "", message: "" });
   const [loading, setLoading] = useState(false);
   const [banner, setBanner] = useState({ type: "", text: "" });
@@ -23,10 +30,9 @@ const Contact = () => {
     setTimeout(() => setBanner({ type: "", text: "" }), 3500);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Oddiy tekshiruv
     if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
       showBanner("error", "Заполните все поля, пожалуйста.");
       return;
@@ -34,41 +40,43 @@ const Contact = () => {
 
     setLoading(true);
 
-    emailjs
-      .send(
-        import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
-        {
-          from_name: form.name,
-          to_name: "Mainstream Global",
-          from_email: form.email,
-          to_email: "hello@mainstream.global",
-          message: form.message,
-        },
-        import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
-      )
-      .then(
-        () => {
-          setLoading(false);
-          showBanner("success", "Спасибо! Мы свяжемся с вами в ближайшее время.");
-          setForm({ name: "", email: "", message: "" });
-        },
-        (error) => {
-          console.error(error);
-          setLoading(false);
-          showBanner("error", "Упс… что-то пошло не так. Попробуйте ещё раз.");
-        }
-      );
+    try {
+    await emailjs.send(
+  EMAILJS.SERVICE_ID,
+  EMAILJS.TEMPLATE_ID,
+  {
+    from_name: form.name,
+    from_email: form.email,
+    message: form.message,
+
+    // --- yangi qo‘shimchalar ---
+    to_name: "Команда AOM Global",
+    to_email: "es4305841@gmail.com, saidaliyevjasur450@gmail.com", // 2 ta qabul qiluvchi
+    subject: "Новое сообщение с формы контактов",
+    reply_to: form.email, // “Ответить” bosilganda mijozga javob qaytsin
+  },
+  EMAILJS.PUBLIC_KEY
+);
+
+
+
+      setLoading(false);
+      showBanner("success", "Спасибо! Мы свяжемся с вами в ближайшее время.");
+      setForm({ name: "", email: "", message: "" });
+    } catch (err) {
+      console.error(err);
+      setLoading(false);
+      showBanner("error", "Упс… что-то пошло не так. Попробуйте ещё раз.");
+    }
   };
 
   return (
     <div className="xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden">
-      {/* Forma (chap tomonda) */}
+      {/* Forma */}
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
         className="flex-[0.75] rounded-2xl p-8 border border-white/10 bg-white/5 backdrop-blur-xl relative"
       >
-        {/* Yorqin yuqori gradient chiziq */}
         <div className="absolute inset-x-0 -top-px h-[2px] rounded-t-2xl bg-gradient-to-r from-fuchsia-500 via-violet-400 to-cyan-400/90" />
 
         <p className={`${styles.sectionSubText} text-white/70`}>Связаться с нами</p>
@@ -79,14 +87,12 @@ const Contact = () => {
           .
         </h3>
 
-        {/* Banner (success / error) */}
         {banner.text ? (
           <div
-            className={`mt-6 mb-2 rounded-xl px-4 py-3 text-sm ${
-              banner.type === "success"
+            className={`mt-6 mb-2 rounded-xl px-4 py-3 text-sm ${banner.type === "success"
                 ? "bg-emerald-500/15 text-emerald-200 border border-emerald-400/30"
                 : "bg-rose-500/15 text-rose-200 border border-rose-400/30"
-            }`}
+              }`}
           >
             {banner.text}
           </div>
@@ -102,6 +108,7 @@ const Contact = () => {
               onChange={handleChange}
               placeholder="Как к вам обращаться?"
               aria-label="Ваше имя"
+              autoComplete="name"
               className="bg-[#13151d] py-4 px-5 placeholder:text-white/40 text-white rounded-xl outline-none border border-white/10 focus:border-transparent focus:ring-2 focus:ring-violet-400/70 transition-all"
             />
           </label>
@@ -115,6 +122,7 @@ const Contact = () => {
               onChange={handleChange}
               placeholder="name@mail.com"
               aria-label="Ваш e-mail"
+              autoComplete="email"
               className="bg-[#13151d] py-4 px-5 placeholder:text-white/40 text-white rounded-xl outline-none border border-white/10 focus:border-transparent focus:ring-2 focus:ring-cyan-300/70 transition-all"
             />
           </label>
@@ -155,12 +163,11 @@ const Contact = () => {
         </form>
       </motion.div>
 
-      {/* 3D Yer (o‘ng tomonda) */}
+      {/* 3D Yer */}
       <motion.div
         variants={slideIn("right", "tween", 0.2, 1)}
         className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px] rounded-2xl overflow-hidden border border-white/10 bg-black/40 relative"
       >
-        {/* Fon bloblari */}
         <div className="pointer-events-none absolute -top-20 -left-20 h-64 w-64 rounded-full blur-3xl opacity-30 bg-gradient-to-br from-fuchsia-500 via-violet-500 to-cyan-400" />
         <div className="pointer-events-none absolute -bottom-20 -right-20 h-72 w-72 rounded-full blur-3xl opacity-25 bg-gradient-to-tr from-emerald-400 via-teal-400 to-sky-500" />
         <EarthCanvas />

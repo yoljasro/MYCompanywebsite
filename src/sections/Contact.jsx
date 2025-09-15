@@ -1,9 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState, lazy, Suspense } from "react";
 import { motion } from "framer-motion";
-import emailjs from "@emailjs/browser";
+// ❌ EmailJS endi kerak emas — importni olib tashlang
 
 import { styles } from "../styles";
-// EarthCanvas — faqat kerak bo‘lganda yuklanadi
 const LazyEarthCanvas = lazy(async () => {
   const m = await import("./canvas");
   return { default: m.EarthCanvas };
@@ -11,32 +10,7 @@ const LazyEarthCanvas = lazy(async () => {
 import { SectionWrapper } from "../hoc";
 import { slideIn } from "../utils/motion";
 
-/** ---------- EmailJS sozlamalari (ENV O'RNIGA SHU FAYL ICHIDA) ---------- */
-const EMAILJS = {
-  SERVICE_ID: "service_9uofmsp",
-  TEMPLATE_ID: "template_auzwdzn",
-  PUBLIC_KEY: "9HKMbL4I6ZZt6k9hA",
-};
-
-/* 🔑 SDK-ni modul darajasida init qilamiz (prefiks talab qilmaydi) */
-try {
-  const PK = (EMAILJS.PUBLIC_KEY || "").trim();
-  if (!PK) {
-    console.warn("EmailJS PUBLIC_KEY bo'sh — yuborish ishlamaydi.");
-  } else {
-    // Yangi SDK’larda obyekt bilan init qilish tavsiya etiladi
-    emailjs.init({ publicKey: PK });
-  }
-} catch (e) {
-  console.error("EmailJS init error:", e);
-}
-
-const RECEIVERS = [
-  { name: "Edouard Shtefan", email: "edouard.shtefan@yandex.ru" },
-  { name: "Saidaliyev Jasur", email: "saidaliyevjasur450@gmail.com" },
-];
-
-/** WebGL bor-yo'qligini tekshirish — yo'q bo'lsa 3D-ni umuman yuklamaymiz */
+/** WebGL tekshiruv */
 function hasWebGL() {
   try {
     const canvas = document.createElement("canvas");
@@ -51,29 +25,29 @@ function hasWebGL() {
 
 const Contact = () => {
   const formRef = useRef();
-  const [form, setForm] = useState({ name: "", email: "", message: "" });
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    message: "",
+    _gotcha: "", // honeypot
+  });
   const [loading, setLoading] = useState(false);
   const [banner, setBanner] = useState({ type: "", text: "" });
 
-  // 3D optimizatsiyasi: faqat vьюportga kirganda va WebGL bo'lsa
+  // 3D optimizatsiya
   const container3DRef = useRef(null);
   const [shouldRender3D, setShouldRender3D] = useState(false);
 
   useEffect(() => {
     const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced || !hasWebGL()) {
-      setShouldRender3D(false);
-      return;
-    }
+    if (prefersReduced || !hasWebGL()) return;
 
     const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShouldRender3D(true);
-            obs.disconnect();
-          }
-        });
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setShouldRender3D(true);
+          obs.disconnect();
+        }
       },
       { threshold: 0.2 }
     );
@@ -99,7 +73,8 @@ const Contact = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name.trim() || !form.email.trim() || !form.message.trim()) {
+    // Agar sizda "name" maydoni yo'q bo'lsa, yuqoridagi state’dan name ni olib tashlashingiz va bu tekshiruvni ham olib tashlashingiz mumkin
+    if (!form.email.trim() || !form.message.trim()) {
       showBanner("error", "Заполните все поля, пожалуйста.");
       return;
     }
@@ -107,45 +82,40 @@ const Contact = () => {
       showBanner("error", "Введите корректный e-mail.");
       return;
     }
+    if (form._gotcha) return; // honeypot
 
     setLoading(true);
-
-    const payload = {
-      from_name: form.name,
-      from_email: form.email,
-      message: form.message,
-    };
-
     try {
-      await Promise.all(
-        RECEIVERS.map((rcpt) =>
-          emailjs.send(
-            EMAILJS.SERVICE_ID,
-            EMAILJS.TEMPLATE_ID,
-            {
-              ...payload,
-              to_name: rcpt.name,
-              to_email: rcpt.email,
-            },
-            /* 🧰 Yangi SDK’da 4-parametr obyekt bo‘lishi mumkin */
-            { publicKey: EMAILJS.PUBLIC_KEY.trim() }
-          )
-        )
-      );
+      const res = await fetch("https://formspree.io/f/xqadoqyo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+        }),
+      });
 
+      if (res.ok) {
+        showBanner("success", "Спасибо! Мы свяжемся с вами в ближайшее время.");
+        setForm({ name: "", email: "", message: "", _gotcha: "" });
+        formRef.current?.reset?.();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        console.error("Formspree error:", data);
+        showBanner("error", "Упс… что-то пошло не так. Попробуйте ещё раз.");
+      }
+    } catch (err) {
+      console.error(err);
+      showBanner("error", "Сеть недоступна. Попробуйте ещё раз.");
+    } finally {
       setLoading(false);
-      showBanner("success", "Спасибо! Мы свяжемся с вами в ближайшее время.");
-      setForm({ name: "", email: "", message: "" });
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
-      showBanner("error", "Упс… что-то пошло не так. Попробуйте ещё раз.");
     }
   };
 
   return (
     <div className="xl:mt-12 flex xl:flex-row flex-col-reverse gap-10 overflow-hidden">
-      {/* Forma (chap) */}
+      {/* Forma */}
       <motion.div
         variants={slideIn("left", "tween", 0.2, 1)}
         className="flex-[0.75] rounded-2xl p-8 border border-white/10 bg-white/5 backdrop-blur-xl relative"
@@ -173,6 +143,18 @@ const Contact = () => {
         ) : null}
 
         <form ref={formRef} onSubmit={handleSubmit} className="mt-8 flex flex-col gap-6">
+          {/* honeypot (ko‘rinmas) */}
+          <input
+            type="text"
+            name="_gotcha"
+            value={form._gotcha}
+            onChange={handleChange}
+            className="hidden"
+            tabIndex={-1}
+            autoComplete="off"
+          />
+
+          {/* Agar “name” kerak bo‘lmasa, ushbu blokni olib tashlashingiz mumkin */}
           <label className="flex flex-col">
             <span className="text-white font-medium mb-2">Ваше имя</span>
             <input
@@ -196,6 +178,7 @@ const Contact = () => {
               placeholder="name@mail.com"
               aria-label="Ваш e-mail"
               className="bg-[#13151d] py-4 px-5 placeholder:text-white/40 text-white rounded-xl outline-none border border-white/10 focus:border-transparent focus:ring-2 focus:ring-cyan-300/70 transition-all"
+              required
             />
           </label>
 
@@ -209,6 +192,7 @@ const Contact = () => {
               placeholder="Коротко опишите задачу или вопрос…"
               aria-label="Сообщение"
               className="bg-[#13151d] py-4 px-5 placeholder:text-white/40 text-white rounded-xl outline-none border border-white/10 focus:border-transparent focus:ring-2 focus:ring-fuchsia-400/70 transition-all"
+              required
             />
           </label>
 
@@ -235,17 +219,15 @@ const Contact = () => {
         </form>
       </motion.div>
 
-      {/* 3D blok (o'ng) — faqat kerak bo'lganda */}
+      {/* 3D blok (o‘ng) — lazily */}
       <motion.div
         ref={container3DRef}
         variants={slideIn("right", "tween", 0.2, 1)}
         className="xl:flex-1 xl:h-auto md:h-[550px] h-[350px] rounded-2xl overflow-hidden border border-white/10 bg-black/40 relative"
       >
-        {/* Yengil fon — zudlik bilan chiziladi */}
         <div className="pointer-events-none absolute -top-20 -left-20 h-64 w-64 rounded-full blur-3xl opacity-30 bg-gradient-to-br from-fuchsia-500 via-violet-500 to-cyan-400" />
         <div className="pointer-events-none absolute -bottom-20 -right-20 h-72 w-72 rounded-full blur-3xl opacity-25 bg-gradient-to-tr from-emerald-400 via-teal-400 to-sky-500" />
 
-        {/* 3D faqat shartlar bajarilganda */}
         {shouldRender3D ? (
           <Suspense
             fallback={
