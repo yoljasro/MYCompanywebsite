@@ -40,34 +40,40 @@ const Contact = () => {
 
     setLoading(true);
 
-    try {
-    await emailjs.send(
-  EMAILJS.SERVICE_ID,
-  EMAILJS.TEMPLATE_ID,
-  {
-    from_name: form.name,
-    from_email: form.email,
-    message: form.message,
+   try {
+  const recipients = [
+    "es4305841@gmail.com",
+    "saidaliyevjasur450@gmail.com",
+  ];
 
-    // --- yangi qo‘shimchalar ---
-    to_name: "Команда AOM Global",
-    to_email: "starhouseorg@gmail.com", // 2 ta qabul qiluvchi
-    subject: "Новое сообщение с формы контактов",
-    reply_to: form.email, // “Ответить” bosilganda mijozga javob qaytsin
-  },
-  EMAILJS.PUBLIC_KEY
-);
+  await Promise.all(
+    recipients.map((rcpt) =>
+      emailjs.send(
+        EMAILJS.SERVICE_ID,
+        EMAILJS.TEMPLATE_ID,
+        {
+          from_name: form.name,
+          from_email: form.email,
+          message: form.message,
 
+          to_name: "Команда AOM Global",
+          to_email: rcpt,                           // ← har safar bittadan
+          subject: "Новое сообщение с формы контактов",
+          reply_to: form.email,
+        },
+        EMAILJS.PUBLIC_KEY
+      )
+    )
+  );
 
-
-      setLoading(false);
-      showBanner("success", "Спасибо! Мы свяжемся с вами в ближайшее время.");
-      setForm({ name: "", email: "", message: "" });
-    } catch (err) {
-      console.error(err);
-      setLoading(false);
-      showBanner("error", "Упс… что-то пошло не так. Попробуйте ещё раз.");
-    }
+  setLoading(false);
+  showBanner("success", "Спасибо! Мы свяжемся с вами в ближайшее время.");
+  setForm({ name: "", email: "", message: "" });
+} catch (err) {
+  console.error(err);
+  setLoading(false);
+  showBanner("error", "Упс… что-то пошло не так. Попробуйте ещё раз.");
+}
   };
 
   return (
