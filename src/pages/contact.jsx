@@ -51,7 +51,7 @@ const Contact = () => {
 
     // --- yangi qo‘shimchalar ---
     to_name: "Команда AOM Global",
-    to_email: "starhouseorg@gmail.com, saidaliyevjasur450@gmail.com", // 2 ta qabul qiluvchi
+    to_email: "starhouseorg@gmail.com", // 2 ta qabul qiluvchi
     subject: "Новое сообщение с формы контактов",
     reply_to: form.email, // “Ответить” bosilganda mijozga javob qaytsin
   },
