@@ -23,7 +23,7 @@ const Footer = () => {
               <img src="https://cdn-icons-png.flaticon.com/512/3670/3670070.png" alt="tg" className="h-4 w-4" />
             </a>
             <a
-              href="https://vk.com/aomentertainment"
+              href="https://vk.com/aomcompany"
               target="_blank" rel="noopener noreferrer"
               className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-white/10 bg-white/5 hover:scale-105 transition"
               aria-label="VK"
