@@ -203,7 +203,7 @@ const Services = () => {
 
       {/* Footer */}
       <footer className="mini-footer">
-        <span>© {new Date().getFullYear()} Adrian Hajdin. All rights reserved.</span>
+        <span>© {new Date().getFullYear()} AOM Global. All rights reserved.</span>
         <nav className="footer-nav">
           <a href="#!" className="link">Terms & Conditions</a>
           <a href="#!" className="link">Privacy Policy</a>

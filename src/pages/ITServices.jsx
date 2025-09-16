@@ -224,7 +224,7 @@ const ITServices = () => {
           <div className="price-card">
             <h3>Start</h3>
             <p className="desc">Лендинг или простой бот</p>
-            <div className="price">от 89 000 ₽</div>
+            {/* <div className="price">от 89 000 ₽</div> */}
             <ul>
               <li><FaCheckCircle /> Аналитика и прототип (до 2 секций)</li>
               <li><FaCheckCircle /> Дизайн по сетке + адаптив</li>
@@ -241,7 +241,7 @@ const ITServices = () => {
             <div className="badge">Популярно</div>
             <h3>Business</h3>
             <p className="desc">Магазин / супер-бот / MVP приложения</p>
-            <div className="price">от 269 000 ₽</div>
+            {/* <div className="price">от 269 000 ₽</div> */}
             <ul>
               <li><FaCheckCircle /> Проработка CJM и KPI</li>
               <li><FaCheckCircle /> Индивидуальный дизайн</li>
@@ -257,11 +257,11 @@ const ITServices = () => {
           <div className="price-card">
             <h3>Enterprise</h3>
             <p className="desc">AI + микросервисы, SLA</p>
-            <div className="price">по запросу</div>
+            {/* <div className="price">по запросу</div> */}
             <ul>
               <li><FaCheckCircle /> Аудит архитектуры и roadmap</li>
               <li><FaCheckCircle /> SSO, RBAC, безопасность</li>
-              <li><FaCheckCircle /> RAG/LLM, очереди, шардирование</li>
+              <li><FaCheckCircle /> RAG/LLM, очереди, шардирование</li> 
               <li><FaCheckCircle /> Наблюдаемость: метрики/логи/трейсы</li>
               <li><FaCheckCircle /> SRE-подход и 24/7 мониторинг</li>
               <li><FaCheckCircle /> SLA по доступности и реакции</li>

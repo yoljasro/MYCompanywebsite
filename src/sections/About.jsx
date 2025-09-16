@@ -2,7 +2,7 @@ import { useState } from 'react';
 import Globe from 'react-globe.gl';
 import Button from '../components/Button.jsx';
 
-const EMAIL = 'edouard.shtefan@yandex.ru';
+const EMAIL = 'es4305841@gmail.com';
 
 const About = () => {
   const [hasCopied, setHasCopied] = useState(false);

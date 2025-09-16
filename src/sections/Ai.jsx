@@ -222,17 +222,21 @@ const styles = `
   --text:#e6eaff; --muted:#aab3d9; --glass:rgba(255,255,255,.06); --stroke:rgba(255,255,255,.12);
   --vio:#9b8cff; --cy:#7dd3fc; --pk:#f0a6d8; --gr:#86efac;
 }
+
 .ai-faceid{ position:relative; min-height:100vh; color:var(--text); background:#090b12; overflow:hidden; }
 .bgfx{ position:fixed; inset:0; width:100%; height:100%; z-index:-1; display:block; }
 
 /* Hero */
-.hero{ position:relative; padding: 120px 16px 40px; }
-.hero-inner{ 
-  max-width:1100px; 
-  margin:0 auto; 
-  text-align:center; 
-  position:relative; 
-  z-index:2;                /* kontent doimo skanerdan yuqorida */
+.hero{
+  position:relative;
+  padding: 120px 16px 60px; /* pastdan ko'proq joy */
+}
+.hero-inner{
+  max-width:1100px;
+  margin:0 auto;
+  text-align:center;
+  position:relative;
+  z-index:2;
 }
 .badge{ display:inline-block; padding:.4rem .8rem; border:1px solid var(--stroke); border-radius:999px; color:#cfe7ff; background:rgba(255,255,255,.04); }
 .hero h1{
@@ -250,26 +254,26 @@ const styles = `
 .chip .ico{ display:grid; place-items:center; width:24px; height:24px; border-radius:8px;
   background:linear-gradient(135deg,var(--vio),var(--cy)); color:#0b0f16 }
 
-/* CSS face scanner */
+/* Scanner (oqimda markazda, divider sifatida) */
 .scanner{
-  position:absolute;
-  left:50%;
-  transform:translateX(-50%);
-  bottom:-28px;             /* biroz pastroqqa tushirdik */
-  width:100%;
-  max-width:1100px;
+  position:relative;
+  margin: 28px auto 36px;
+  width: min(980px, 92vw);
+  display:flex; justify-content:center;
   pointer-events:none;
-  z-index:1;                /* hero kontentidan pastda, fon canvasidan yuqorida */
+  z-index:1;
 }
 .face{
-  position:relative; width:min(560px, 78vw); height:min(300px, 42vw);
+  position:relative;
+  width: min(760px, 88vw);
+  height: clamp(180px, 28vw, 300px); /* responsiv balandlik */
   border-radius:22px; overflow:hidden; border:1px solid var(--stroke);
-  background: radial-gradient(120% 120% at 80% 10%, rgba(139,92,246,.25), transparent 60%),
-              radial-gradient(120% 120% at 20% 90%, rgba(34,211,238,.22), transparent 60%),
-              linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+  background:
+    radial-gradient(120% 120% at 80% 10%, rgba(139,92,246,.25), transparent 60%),
+    radial-gradient(120% 120% at 20% 90%, rgba(34,211,238,.22), transparent 60%),
+    linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
   backdrop-filter: blur(2px);
   box-shadow: 0 40px 120px rgba(0,0,0,.45);
-  transform:none;           /* avvalgi translateY(24px) olib tashlandi */
 }
 .eye{ position:absolute; top:32%; width:12%; height:16%; border-radius:50%; background:rgba(255,255,255,.12); }
 .eye:after{ content:""; position:absolute; inset:20% 24%; border-radius:50%; background:#fff; opacity:.85; animation:blink 5s infinite; }
@@ -282,8 +286,11 @@ const styles = `
   background-size: 100% 100%, 30px 30px, 30px 30px;
   mix-blend-mode: overlay;
 }
-.scanline{ position:absolute; left:0; right:0; height:2px; background:linear-gradient(90deg, transparent, #8be7ff, transparent);
-  animation:scan 3.4s linear infinite; box-shadow:0 0 18px #8be7ff; }
+.scanline{
+  position:absolute; left:0; right:0; height:2px;
+  background:linear-gradient(90deg, transparent, #8be7ff, transparent);
+  animation:scan 3.4s linear infinite; box-shadow:0 0 18px #8be7ff;
+}
 @keyframes scan{ 0%{ top: 6% } 100%{ top: 94% } }
 
 /* Sections */
@@ -330,7 +337,9 @@ const styles = `
 
 /* Responsive tweaks */
 @media (max-width: 780px){
-  .hero{ padding-top: 110px; }
-  .scanner{ bottom:-14px; }   /* mobil ekranda joylashuvni yumshatdik */
+  .hero{ padding-top:110px; }
+  .scanner{ margin: 20px auto 28px; }
+  .face{ height: clamp(160px, 40vw, 220px); }
 }
+
 `;

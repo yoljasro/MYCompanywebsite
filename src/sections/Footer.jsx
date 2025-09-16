@@ -86,7 +86,7 @@ const Footer = () => {
 
         {/* pastki satr */}
         <div className="pb-4 text-center text-[11px] text-white/45">
-          © {new Date().getFullYear()} Adrian Hajdin. All rights reserved.
+          © {new Date().getFullYear()} AOM Global. All rights reserved.
         </div>
       </div>
     </footer>
