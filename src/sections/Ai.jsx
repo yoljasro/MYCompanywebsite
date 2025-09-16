@@ -294,7 +294,7 @@ const styles = `
 @keyframes scan{ 0%{ top: 6% } 100%{ top: 94% } }
 
 /* Sections */
-.section{ padding: 44px 16px; }
+.section{ padding: 14px 16px; }
 .section h2{ text-align:center; font-size: clamp(1.6rem, 2.8vw, 2.2rem); margin:0 0 .4rem; }
 .sub{ text-align:center; color:var(--muted); max-width:880px; margin: 0 auto 1.2rem; }
 .grid{ max-width:1100px; margin:0 auto; display:grid; gap:14px; grid-template-columns: repeat( auto-fit, minmax(250px, 1fr) ); }
