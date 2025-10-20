@@ -191,8 +191,8 @@ const Hero = () => {
             <li className="flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-emerald-300" />Выход в App Store / Google Play</li>
           </ul>
           <div className="mt-7 flex flex-wrap items-center gap-3">
-            <a href="#contact" className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 font-medium text-slate-900 shadow-lg shadow-fuchsia-500/10 hover:opacity-95">Получить консультацию</a>
-            <a href="#portfolio" className="inline-flex items-center justify-center rounded-xl border border-white/20 px-5 py-3 font-medium text-white/90 hover:bg-white/5">Наши работы</a>
+            <a href="/contact" className="inline-flex items-center justify-center rounded-xl bg-white px-5 py-3 font-medium text-slate-900 shadow-lg shadow-fuchsia-500/10 hover:opacity-95">Получить консультацию</a>
+            <a href="/mobile" className="inline-flex items-center justify-center rounded-xl border border-white/20 px-5 py-3 font-medium text-white/90 hover:bg-white/5">Наши работы</a>
           </div>
         </div>
 
