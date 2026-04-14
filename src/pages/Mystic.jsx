@@ -1,254 +1,499 @@
 // File: src/pages/Mystic.jsx
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   FaMagic,
   FaArrowRight,
-  FaShieldAlt,
-  FaClock,
-  FaUsers,
-  FaChartLine,
-  FaCompass,
   FaMoon,
-  FaHeartbeat,
+  FaUserAstronaut,
+  FaStar,
+  FaBell,
+  FaGem
 } from "react-icons/fa";
 
 export default function Mystic() {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
-    <div className="mystic">
+    <div className="mystic-page">
       <style>{styles}</style>
 
       {/* Breadcrumbs */}
       <nav className="m-crumbs">
         <Link to="/internal" className="m-crumb">Внутренние проекты</Link>
         <span className="m-sep">/</span>
-        <span className="m-crumb active">Mystic</span>
+        <span className="m-crumb active">Mystic App</span>
       </nav>
 
-      {/* Hero */}
+      {/* Hero Section */}
       <header className="m-hero">
         <div className="m-hero-inner">
           <div className="m-badge">
-            <FaMagic /> Астрология • Медитации • Мета-практики
+            <FaMagic /> Готовый продукт: Нативное iOS / Android приложение
           </div>
           <h1>
-            Mystic — персональные рекомендации{" "}
-            <span>по дате и времени, таро, натал карта, колесо фортуны</span>
+            Mystic — Астрология & Благополучие
+            <span>Ваш персональный путеводитель по звездам</span>
           </h1>
           <p className="m-sub">
-            ИИ-сервис, который помогает пользователям принимать решения: быстрые расклады, разбор совместимости,
-            практики и медитации, напоминания и персональные советы по продуктивности и благополучию.
+            Полноценное мобильное приложение, объединяющее ежедневные астрологические прогнозы, натальные карты, лунный календарь и персональные рекомендации. Приложение уже полностью готово к запуску и масштабированию.
           </p>
-
-          {/* <div className="m-cta">
-            <Link to="/contact" className="btn btn-primary">
-              Хочу установить в компании <FaArrowRight />
-            </Link>
-            <a href="#features" className="btn btn-ghost">Что внутри?</a>
-          </div> */}
-
-          {/* 3D floater chips */}
-          {/* <div className="m-floaters">
-            <span className="chip">Таро</span>
-            <span className="chip">Натал</span>
-            <span className="chip">Медитации</span>
-            <span className="chip">Совместимость</span>
-            <span className="chip">Вдх техники</span>
-          </div> */}
         </div>
       </header>
 
-      {/* Feature Cards */}
-      <section id="features" className="m-section">
-        <h2>Ключевые возможности</h2>
-        <p className="m-section-sub">
-          Астрология, знакомства и медитации в одном приложении: прогнозы, совместимость и персональные рекомендации.
-        </p>
-
-        <div className="m-grid">
-          <Card
-            icon={<FaMoon />}
-            title="Астрологические прогнозы"
-            desc="Ежедневные и недельные прогнозы, транзиты и события, рекомендации по датам."
-          />
-
-          <Card
-            icon={<FaCompass />}
-            title="Знакомства и комьюнити"
-            desc="Профили по знакам и совместимости, матчи по интересам, чаты и тематические группы."
-          />
-
-          <Card
-            icon={<FaHeartbeat />}
-            title="Медитации и практики"
-            desc="Сеансы для фокуса, сна и баланса, дыхательные техники и ритуалы благополучия."
-          />
-
-          <Card
-            icon={<FaClock />}
-            title="Персональные рекомендации"
-            desc="Окна удачи, лучшие часы для действий, напоминания и трекинг самочувствия."
-          />
+      {/* App Showcase section */}
+      <section className="m-showcase">
+        
+        {/* Feature 1 */}
+        <div className="m-feature-row">
+          <div className="m-feature-text">
+            <div className="m-feature-icon"><FaStar /></div>
+            <h2>Персональная панель управления</h2>
+            <p>
+              Главный экран приложения встречает пользователя завораживающим дизайном и персональными данными. Здесь собрано самое важное: текущий знак, стихия дня и быстрая навигация к натальной карте и лунному календарю. Уникальный 3D-арт создает атмосферу премиального сервиса.
+            </p>
+            <ul className="m-feature-list">
+              <li>Адаптивный дизайн главного экрана</li>
+              <li>Интерактивные элементы и плавная анимация</li>
+              <li>Мгновенный доступ к ключевым разделам</li>
+            </ul>
+          </div>
+          <div className="m-feature-image">
+            <div className="phone-mockup">
+              <img src="/mystic/screen1.png" alt="Mystic Главный экран" />
+              <div className="phone-glare"></div>
+            </div>
+          </div>
         </div>
+
+        {/* Feature 2: Reversed */}
+        <div className="m-feature-row reversed">
+          <div className="m-feature-text">
+            <div className="m-feature-icon"><FaGem /></div>
+            <h2>Детализированные гороскопы на каждый день</h2>
+            <p>
+              Интуитивно понятный интерфейс выбора знака зодиака. Каждый знак проиллюстрирован уникальным, высококачественным артом. Пользователи могут читать развернутые прогнозы на сегодня, завтра, неделю и месяц для себя и своих близких.
+            </p>
+            <ul className="m-feature-list">
+              <li>12 уникальных аватаров знаков зодиака</li>
+              <li>Глубокая аналитика и советы от ИИ</li>
+              <li>Проверка совместимости знаков</li>
+            </ul>
+          </div>
+          <div className="m-feature-image">
+            <div className="phone-mockup">
+              <img src="/mystic/screen2.png" alt="Mystic Гороскопы" />
+              <div className="phone-glare"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Feature 3 */}
+        <div className="m-feature-row">
+          <div className="m-feature-text">
+            <div className="m-feature-icon"><FaMoon /></div>
+            <h2>Продвинутый лунный календарь</h2>
+            <p>
+              Точный трекинг лунных фаз и лунных дней. Приложение рассчитывает положение луны в знаках зодиака и дает ежедневные "советы дня". Это помогает пользователям планировать свои дела, очищать пространство и начинать новые проекты в наиболее благоприятное время.
+            </p>
+            <ul className="m-feature-list">
+              <li>Интерактивный календарь-сетка на месяц</li>
+              <li>Фазы луны и их влияние на эмоциональный фон</li>
+              <li>Специальные рекомендации на каждый лунный день</li>
+            </ul>
+          </div>
+          <div className="m-feature-image">
+            <div className="phone-mockup">
+              <img src="/mystic/screen3.png" alt="Mystic Лунный календарь" />
+              <div className="phone-glare"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Feature 4: Reversed */}
+        <div className="m-feature-row reversed">
+          <div className="m-feature-text">
+            <div className="m-feature-icon"><FaUserAstronaut /></div>
+            <h2>Глубокий личный профиль пользователя</h2>
+            <p>
+              Mystic — это не просто прогнозы, это самопознание. Приложение анализирует интересы, тип личности, точные дату и место рождения пользователя, выстраивая точный астрологический портрет.
+            </p>
+            <ul className="m-feature-list">
+              <li>Отображение психотипа (например, Флегматик)</li>
+              <li>Трекинг интересов: природа, кулинария, танцы и др.</li>
+              <li>Формирование идеальных матчей на основе профиля</li>
+            </ul>
+          </div>
+          <div className="m-feature-image">
+            <div className="phone-mockup">
+              <img src="/mystic/screen4.png" alt="Mystic Профиль пользователя" />
+              <div className="phone-glare"></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Feature 5 */}
+        <div className="m-feature-row">
+          <div className="m-feature-text">
+            <div className="m-feature-icon"><FaBell /></div>
+            <h2>Гибкие настройки и уведомления</h2>
+            <p>
+              Высокий уровень персонализации позволяет пользователям получать push-уведомления только о том, что им действительно важно. Будь то ежедневный гороскоп, фазы новолуния и полнолуния или советы по совместимости.
+            </p>
+            <ul className="m-feature-list">
+              <li>Детальная настройка PUSH-уведомлений</li>
+              <li>Управление аккаунтом и приватностью</li>
+              <li>Аватары профиля и звуковое сопровождение фоном</li>
+            </ul>
+          </div>
+          <div className="m-feature-image">
+            <div className="phone-mockup">
+              <img src="/mystic/screen5.png" alt="Mystic Настройки" />
+              <div className="phone-glare"></div>
+            </div>
+          </div>
+        </div>
+
       </section>
 
-      {/* How it works */}
-      <section className="m-section">
-        <h2>Как это работает</h2>
-        <p className="m-section-sub">
-          Нативное мобильное приложение + панель администратора. ИИ-подсказки, гибкий контент, аналитика.
-        </p>
-        <div className="m-steps">
-          <Step n="01" title="Онбординг пользователя">
-            Дата, место и время рождения, цели и интересы. Формируем персональный профиль.
-          </Step>
-          <Step n="02" title="Индивидуальный контент">
-            Рекомендации по дням и периодам, практики, расклады, уведомления и ритуалы.
-          </Step>
-          <Step n="03" title="ИИ-помощник">
-            Ответы на вопросы, толкование раскладов, предикты и мягкие рекомендации.
-          </Step>
-          <Step n="04" title="Аналитика">
-            Вовлечённость, ретеншн, конверсия в подписку. A/B гипотезы и ростовые метрики.
-          </Step>
-        </div>
-      </section>
-
-      {/* Business block */}
-      <section className="m-section">
-        <h2>Для бизнеса</h2>
-        <p className="m-section-sub">
-          Превратите тренд на wellness и астрологию в стабильную прибыль. Готовое White-Label решение для вашей аудитории: повышайте вовлеченность (LTV), запускайте новые каналы монетизации и интегрируйте сервис по API всего за пару недель без сложных разработок.
-        </p>
-        <div className="m-benefits">
-          <Benefit icon={<FaUsers />} title="Подписки/пакеты">
-            Монетизация через подписку, платные расклады и премиум-контент.
-          </Benefit>
-          <Benefit icon={<FaShieldAlt />} title="Приватность">
-            Хранение данных шифруется, соблюдаем GDPR/локальные требования.
-          </Benefit>
-          <Benefit icon={<FaChartLine />} title="Ростовые метрики">
-            Встроенная аналитика: DAU/WAU/MAU, LTV, ретеншн, воронка подписок.
-          </Benefit>
-        </div>
-
-        <div className="m-cta center">
-          <Link to="/contact" className="btn btn-primary">
-            Обсудить внедрение <FaArrowRight />
-          </Link>
+      {/* Info Block */}
+      <section className="m-info-block">
+        <div className="m-info-inner">
+          <h2>Почему Mystic — это успех?</h2>
+          <p>
+            Готовое приложение, разработанное с учетом лучших UX/UI практик и современных трендов wellness-индустрии. Монетизация через подписки, высокая вовлеченность (Retention Rate) благодаря ежедневным советам и лунному календарю.
+          </p>
+          <div className="m-cta center">
+            <Link to="/contact" className="btn btn-primary">
+              Заказать аналогичное приложение <FaArrowRight />
+            </Link>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
       <footer className="m-foot">
-        <Link to="/internal" className="m-back">← Ко всем внутренним проектам</Link>
-        <div className="m-rights">© {new Date().getFullYear()} Mystic (внутренний проект)</div>
+        <Link to="/internal" className="m-back">← Вернуться к проектам</Link>
+        <div className="m-rights">© {new Date().getFullYear()} Mystic. Готовый проект.</div>
       </footer>
     </div>
   );
 }
 
-/* Presentational pieces */
-function Card({ icon, title, desc }) {
-  return (
-    <div className="m-card">
-      <div className="m-ico">{icon}</div>
-      <h3>{title}</h3>
-      <p>{desc}</p>
-    </div>
-  );
-}
-
-function Step({ n, title, children }) {
-  return (
-    <div className="m-step">
-      <div className="m-step-num">{n}</div>
-      <h4>{title}</h4>
-      <p>{children}</p>
-    </div>
-  );
-}
-
-function Benefit({ icon, title, children }) {
-  return (
-    <div className="m-benefit">
-      <div className="m-bico">{icon}</div>
-      <div>
-        <h4>{title}</h4>
-        <p>{children}</p>
-      </div>
-    </div>
-  );
-}
-
 const styles = `
-:root{
-  --violet:#8b5cf6; --cyan:#22d3ee; --pink:#ec4899; --mint:#34d399;
-  --text:#e9edff; --muted:#94a3b8; --stroke:rgba(255,255,255,.1);
+:root {
+  --mystic-bg: #0b0c10;
+  --mystic-accent: #cfa871; /* Золотистый оттенок как на скринах */
+  --mystic-text: #f3f4f6;
+  --mystic-muted: #9ca3af;
+  --mystic-card: #1f2937;
+  --mystic-border: rgba(255, 255, 255, 0.08);
 }
-.mystic{position:relative; min-height:100vh; color:var(--text); background: radial-gradient(circle at 50% -20%, #171e3b 0%, #0f172a 40%, #020617 100%); overflow-x:hidden; font-family: system-ui, -apple-system, sans-serif;}
+
+.mystic-page {
+  position: relative;
+  min-height: 100vh;
+  color: var(--mystic-text);
+  background: var(--mystic-bg);
+  background-image: 
+    radial-gradient(circle at 20% 0%, rgba(207, 168, 113, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 100%, rgba(207, 168, 113, 0.05) 0%, transparent 50%);
+  overflow-x: hidden;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
 
 /* crumbs */
-.m-crumbs{max-width:1100px; margin:86px auto 10px; padding:0 16px; display:flex; align-items:center; gap:8px; color:#94a3b8; font-size: 0.9rem;}
-.m-crumb{color:#94a3b8; text-decoration:none; transition: color 0.15s ease}
-.m-crumb:hover{color:#cbd5e1}
-.m-crumb.active{color:#e2e8f0; font-weight: 500;}
-.m-sep{opacity:.4}
+.m-crumbs {
+  max-width: 1200px;
+  margin: 100px auto 20px;
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+}
+.m-crumb { color: var(--mystic-muted); text-decoration: none; transition: color 0.2s; }
+.m-crumb:hover { color: var(--mystic-accent); }
+.m-crumb.active { color: var(--mystic-text); font-weight: 500; }
+.m-sep { color: var(--mystic-border); }
 
 /* hero */
-.m-hero{padding:30px 16px 10px;}
-.m-hero-inner{max-width:1100px; margin:0 auto; text-align:center; position:relative}
-.m-badge{display:inline-flex; align-items:center; gap:.55rem; padding:.45rem .8rem; border:1px solid var(--stroke); border-radius:999px; background:rgba(255,255,255,.03); color:#cbd5e1; backdrop-filter: blur(6px); font-size: 0.85rem;}
-.m-hero h1{margin:1.4rem 0 1rem; font-size:clamp(2.1rem, 4vw, 3.3rem); line-height:1.2;
-  background: linear-gradient(90deg, #f8fafc, #cbd5e1, #94a3b8); -webkit-background-clip:text; color:transparent; font-weight: 700; letter-spacing: -0.02em;}
-.m-hero h1 span{display: block; font-size: 0.65em; font-weight: 500; color:#94a3b8; -webkit-text-fill-color: #94a3b8; margin-top: 0.3rem;}
-.m-sub{max-width:860px; margin:0 auto; color:var(--muted); font-size: 1.1rem; line-height: 1.6;}
-.m-cta{display:flex; justify-content:center; gap:.7rem; flex-wrap:wrap; margin-top:1.5rem}
-.btn{display:inline-flex; align-items:center; gap:.6rem; padding:.8rem 1.4rem; border-radius:999px; text-decoration:none; font-weight:600; transition: all .2s ease;}
-.btn-primary{color:#020617; background:#e2e8f0; border:1px solid rgba(255,255,255,.8); box-shadow:0 4px 14px rgba(255,255,255,.1)}
-.btn-primary:hover{background:#ffffff; transform: translateY(-1px);}
-
-/* sections */
-.m-section{position:relative; padding: 50px 16px 20px}
-.m-section h2{text-align:center; font-size:clamp(1.6rem, 2.8vw, 2.2rem); margin-bottom:.6rem; color:#f8fafc; font-weight: 600; letter-spacing: -0.01em;}
-.m-section-sub{text-align:center; color:var(--muted); max-width:860px; margin:0 auto 3rem; font-size: 1.05rem; line-height: 1.6;}
-
-/* cards grid */
-.m-grid{max-width:1100px; margin:0 auto; display:grid; gap:20px; grid-template-columns: repeat( auto-fit, minmax(240px, 1fr) )}
-.m-card{position:relative; border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:28px 24px;
-  background:rgba(255,255,255,.02);
-  transition: all .2s ease;
+.m-hero {
+  padding: 40px 24px 20px;
 }
-.m-card:hover{background:rgba(255,255,255,.04); border-color: rgba(255,255,255,.15);}
-.m-ico{font-size:1.5rem; color:#9fb1ff; margin-bottom: 16px;}
-.m-card h3{margin:0 0 .6rem; font-size:1.15rem; color:#f8fafc; font-weight: 600;}
-.m-card p{color:var(--muted); font-size: 0.95rem; line-height: 1.6; margin: 0;}
-
-/* steps */
-.m-steps{max-width:1050px; margin:0 auto; display:grid; gap:16px; grid-template-columns: repeat( auto-fit, minmax(230px, 1fr) )}
-.m-step{border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:24px; background:rgba(255,255,255,.02);}
-.m-step-num{font-weight:600; color:#cbd5e1; opacity:.8; font-size:.85rem; margin-bottom: 14px; display:inline-block; padding: 0.2rem 0.6rem; border-radius: 6px; background: rgba(255,255,255,.06); letter-spacing: 0.05em;}
-.m-step h4{margin:0 0 .6rem; font-size:1.1rem; color:#f8fafc; font-weight: 600;}
-.m-step p{color:var(--muted); font-size: 0.95rem; line-height: 1.6; margin: 0;}
-
-/* benefits */
-.m-benefits{max-width:1000px; margin:0 auto; display:grid; gap:16px; grid-template-columns: repeat( auto-fit, minmax(260px, 1fr) )}
-.m-benefit{display:flex; gap:1.2rem; align-items:flex-start; border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:24px;
-  background:rgba(255,255,255,.02);
+.m-hero-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
 }
-.m-bico{width:44px; height:44px; display:grid; place-items:center; border-radius:10px;
-  background:rgba(255,255,255,.06); color:#9fb1ff; flex-shrink: 0; font-size: 1.2rem;}
-.m-benefit h4{margin:0 0 .4rem; font-size:1.1rem; color:#f8fafc; font-weight: 600;}
-.m-benefit p{margin: 0; color:var(--muted); font-size: 0.95rem; line-height: 1.6;}
+.m-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--mystic-accent);
+  border-radius: 999px;
+  background: rgba(207, 168, 113, 0.1);
+  color: var(--mystic-accent);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.m-hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  line-height: 1.1;
+  font-weight: 700;
+  margin: 0 0 24px;
+  color: #ffffff;
+}
+.m-hero h1 span {
+  display: block;
+  font-size: 0.45em;
+  font-weight: 400;
+  color: var(--mystic-muted);
+  margin-top: 12px;
+}
+.m-sub {
+  font-size: 1.2rem;
+  line-height: 1.6;
+  color: var(--mystic-muted);
+  max-width: 700px;
+  margin: 0 auto;
+}
 
-.center{text-align:center; justify-content:center;}
+/* showcase */
+.m-showcase {
+  max-width: 1200px;
+  margin: 80px auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 100px;
+}
+.m-feature-row {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  justify-content: space-between;
+}
+.m-feature-row.reversed {
+  flex-direction: row-reverse;
+}
+.m-feature-text {
+  flex: 1;
+  max-width: 540px;
+}
+.m-feature-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: rgba(207, 168, 113, 0.1);
+  color: var(--mystic-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+}
+.m-feature-text h2 {
+  font-size: 2.2rem;
+  margin: 0 0 20px;
+  color: #fff;
+  line-height: 1.2;
+}
+.m-feature-text p {
+  font-size: 1.1rem;
+  color: var(--mystic-muted);
+  line-height: 1.6;
+  margin: 0 0 24px;
+}
+.m-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.m-feature-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #d1d5db;
+  font-size: 1.05rem;
+}
+.m-feature-list li::before {
+  content: "✦";
+  color: var(--mystic-accent);
+}
 
-/* footer nav */
-.m-foot{max-width:1100px; margin: 24px auto 80px; padding: 40px 16px 0; border-top: 1px solid rgba(255,255,255,.05); display:flex; justify-content:space-between; align-items:center; color:#94a3b8; flex-wrap:wrap; gap:12px; font-size: 0.9rem;}
-.m-back{color:#94a3b8; text-decoration:none; transition: color 0.15s ease;}
-.m-back:hover{color:#cbd5e1;}
+.m-feature-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  perspective: 1000px; /* effect */
+}
+.phone-mockup {
+  position: relative;
+  width: 300px;
+  height: 620px;
+  border-radius: 40px;
+  border: 12px solid #1f2937;
+  background: #0b0c10;
+  overflow: hidden;
+  box-shadow: 0 30px 60px -12px rgba(0,0,0,0.8), 0 0 0 1px var(--mystic-border);
+  display: flex;
+  align-items: flex-start; /* top align important for crop */
+  justify-content: center;
+  color: var(--mystic-muted);
+  text-align: center;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform-style: preserve-3d;
+}
+.phone-mockup:hover {
+  transform: translateY(-12px) rotateX(4deg) rotateY(-4deg) scale(1.02);
+  box-shadow: 20px 40px 80px -15px rgba(207, 168, 113, 0.3), -20px 40px 80px -15px rgba(139, 92, 246, 0.2), 0 0 0 1px var(--mystic-accent);
+  border-color: #293140;
+}
+.m-feature-row.reversed .phone-mockup:hover {
+  transform: translateY(-12px) rotateX(4deg) rotateY(4deg) scale(1.02);
+}
 
-@media (max-width: 780px){
-  .m-crumbs{margin-top:96px}
+.phone-mockup::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 140px;
+  height: 28px;
+  background: #1f2937;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  z-index: 10;
+  transition: background 0.4s ease;
+}
+.phone-mockup:hover::before {
+  background: #293140;
+}
+
+.phone-mockup img {
+  width: 100%;
+  /* Make the image taller to push the top status bar out of bounds */
+  height: calc(100% + 56px);
+  margin-top: -56px; 
+  object-fit: cover;
+  position: relative;
+  z-index: 1;
+}
+.phone-glare {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 50%);
+  pointer-events: none;
+  z-index: 5;
+  transition: opacity 0.4s ease;
+}
+.phone-mockup:hover .phone-glare {
+  opacity: 1.5;
+  background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 60%);
+}
+
+/* info block */
+.m-info-block {
+  margin: 60px 24px;
+  padding: 80px 24px;
+  background: rgba(207, 168, 113, 0.03);
+  border-top: 1px solid var(--mystic-border);
+  border-bottom: 1px solid var(--mystic-border);
+  text-align: center;
+}
+.m-info-inner {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.m-info-inner h2 {
+  font-size: 2.2rem;
+  margin: 0 0 20px;
+  color: var(--mystic-accent);
+}
+.m-info-inner p {
+  font-size: 1.15rem;
+  color: var(--mystic-muted);
+  line-height: 1.6;
+  margin: 0 0 40px;
+}
+
+/* buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+}
+.btn-primary {
+  color: #000;
+  background: var(--mystic-accent);
+  box-shadow: 0 8px 24px rgba(207, 168, 113, 0.3);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(207, 168, 113, 0.4);
+}
+.center {
+  justify-content: center;
+}
+
+/* footer */
+.m-foot {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--mystic-muted);
+  font-size: 0.95rem;
+}
+.m-back {
+  color: var(--mystic-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.m-back:hover {
+  color: var(--mystic-accent);
+}
+
+@media (max-width: 992px) {
+  .m-feature-row, .m-feature-row.reversed {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+  .m-feature-text {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .phone-mockup {
+    width: 280px;
+    height: 580px;
+  }
+}
+@media (max-width: 576px) {
+  .m-hero h1 { font-size: 2rem; }
+  .phone-mockup { width: 260px; height: 538px; border-width: 8px; }
+  .m-feature-text h2 { font-size: 1.8rem; }
+  .btn { width: 100%; justify-content: center; }
+  .m-foot { flex-direction: column; gap: 20px; text-align: center; }
 }
 `;
+
