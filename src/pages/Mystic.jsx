@@ -8,7 +8,9 @@ import {
   FaUserAstronaut,
   FaStar,
   FaBell,
-  FaGem
+  FaGem,
+  FaHeart,
+  FaComments
 } from "react-icons/fa";
 
 export default function Mystic() {
@@ -21,11 +23,11 @@ export default function Mystic() {
       <style>{styles}</style>
 
       {/* Breadcrumbs */}
-      <nav className="m-crumbs">
+      {/* <nav className="m-crumbs">
         <Link to="/internal" className="m-crumb">Внутренние проекты</Link>
         <span className="m-sep">/</span>
         <span className="m-crumb active">Mystic App</span>
-      </nav>
+      </nav> */}
 
       {/* Hero Section */}
       <header className="m-hero">
@@ -45,24 +47,28 @@ export default function Mystic() {
 
       {/* App Showcase section */}
       <section className="m-showcase">
-        
+
         {/* Feature 1 */}
         <div className="m-feature-row">
           <div className="m-feature-text">
-            <div className="m-feature-icon"><FaStar /></div>
-            <h2>Персональная панель управления</h2>
+            <div className="m-feature-icon"><FaHeart /></div>
+            <h2>Кармические знакомства и совместимость</h2>
             <p>
-              Главный экран приложения встречает пользователя завораживающим дизайном и персональными данными. Здесь собрано самое важное: текущий знак, стихия дня и быстрая навигация к натальной карте и лунному календарю. Уникальный 3D-арт создает атмосферу премиального сервиса.
+              Интеллектуальная система поиска единомышленников на основе астрологического соответствия. Находите людей, с которыми у вас высокая синастрия и общие духовные ценности. Алгоритм рассчитывает процент совпадения в реальном времени.
             </p>
             <ul className="m-feature-list">
-              <li>Адаптивный дизайн главного экрана</li>
-              <li>Интерактивные элементы и плавная анимация</li>
-              <li>Мгновенный доступ к ключевым разделам</li>
+              <li>Алгоритм расчета "Кармического совпадения"</li>
+              <li>Профили с указанием интересов и натальных данных</li>
+              <li>Интерактивные механики знакомств и чатов</li>
             </ul>
           </div>
           <div className="m-feature-image">
             <div className="phone-mockup">
-              <img src="/mystic/screen1.png" alt="Mystic Главный экран" />
+              <div className="phone-slideshow">
+                <img src="/mystic/slide1.png" alt="Mystic Dating Screen 1" />
+                <img src="/mystic/slide2.png" alt="Mystic Dating Screen 2" />
+                <img src="/mystic/slide3.png" alt="Mystic Dating Screen 3" />
+              </div>
               <div className="phone-glare"></div>
             </div>
           </div>
@@ -106,7 +112,10 @@ export default function Mystic() {
           </div>
           <div className="m-feature-image">
             <div className="phone-mockup">
-              <img src="/mystic/screen3.png" alt="Mystic Лунный календарь" />
+              <div className="phone-slideshow two-images">
+                <img src="/mystic/luna1.png" alt="Mystic Lunar Practices" />
+                <img src="/mystic/luna2.png" alt="Mystic Lunar Detail" />
+              </div>
               <div className="phone-glare"></div>
             </div>
           </div>
@@ -137,20 +146,24 @@ export default function Mystic() {
         {/* Feature 5 */}
         <div className="m-feature-row">
           <div className="m-feature-text">
-            <div className="m-feature-icon"><FaBell /></div>
-            <h2>Гибкие настройки и уведомления</h2>
+            <div className="m-feature-icon"><FaComments /></div>
+            <h2>Безопасные чаты и духовные связи</h2>
             <p>
-              Высокий уровень персонализации позволяет пользователям получать push-уведомления только о том, что им действительно важно. Будь то ежедневный гороскоп, фазы новолуния и полнолуния или советы по совместимости.
+              Общайтесь в защищенном пространстве с теми, кто вам действительно подходит. Интегрированная система подсказок помогает начать глубокий разговор на основе вашей синастрии и общих интересов. Приложение анализирует качество общения и дает советы по его улучшению.
             </p>
             <ul className="m-feature-list">
-              <li>Детальная настройка PUSH-уведомлений</li>
-              <li>Управление аккаунтом и приватностью</li>
-              <li>Аватары профиля и звуковое сопровождение фоном</li>
+              <li>Мгновенный обмен сообщениями в реальном времени</li>
+              <li>Индикаторы "Кармического совпадения" в списке чатов</li>
+              <li>Голосовые сообщения и удобное управление контактами</li>
             </ul>
           </div>
           <div className="m-feature-image">
             <div className="phone-mockup">
-              <img src="/mystic/screen5.png" alt="Mystic Настройки" />
+              <div className="phone-slideshow">
+                <img src="/mystic/chat1.png" alt="Mystic Chats List" />
+                <img src="/mystic/chat2.png" alt="Mystic Conversation" />
+                <img src="/mystic/chat3.png" alt="Mystic Add Contact" />
+              </div>
               <div className="phone-glare"></div>
             </div>
           </div>
@@ -185,7 +198,8 @@ export default function Mystic() {
 const styles = `
 :root {
   --mystic-bg: #0b0c10;
-  --mystic-accent: #cfa871; /* Золотистый оттенок как на скринах */
+  --mystic-accent: #8b5cf6; /* Продвинутый фиолетовый/индиго вместо желтого */
+  --mystic-accent-glow: rgba(139, 92, 246, 0.25);
   --mystic-text: #f3f4f6;
   --mystic-muted: #9ca3af;
   --mystic-card: #1f2937;
@@ -198,8 +212,8 @@ const styles = `
   color: var(--mystic-text);
   background: var(--mystic-bg);
   background-image: 
-    radial-gradient(circle at 20% 0%, rgba(207, 168, 113, 0.05) 0%, transparent 50%),
-    radial-gradient(circle at 80% 100%, rgba(207, 168, 113, 0.05) 0%, transparent 50%);
+    radial-gradient(circle at 20% 0%, rgba(139, 92, 246, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 80% 100%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
   overflow-x: hidden;
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
@@ -235,7 +249,7 @@ const styles = `
   padding: 8px 16px;
   border: 1px solid var(--mystic-accent);
   border-radius: 999px;
-  background: rgba(207, 168, 113, 0.1);
+  background: rgba(139, 92, 246, 0.1);
   color: var(--mystic-accent);
   font-size: 0.9rem;
   font-weight: 500;
@@ -289,7 +303,7 @@ const styles = `
   width: 56px;
   height: 56px;
   border-radius: 16px;
-  background: rgba(207, 168, 113, 0.1);
+  background: rgba(139, 92, 246, 0.1);
   color: var(--mystic-accent);
   display: flex;
   align-items: center;
@@ -354,7 +368,7 @@ const styles = `
 }
 .phone-mockup:hover {
   transform: translateY(-12px) rotateX(4deg) rotateY(-4deg) scale(1.02);
-  box-shadow: 20px 40px 80px -15px rgba(207, 168, 113, 0.3), -20px 40px 80px -15px rgba(139, 92, 246, 0.2), 0 0 0 1px var(--mystic-accent);
+  box-shadow: 20px 40px 80px -15px var(--mystic-accent-glow), -20px 40px 80px -15px rgba(139, 92, 246, 0.15), 0 0 0 1px var(--mystic-accent);
   border-color: #293140;
 }
 .m-feature-row.reversed .phone-mockup:hover {
@@ -379,7 +393,52 @@ const styles = `
   background: #293140;
 }
 
-.phone-mockup img {
+.phone-slideshow {
+  position: relative;
+  width: 100%;
+  height: calc(100% + 56px);
+  margin-top: -56px;
+  z-index: 1;
+}
+.phone-slideshow img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  animation: s-fade 12s infinite;
+  filter: contrast(1.1) brightness(1.05) saturate(1.1);
+  image-rendering: -webkit-optimize-contrast;
+}
+.phone-slideshow img:nth-child(1) { animation-delay: 0s; }
+.phone-slideshow img:nth-child(2) { animation-delay: 4s; }
+.phone-slideshow img:nth-child(3) { animation-delay: 8s; }
+
+@keyframes s-fade {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  33% { opacity: 1; }
+  43% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.phone-slideshow.two-images img {
+  animation: s-fade-2 8s infinite;
+}
+.phone-slideshow.two-images img:nth-child(1) { animation-delay: 0s; }
+.phone-slideshow.two-images img:nth-child(2) { animation-delay: 4s; }
+
+@keyframes s-fade-2 {
+  0% { opacity: 0; }
+  15% { opacity: 1; }
+  50% { opacity: 1; }
+  65% { opacity: 0; }
+  100% { opacity: 0; }
+}
+
+.phone-mockup > img {
   width: 100%;
   /* Make the image taller to push the top status bar out of bounds */
   height: calc(100% + 56px);
@@ -387,6 +446,8 @@ const styles = `
   object-fit: cover;
   position: relative;
   z-index: 1;
+  filter: contrast(1.1) brightness(1.05) saturate(1.1);
+  image-rendering: -webkit-optimize-contrast;
 }
 .phone-glare {
   position: absolute;
@@ -405,7 +466,7 @@ const styles = `
 .m-info-block {
   margin: 60px 24px;
   padding: 80px 24px;
-  background: rgba(207, 168, 113, 0.03);
+  background: rgba(139, 92, 246, 0.03);
   border-top: 1px solid var(--mystic-border);
   border-bottom: 1px solid var(--mystic-border);
   text-align: center;
@@ -439,13 +500,13 @@ const styles = `
   transition: all 0.3s ease;
 }
 .btn-primary {
-  color: #000;
+  color: #fff;
   background: var(--mystic-accent);
-  box-shadow: 0 8px 24px rgba(207, 168, 113, 0.3);
+  box-shadow: 0 8px 24px var(--mystic-accent-glow);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(207, 168, 113, 0.4);
+  box-shadow: 0 12px 32px rgba(139, 92, 246, 0.4);
 }
 .center {
   justify-content: center;
